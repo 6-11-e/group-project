@@ -4,6 +4,8 @@ import Header from './Components/Header';
 import Footer from './Components/Footer'
 //import logo from './logo.svg';
 import './App.css';
+import Jumbotron from './Components/Jumbotron';
+import MainJumbotron from './Components/Jumbotron';
 
 class App extends Component {
   //Testing Component
@@ -35,9 +37,7 @@ class App extends Component {
     return (
       <div className="App">
         <Header />
-        <h1 className="App-intro">
-          Here is where the front-end of our app will live
-        </h1>
+        <MainJumbotron />
         <Footer />
       </div>
     );

@@ -17,20 +17,20 @@ const whiteText = {
 }
 
 
-class Jumbotron extends Component {
+class MainJumbotron extends Component {
     render(){
         return (
     <div>
-    <Jumbotron>
+    <Jumbotron className="Full-width-header">
         <div className="container">
         <h1 style={whiteText}>This is the header</h1>
         <p style={whiteText}>
             This will be text describing what the user might experience by exploring the site.
         </p>
-        <p>
+        <Button bsStyle="primary">
         See Product
         {/* <Link to="/calculator"><Button bsStyle="primary">Handicap Calculator</Button></Link> */}
-        </p>
+        </Button>
         </div>
     </Jumbotron>
     {/* <Dummy /> */}
@@ -39,4 +39,4 @@ class Jumbotron extends Component {
     }
 }
 
-export default Jumbotron;
+export default MainJumbotron;

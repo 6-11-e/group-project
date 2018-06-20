@@ -32,3 +32,25 @@
   display: inline-block;
   margin-left: 5px;
 }
+
+.Full-width-header {
+  height: 75vh;
+  background-image: url('https://images.unsplash.com/photo-1518066000714-58c45f1a2c0a?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=3c11bb4d0a0cb5cf4133b2aa4f929f14&auto=format&fit=crop&w=1650&q=80')
+}
+
+.Signup-modal {
+  margin: 20px 0px 20px 0px;
+}
+
+.Modal-header {
+  height: 200px;
+}
+
+.Modal-image {
+  height: 100%;
+  width: 100%;
+  margin-left: 200px;
+  background-image: url('http://icons.iconarchive.com/icons/goodstuff-no-nonsense/free-space/1024/astronaut-icon.png');
+  background-size: 200px 200px;
+  background-repeat: no-repeat;
+}

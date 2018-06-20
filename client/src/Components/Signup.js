@@ -42,45 +42,55 @@ class SignupModal extends React.Component {
           <Modal show={this.state.show} onHide={this.handleClose}>
             <Modal.Header closeButton>
               <Modal.Title>Sign Up</Modal.Title>
+              <div className="Modal-header">
+                <div className="Modal-image">
+                </div>
+              </div>
             </Modal.Header>
             <Modal.Body>
                 <form>
-                    <FormGroup>
+                    <FormGroup className="Signup-modal">
                         <FormControl
                         type='text'
                         value={this.state.value}
                         placeholder='First Name'
                         onChange={this.handleChange}
+                        className="Signup-modal"
                         />
                         <FormControl
                         type='text'
                         value={this.state.value}
                         placeholder='Last Name'
                         onChange={this.handleChange}
+                        className="Signup-modal"
                         />
                         <FormControl
                         type='email'
                         value={this.state.value}
                         placeholder='Email'
                         onChange={this.handleChange}
+                        className="Signup-modal"
                         />
                         <FormControl
                         type='email'
                         value={this.state.value}
                         placeholder='Confirm Email'
                         onChange={this.handleChange}
+                        className="Signup-modal"
                         />
                         <FormControl
                         type='password'
                         value={this.state.value}
                         placeholder='Create a Password'
                         onChange={this.handleChange}
+                        className="Signup-modal"
                         />
                         <FormControl
                         type='password'
                         value={this.state.value}
                         placeholder='Confirm Password'
                         onChange={this.handleChange}
+                        className="Signup-modal"
                         />
                     </FormGroup>
                 </form>
