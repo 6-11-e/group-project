@@ -15,12 +15,14 @@ class Login extends Component {
     render() {
         return (
             <Navbar.Form pullLeft style={alignNav}>
+                <form action="/api/auth/login" method="POST">
                 <FormGroup style={alignNav}>
-                    <FormControl type="text" placeholder="Username" />
-                    <FormControl type="password" placeholder="Password" />
+                    <FormControl type="text" name="email" placeholder="Email" />
+                    <FormControl type="password" name="password" placeholder="Password" />
                 </FormGroup>{' '}
                 <Button type="submit" style={alignNav}>Submit</Button>
                 <SignupModal style={alignNav}/>
+                </form>
             </Navbar.Form>
         )
     }

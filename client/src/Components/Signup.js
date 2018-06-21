@@ -43,8 +43,8 @@ class SignupModal extends React.Component {
             <Modal.Header closeButton>
               <Modal.Title>Sign Up</Modal.Title>
             </Modal.Header>
+            <form action="api/auth/register" method="POST">
             <Modal.Body>
-                <form>
                     <FormGroup>
                         <FormControl
                         type='text'
@@ -60,6 +60,7 @@ class SignupModal extends React.Component {
                         />
                         <FormControl
                         type='email'
+                        name='email'
                         value={this.state.value}
                         placeholder='Email'
                         onChange={this.handleChange}
@@ -72,6 +73,7 @@ class SignupModal extends React.Component {
                         />
                         <FormControl
                         type='password'
+                        name='password'
                         value={this.state.value}
                         placeholder='Create a Password'
                         onChange={this.handleChange}
@@ -83,11 +85,12 @@ class SignupModal extends React.Component {
                         onChange={this.handleChange}
                         />
                     </FormGroup>
-                </form>
+                
             </Modal.Body>
             <Modal.Footer>
-              <Button>Sign Up</Button>
+              <Button type="submit">Sign Up</Button>
             </Modal.Footer>
+            </form>
           </Modal>
         </div>
       );
