@@ -20,7 +20,7 @@ router.get('/version', (req, res) => {
 
     //Set response type and send with status.
     res.type('json');
-    res.status(200).json(msg);
+    res.status(200).send(msg);
 })
 
 //Add all /:x routes to controllers/index.js

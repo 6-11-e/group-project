@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Button } from 'react-bootstrap';
 import { Modal } from 'react-bootstrap';
 import { FormControl } from 'react-bootstrap';
@@ -31,7 +31,35 @@ class SignupModal extends React.Component {
     handleShow() {
       this.setState({ show: true });
     }
-  
+    
+    handleSubmit(event) {
+      //Prevent default form handling
+      event.preventDefault();
+
+      //Extract form data
+      var data = new FormData(event.target);
+
+      //Perform POST register
+      fetch('/api/auth/register', {
+        body: JSON.stringify({
+          email: data.get('email'),
+          password: data.get('password'),
+          firstName: data.get('firstName'),
+          lastName: data.get('lastName'),
+          emailConfirm: data.get('emailConfirm'),
+          passwordConfirm: data.get('passwordConfirm')
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        method: 'POST',
+        mode: 'cors'
+      }).then(response => response.json())
+      .then(response => {
+        console.log(response);
+        this.setState({show: false})
+      });
+    }
     render() {  
       return (
         <div className='NavDiv'>
@@ -43,17 +71,21 @@ class SignupModal extends React.Component {
             <Modal.Header closeButton>
               <Modal.Title>Sign Up</Modal.Title>
             </Modal.Header>
+            
             <Modal.Body>
-                <form>
+                {/* <form action="api/auth/register" method="POST"> */}
+                <form onSubmit={(e) => this.handleSubmit(e)}>
                     <FormGroup>
                         <FormControl
                         type='text'
+                        name='firstName'
                         value={this.state.value}
                         placeholder='First Name'
                         onChange={this.handleChange}
                         />
                         <FormControl
                         type='text'
+                        name='lastName'
                         value={this.state.value}
                         placeholder='Last Name'
                         onChange={this.handleChange}
@@ -66,6 +98,7 @@ class SignupModal extends React.Component {
                         />
                         <FormControl
                         type='email'
+                        name='emailConfirm'
                         value={this.state.value}
                         placeholder='Confirm Email'
                         onChange={this.handleChange}
@@ -78,6 +111,7 @@ class SignupModal extends React.Component {
                         />
                         <FormControl
                         type='password'
+                        name='passwordConfirm'
                         value={this.state.value}
                         placeholder='Confirm Password'
                         onChange={this.handleChange}

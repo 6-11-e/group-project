@@ -10,6 +10,8 @@ var express         = require('express'),
     // MongoStore      = require('connect-mongo')(session);
     app             = express();
 
+
+
 //Initialize session
 // app.use(require('./helpers/sessions'));
 app.use((req, res, next) => {
@@ -24,7 +26,7 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 // app middleware
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
 
 //Link to ./controllers/index.js
