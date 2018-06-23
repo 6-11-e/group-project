@@ -36,8 +36,7 @@ class Header extends Component {
         {/* <Link to="/">E-Commerce</Link> */}
         </Navbar.Brand>
       </Navbar.Header>
-      <Nav style={alignNav} pullRight>
-        <Login />
+      <Nav style={alignNav} pullLeft>
         {/* <SignupModal /> */}
         <NavDropdown eventKey={3} title="Options" id="basic-nav-dropdown" style={alignNav}>
         <NavItem>
@@ -50,6 +49,7 @@ class Header extends Component {
           Item{/* <Link to="/" style={navItemStyle}></Link> */}
         </NavItem>
         </NavDropdown>
+        <Login />
       </Nav>
     </Navbar>
     )
