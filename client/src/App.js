@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import Header from './Components/Header';
 import Footer from './Components/Footer';
+import Gallery from './Components/Gallery';
 import MyJumbotron from './Components/Jumbotron';
+import Profile from './Components/Profile';
+import {Route, BrowserRouter, Switch, Link} from 'react-router-dom';
 //import logo from './logo.svg';
 import './App.css';
 
@@ -28,15 +31,13 @@ class App extends Component {
     })
   }
   render() {
-    //Below, under the <h1></h1>, is a conditional. If the state value specified is set
-    //then it will output everything after the &&
-    //Typically logic should not be performed in such a way, but instead in a separate
-    //function and then either called directly (for same component) or passed as prop
-    // (to child component).
     return (
       <div className="App">
         <Header />
-        <MyJumbotron />
+        <Route path='/' exact component={MyJumbotron} />
+        <Route path='/gallery' component={Gallery} />
+        <Route path='/profile' component={Profile} />
+        {/* <MyJumbotron /> */}
         <Footer />
       </div>
     );

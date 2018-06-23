@@ -32,18 +32,18 @@ class Header extends Component {
     <Navbar style={noMargin}>
       <Navbar.Header>
         <Navbar.Brand>
-          E-Commerce
-        {/* <Link to="/">E-Commerce</Link> */}
+          {/* E-Commerce */}
+        <Link to="/">E-Commerce</Link>
         </Navbar.Brand>
       </Navbar.Header>
       <Nav style={alignNav} pullLeft>
         {/* <SignupModal /> */}
         <NavDropdown eventKey={3} title="Options" id="basic-nav-dropdown" style={alignNav}>
         <NavItem>
-          Item{/* <Link to="/" style={navItemStyle}></Link> */}
+          <Link to="/gallery" style={navItemStyle}>Gallery</Link>
         </NavItem>
         <NavItem>
-          Item{/* <Link to="/" style={navItemStyle}></Link> */}
+          <Link to="/profile" style={navItemStyle}>My Profile</Link>
         </NavItem>
         <NavItem>
           Item{/* <Link to="/" style={navItemStyle}></Link> */}
