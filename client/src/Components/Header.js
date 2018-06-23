@@ -43,7 +43,7 @@ class Header extends Component {
       <Nav style={alignNav} pullRight>
         {/* Adjusted <Login /> to be able to adjust state (token,user). Set to only display if user is not logged in */}
         {/* Should have alt component show instead of text. */}
-        {this.props.state.isLoggedIn === false ? <Login onTokenChange={this.props.onTokenChange} onUserChange={this.props.onUserChange}/> : 'Howdy, ' + this.props.state.user.email}
+        {this.props.state.isLoggedIn === false ? <Login onTokenChange={this.props.onTokenChange} onUserChange={this.props.onUserChange}/> : 'Howdy, ' + this.props.state.user.firstName + '!'}
         
         {this.props.state.isLoggedIn === false ? <SignupModal style={alignNav}/> : ''}
         <NavDropdown eventKey={3} title="Options" id="basic-nav-dropdown" style={alignNav}>
