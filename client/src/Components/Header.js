@@ -36,27 +36,33 @@ class Header extends Component {
     <Navbar style={noMargin}>
       <Navbar.Header>
         <Navbar.Brand>
-          E-Commerce
-        {/* <Link to="/">E-Commerce</Link> */}
+          {/* E-Commerce */}
+        <Link to="/">E-Commerce</Link>
         </Navbar.Brand>
       </Navbar.Header>
+<<<<<<< HEAD
+      <Nav style={alignNav} pullLeft>
+        {/* <SignupModal /> */}
+=======
       <Nav style={alignNav} pullRight>
         {/* Adjusted <Login /> to be able to adjust state (token,user). Set to only display if user is not logged in */}
         {/* Should have alt component show instead of text. */}
         {this.props.state.isLoggedIn === false ? <Login onTokenChange={this.props.onTokenChange} onUserChange={this.props.onUserChange}/> : 'Howdy, ' + this.props.state.user.email}
         
         {this.props.state.isLoggedIn === false ? <SignupModal style={alignNav}/> : ''}
+>>>>>>> master
         <NavDropdown eventKey={3} title="Options" id="basic-nav-dropdown" style={alignNav}>
         <NavItem>
-          Item{/* <Link to="/" style={navItemStyle}></Link> */}
+          <Link to="/gallery" style={navItemStyle}>Gallery</Link>
         </NavItem>
         <NavItem>
-          Item{/* <Link to="/" style={navItemStyle}></Link> */}
+          <Link to="/profile" style={navItemStyle}>My Profile</Link>
         </NavItem>
         <NavItem>
           Item{/* <Link to="/" style={navItemStyle}></Link> */}
         </NavItem>
         </NavDropdown>
+        <Login />
       </Nav>
     </Navbar>
     )
