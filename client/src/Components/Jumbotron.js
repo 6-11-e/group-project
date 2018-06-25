@@ -30,8 +30,7 @@ class MyJumbotron extends Component {
             This will be text describing what the user might experience by exploring the site.
         </p>
         <p>
-        See Product
-        {/* <Link to="/calculator"><Button bsStyle="primary">Handicap Calculator</Button></Link> */}
+        <Link to="/gallery"><Button bsStyle="default" bsSize="large">Gallery</Button></Link>   
         </p>
         </div>
     </Jumbotron>
