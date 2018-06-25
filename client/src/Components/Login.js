@@ -51,6 +51,7 @@ class Login extends Component {
     render() {
         return (
             <Navbar.Form pullLeft style={alignNav}>
+
                 {/* Cant use API endpoint with standard form action (will nav to new page) */}
                 {/* Instead, need to fetch data from API and update state */}
                 {/* <form > action="/api/auth/login" method="POST" */}
@@ -61,6 +62,7 @@ class Login extends Component {
                 </FormGroup>{' '}
                 <Button type="submit" style={alignNav}>Submit</Button>
                 {/* <SignupModal style={alignNav}/> */}
+
                 </form>
             </Navbar.Form>
         )
