@@ -66,19 +66,11 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-<<<<<<< HEAD
-        <Header />
+        <Header onTokenChange={this.updateTokenState} onUserChange={this.updateUserState} state={this.state}/>
         <Route path='/' exact component={MyJumbotron} />
         <Route path='/gallery' component={Gallery} />
         <Route path='/profile' component={Profile} />
-        {/* <MyJumbotron /> */}
-=======
-        <Header onTokenChange={this.updateTokenState} onUserChange={this.updateUserState} state={this.state}/>
-        <h1 className="App-intro">
-          Here is where the front-end of our app will live
-        </h1>
         {/* <p>{this.state.token?this.state.token:''}</p> */}
->>>>>>> master
         <Footer />
       </div>
     );
