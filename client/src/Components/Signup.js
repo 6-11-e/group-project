@@ -71,16 +71,10 @@ class SignupModal extends React.Component {
             <Modal.Header closeButton>
               <Modal.Title>Sign Up</Modal.Title>
             </Modal.Header>
-<<<<<<< HEAD
-            <form onSubmit={(e) => this.handleSubmit(e)}>
-            <Modal.Body>
-                {/* <form action="api/auth/register" method="POST"> */}
-=======
 
             {/* <form action="api/auth/register" method="POST"> */}
             <form onSubmit={(e) => this.handleSubmit(e)}>
             <Modal.Body>
->>>>>>> d39dc54fa101cbae1e4180fa854c91acead2a388
                 
                     <FormGroup>
                         <FormControl
