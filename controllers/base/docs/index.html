@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>API Documentation</title>
+    <style>
+        body {
+            color: #fff;
+            background-color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .menu {
+            width: 20%;
+            display: inline-block;
+            position: fixed;
+            right: 0;
+
+        }
+        .menu h3 {
+            text-align: right;
+            margin-right: 30px;
+        }
+        .nav {
+            list-style: none;
+            text-align: right;
+            margin-right: 15px;
+        }
+        .nav li {
+            padding: 5px;
+            border: 1px solid transparent;
+        }
+        .nav li:hover {
+            border-color: #fff;
+        }
+        .nav a,
+        .nav a:link,
+        .nav a:visited {
+            text-decoration: none;
+            color: #fff;
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+        .nav a:hover {
+            margin-right: 5px;
+            text-decoration: underline;
+        }
+        .container{
+            width: 80%;
+            padding-left: 15px;
+            padding-right: 15px;
+            box-sizing: border-box;
+            display:inline-block;
+        }
+        .container > h1,
+        .container > h3 {
+            text-align: center;
+        }
+        .about {
+            width: 80%;
+            border: 1px solid #333;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        .code{
+            background-color: rgba(193,66,66,0.7);
+            padding-left: 5px;
+            padding-right: 5px;
+            font-family: consolas;
+        }
+
+        .codeBlock {
+            border: 1px solid #eee;
+            background-color: rgb(76,76,76);
+            /* set width */
+            width: 800px;
+            overflow-x: auto;
+            padding: 15px;
+            border-radius: 2px;
+        }
+
+        .codeBlock:hover,
+        .codeBlock:focus {
+            min-width: min-content;
+        }
+
+        .route {
+            margin-left: 40px;
+        }
+        .route .about h4{
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .route-title {
+            background-color: rgb(76,76,76);
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+        .route-title::before{
+            content: '- '
+        }
+        .badge-red {
+            background-color: red;
+            padding: 5px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="menu">
+        <h3>Navigation</h3>
+        <ul class="nav">
+            <li>
+                <a href="#base">Base Router</a>
+            </li>
+            <li>
+                <a href="#auth">Auth Router</a>
+            </li>
+            <li>
+                <a href="#store">Store Router</a>
+            </li>
+        </ul>
+    </div>
+    <div class="container">
+        <h1>API Documentation</h1>
+        <h3>v<span id="apiVersion"></span></h3>
+        <hr>
+        <div class="about">
+            <h4>Description</h4>
+            <p>
+                This is a document detailing api endpoints for the project. This is for reference primarily when performing fetch() requests. Each entry is listed by controller, and includes general information including optional/required parameters, formatting requirements  for requests, and return values.
+            </p>
+        </div>
+        <div class="module">
+            <h2 id="base">Base Router</h2>
+            <hr>
+            <div class="about">
+                <p>
+                    Routes found in <span class="code">./controllers/base</span>. These routes are general service/information regarding the API itself.
+                </p>
+            </div>
+            <div class="route">
+                <h3>GET <span class="route-title">/api</span></h3>
+                <div class="about">
+                    <h4>Description</h4>
+                    <p>This will return the API documentation HTML file, which you are currently browsing!</p>
+                </div>
+            </div>
+            <div class="route">
+                <h3>GET <span class="route-title">/api/version</span></h3>
+                <div class="about">
+                    <h4>Description</h4>
+                    <p>This will return the version of the API. It is used on this page here, and is shown at the top of the page.</p>
+                </div>
+                <div class="about">
+                    <h4>Returns Object</h4>
+                    <pre class="codeBlock">
+{
+    status: "ok",
+    data: {
+        version: string (x.y.z) (major, minor, patch)
+    }
+}
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="module">
+            <h2 id="auth">Auth Router</h2>
+            <hr>
+            <div class="about">
+                <p>
+                    Routes found in <span class="code">./controllers/auth</span>. These routes provide user authentication to the app. Currently supports /register and /login.
+                </p>
+            </div>
+            <div class="route">
+                <h3>POST <span class="route-title">/api/auth/login</span></h3>
+                <div class="about">
+                    <h4>Description</h4>
+                    <p>
+                        Authenticates a user.
+                    </p>
+                </div>
+                <div class="about">
+                    <h4>Requires Object</h4>
+                    <pre class="codeBlock">
+{
+    email: string,
+    password: string
+}
+                    </pre>
+                    <p>Will locate user with supplied email and then hash supplied password to compare with stored password</p>
+                </div>
+                <div class="about">
+                    <h4>Success: Returns Object</h4>
+                    <pre class="codeBlock">
+{
+    status: "ok",
+    data: {
+        token: string, //to be used in headers as 'Authorization':token (during fetch requests)
+        user: {
+            email: string,
+            firstName: string,
+            password: string
+        }
+    }
+}
+                    </pre>
+                </div>
+                <div class="about">
+                    <h4>Error: Returns Object</h4>
+                    <pre class="codeBlock">
+{
+    status: "error",
+    message: string (for debugging purposes. do not show to end-user!)
+}
+                    </pre>
+                </div>
+            </div>
+            <div class="route">
+                <h3>POST <span class="route-title">/api/auth/register</span></h3>
+                <div class="about">
+                    <h4>Description</h4>
+                    <p>
+                        This route will attempt to create a new user using supplied information.
+                    </p>
+                </div>
+                <div class="about">
+                    <h4>Requires Object</h4>
+                    <pre class="codeBlock">
+{
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string,
+
+    //A later update will perform form-validation and will require
+    // the following fields:
+    emailConfirm: string [matches email],
+    passwordConfirm: string [matches password]
+}
+                    </pre>
+                </div>
+                <div class="about">
+                    <h4>Success: Returns Object</h4>
+                    <pre class="codeBlock">
+{
+    status: "ok",
+    message: string for debugging
+}
+                    </pre>
+                </div>
+                <div class="about">
+                    <h4>Error: Returns Object</h4>
+                    <pre class="codeBlock">
+{
+    status: "error",
+    message: string with error details
+}
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="module">
+            <h2 id="store">Store Router</h2>
+            <hr>
+            <div class="about">
+                <p>
+                    Routes found in <span class="code">./controllers/store</span>. These routes provide interaction with the store, such as CRUD on products, creating and editing orders, performing checkout, etc.
+                </p>
+            </div>
+            <div class="route">
+                <h3>GET <span class="route-title">/api/store/products[/perpage[/offset]]</span></h3>
+                <div class="about">
+                    <h4>Description</h4>
+                    <p>
+                        Retrieves products from database. Parameter is semi-optional. To support pagination, will need to supply both <span class="code">perPage</span> AND <span class="code">offset</span> on any pages after first.
+                    </p>
+                </div>
+                <div class="about">
+                    <h4>Optional Parameter</h4>
+                    <h5><span class="code">perPage</span> (number)</h5>
+                    <p>
+                        Specifies the number of results to return with each request. Default is set in <span class="code">./conf/store.js</span> as 'defaultQtyPerPage'.
+                    </p>
+                    <br>
+                    <h5><span class="code">offset</span> (number)</h5>
+                    <p>
+                        REQUIRES perPage to be supplied with the request. Essentially, 'skips' the first x amount of database entries (where x = this * perPage)
+                    </p>
+                    <p>
+                        For example: <span class="code">/api/store/products/20/2</span> will return products 21-40
+                    </p>
+                </div>
+                <div class="about">
+                    <h4>Returns Array of Objects</h4>
+                    <pre class="codeBlock">
+[
+    {
+        name: string,
+        _id:  string,
+        price: double, //(ie 1.99 or 10.00)
+        categories: [
+            'categoryName',
+            'categoryName',
+            ...
+        ],
+        description: string,
+        inStock: number //(literally, how many of this item is remaining in stock. Will be updated when order is completed.)
+    },
+    ...
+]
+                    </pre>
+                </div>
+            </div>
+            <div class="route">
+                <h3>GET <span class="route-title">/api/store/product/[id=xxx]or[name=xxxx]</span></h3>
+                <div class="about">
+                    <h4>Description</h4>
+                    <p>
+                        Will return the selected product's details.
+                    </p>
+                </div>
+                <div class="about">
+                    <h4>Requires Parameter</h4>
+                    <h5><span class="code">id=[value] or name=[value]</span> (string)</h5>
+                    <p>
+                        Can be either product's _id (automatically converted to ObjectId on backend) or name. If it is the product's name, MUST be encoded with <span class="code">encodeURIComponent()</span>. It is good practice to use this function to encode the parameter regardless since encoded _id will not be changed (product._id is equal to encodeURIComponent(product._id)). You must specify which you are using when making this call. Typically, you can use name=product.name (so frontend routes are human readable). Admin panel usage should utilize id=product._id instead.
+                    </p>
+                    <p>
+                        Example using id: <span class="code">/api/store/product/id=5b2f2a47e7179a5b7ab879f2</span>
+                    </p>
+                    <p>
+                        Example using name: <span class="code">/api/store/product/name=Yet%20Another%20TestProduct</span> <br>(notice name is encoded with spaces converted to %20)
+                    </p>
+                </div>
+                <div class="about">
+                    <h4>Returns Object</h4>
+                    <pre class="codeBlock">
+{
+    name: string,
+    _id: string/ObjectId (internally),
+    price: double (ie 2.99 or 10.00),
+    categories: [
+                    'Category1',
+                    'Category2',
+                    ...
+                ],
+    description: string,
+    inStock: number (literally, how many of this item is remaining in stock. will be modified on order completion. Defaults to 0.
+}
+                    </pre>
+                </div>
+            </div>
+            <div class="route">
+                <h3>POST <span class="route-title">/api/store/product[/id]</span> <span class="badge-red">[ADMIN]</span></h3>
+                <div class="about">
+                    <h4>Description</h4>
+                    <p>
+                        Will either insert new product (if optional parameter is missing), or edit existing product that has _id equal to supplied parameter (if present). This route should not be accessible by regular users/guests (will be protected later).
+                    </p>
+                </div>
+                <div class="about">
+                    <h4>Optional Parameter</h4>
+                    <h5><span class="code">id</span> (string)</h5>
+                    <p>
+                        If supplied, this request will edit an existing product. MUST be the product's actual _id. Suggested use is for frontend route <span class="code">/admin/product/edit/id</span> and this page will fetch backend <span class="code">/api/store/product/id</span>
+                    </p>
+                    <p>
+                        Example <span class="code">/api/store/product/5b2f2a47e7179a5b7ab879f2</span> (notice, no identifiers for type of id, <em>unlike</em> <span class="code">/api/store/product/id=xxx</span>).
+                    </p>
+                    <p>
+                        If ommitted, this request will create a <strong>new</strong> product.
+                    </p>
+                    <p>
+                        Since both instances of this request modify the <strong>Product</strong> resource (which is publicly viewable), this route is protected and only available to admins.
+                    </p>
+                </div>
+                <div class="about">
+                    <h4>Success: Editing Object <small>(id parameter supplied)</small></h4>
+                    <pre class="codeBlock">
+{
+    status: "ok",
+    message: string //Debug information acknowledging product is edited
+}
+                    </pre>
+                </div>
+                <div class="about">
+                    <h4>Error: Editing Object <small>(id parameter supplied)</small></h4>
+                    <pre class="codeBlock">
+{
+    status: "error",
+    message: string //Debug information showing error information
+}
+                    </pre>
+                </div>
+                <div class="about">
+                    <h4>Success: Inserting New Object <small>(id parameter <em>not</em> supplied)</small></h4>
+                    <pre class="codeBlock">
+{
+    status: "ok",
+    message: string //Debug information acknowledging product has been added
+}
+                    </pre>
+                </div>
+                <div class="about">
+                    <h4>Error: Inserting New Object <small>(id parameter <em>not</em> supplied)</small></h4>
+                    <pre class="codeBlock">
+{
+    status: "error",
+    message: string //Debug information showing error information
+}
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        fetch('/api/version')
+        .then(res => res.json())
+        .then(response => {
+            document.getElementById('apiVersion').textContent = response.data.version;
+        })
+    </script>
+</body>
+</html>

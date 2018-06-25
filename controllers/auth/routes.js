@@ -52,14 +52,14 @@ router.post('/login', (req, res) => {
             console.log('Found User ' + user.email + '. Validating pass')
             user.comparePassword(req.body.password, (err, isMatch) => {
                 if (isMatch && !err) {
+                    //Delete user.password since we're passing back user
+                    user.password = undefined;
+                    //Create JWT using user signed with secret.
                     var token = jwt.sign(user.toObject(), config.session.secret);
-                    userData = {
-                        email: user.email,
-                        firstName: user.firstName,
-                        lastName: user.lastName
-                    }
+                   
                     console.log(`${user.email} successfully logged in.`)
-                    res.json({status: 'ok', data: {token: 'JWT '+token, user: userData}});
+                    // console.log(jwt.decode(token)) -> Returns payload (user)
+                    res.json({status: 'ok', data: {token: 'JWT '+token, user: user}});
                 } else {
                     console.log('Wrong pass')
                     res.status(401).send({status: 'error', message: 'Auth failed. Wrong password'});
