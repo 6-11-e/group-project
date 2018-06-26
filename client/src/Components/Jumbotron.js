@@ -6,10 +6,12 @@ import { Link } from 'react-router-dom';
 //Not yet linked
 
 const jumboStyle = {
+    backgroundColor: "#4273c1",
     // backgroundImage: "url()",
     backgroundSize: 'cover',
     backgroundAttachment: 'fixed',
-    backgroundRepeat: 'no-repeat'
+    backgroundRepeat: 'no-repeat',
+    height: '50vh'
 }
 
 const whiteText = {
@@ -17,19 +19,18 @@ const whiteText = {
 }
 
 
-class Jumbotron extends Component {
+class MyJumbotron extends Component {
     render(){
         return (
     <div>
-    <Jumbotron>
+    <Jumbotron style={jumboStyle}>
         <div className="container">
         <h1 style={whiteText}>This is the header</h1>
         <p style={whiteText}>
             This will be text describing what the user might experience by exploring the site.
         </p>
         <p>
-        See Product
-        {/* <Link to="/calculator"><Button bsStyle="primary">Handicap Calculator</Button></Link> */}
+        <Link to="/gallery"><Button bsStyle="default" bsSize="large">Gallery</Button></Link>   
         </p>
         </div>
     </Jumbotron>
@@ -39,4 +40,4 @@ class Jumbotron extends Component {
     }
 }
 
-export default Jumbotron;
+export default MyJumbotron;

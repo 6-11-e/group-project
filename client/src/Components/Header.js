@@ -4,7 +4,7 @@ import { Nav } from 'react-bootstrap';
 import { NavItem } from 'react-bootstrap';
 import { NavDropdown } from 'react-bootstrap';
 // import { MenuItem } from 'react-bootstrap'; //Commented out to prevent console.warns
-// import { Link } from 'react-router-dom'; //Commented out to prevent console.warns
+import { Link } from 'react-router-dom'; //Commented out to prevent console.warns
 // import { Collapse } from 'react-bootstrap'; //Commented out to prevent console.warns
 import Login from './Login';
 import SignupModal from "./Signup"; //Commented out to prevent console.warns
@@ -20,9 +20,9 @@ const noMargin = {
     marginBottom: '0px'
 }
 // Commented to prevent console.warns
-// const navItemStyle = {
-//     marginBottom: '15px'
-// }
+const navItemStyle = {
+    marginBottom: '15px'
+}
 
 
 
@@ -36,8 +36,8 @@ class Header extends Component {
     <Navbar style={noMargin}>
       <Navbar.Header>
         <Navbar.Brand>
-          E-Commerce
-        {/* <Link to="/">E-Commerce</Link> */}
+          {/* E-Commerce */}
+        <Link to="/">E-Commerce</Link>
         </Navbar.Brand>
       </Navbar.Header>
       <Nav style={alignNav} pullRight>
@@ -48,10 +48,10 @@ class Header extends Component {
         {this.props.state.isLoggedIn === false ? <SignupModal style={alignNav}/> : ''}
         <NavDropdown eventKey={3} title="Options" id="basic-nav-dropdown" style={alignNav}>
         <NavItem>
-          Item{/* <Link to="/" style={navItemStyle}></Link> */}
+          <Link to="/gallery" style={navItemStyle}>Gallery</Link>
         </NavItem>
         <NavItem>
-          Item{/* <Link to="/" style={navItemStyle}></Link> */}
+          <Link to="/profile" style={navItemStyle}>My Profile</Link>
         </NavItem>
         <NavItem>
           Item{/* <Link to="/" style={navItemStyle}></Link> */}
