@@ -40,10 +40,17 @@
             text-decoration: none;
             color: #fff;
             font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-weight: 800;
         }
         .nav a:hover {
             margin-right: 5px;
             text-decoration: underline;
+        }
+        .subnav {
+            list-style: none;
+        }
+        .subnav li a {
+            font-weight: 300 !important;
         }
         .container{
             width: 80%;
@@ -104,6 +111,10 @@
             padding: 5px;
             border-radius: 5px;
         }
+        .highlightDanger {
+            background-color: rgba(223, 112, 112, 0.7);
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
@@ -118,6 +129,13 @@
             </li>
             <li>
                 <a href="#store">Store Router</a>
+                <ul class="subnav">
+                    <li><a href="#getProducts">GET Multiple products</a></li>
+                    <li><a href="#getProduct">GET Specified Product</a></li>
+                    <li><a href="#postNewProduct">POST New/Edit Product</a></li>
+                    <li><a href="#getDeletedProducts">GET Deleted Products</a></li>
+                    <li><a href="#deleteProduct">DELETE Product</a></li>
+                </ul>
             </li>
         </ul>
     </div>
@@ -270,7 +288,7 @@
                 </p>
             </div>
             <div class="route">
-                <h3>GET <span class="route-title">/api/store/products[/perpage[/offset]]</span></h3>
+                <h3 id="getProducts">GET <span class="route-title">/api/store/products[/perpage[/offset]]</span></h3>
                 <div class="about">
                     <h4>Description</h4>
                     <p>
@@ -314,7 +332,7 @@
                 </div>
             </div>
             <div class="route">
-                <h3>GET <span class="route-title">/api/store/product/[id=xxx]or[name=xxxx]</span></h3>
+                <h3 id="getProduct">GET <span class="route-title">/api/store/product/[id=xxx]or[name=xxxx]</span></h3>
                 <div class="about">
                     <h4>Description</h4>
                     <p>
@@ -353,7 +371,7 @@
                 </div>
             </div>
             <div class="route">
-                <h3>POST <span class="route-title">/api/store/product[/id]</span> <span class="badge-red">[ADMIN]</span></h3>
+                <h3 id="postNewProduct">POST <span class="route-title">/api/store/product[/id]</span> <span class="badge-red">[ADMIN]</span></h3>
                 <div class="about">
                     <h4>Description</h4>
                     <p>
@@ -411,6 +429,65 @@
     message: string //Debug information showing error information
 }
                     </pre>
+                </div>
+            </div>
+            <div class="route">
+                <h3 id="getDeletedProducts">GET <span class="route-title">/api/store/products/deleted</span></h3>
+                <div class="about">
+                    <h4>Description</h4>
+                    <p>This will show all products marked as deleted. These products are not viewable in standard searches, and only visible with admin privileges. These products can be "restored" without having to re-create them. An edit to the product setting <span class="code">{deleted: false}</span> will restore the product.</p>
+                </div>
+                <div class="about">
+                    <h4>Returns Object</h4>
+                    <pre class="codeBlock"><code>
+{
+    status: "ok",
+    products: [ //aray of products
+        {
+            name: string,
+            _id:  string,
+            price: double, //(ie 1.99 or 10.00)
+            categories: [
+                'categoryName',
+                'categoryName',
+                ...
+            ],
+            description: string,
+            inStock: number //(literally, how many of this item is remaining in stock. Will be updated when order is completed.)
+        },
+        ...
+    ]
+}
+                    </code></pre>
+                </div>
+            </div>
+            <div class="route">
+                <h3 id="deleteProduct">DELETE <span class="route-title">/api/store/product/id[/hard]</span></h3>
+                <div class="about">
+                    <h4>Description</h4>
+                    <p>This will delete the specified product. There are two types of deletion. By default, all delete requests are "soft deletes" which means a flag is added to the product to prevent it from showing in searches, but retains the product in case it should be restored.</p>
+                </div>
+                <div class="about">
+                    <h4>Requires Parameter</h4>
+                    <h5><span class="code">id</span> (string)</h5>
+                    <p>This must be the product's _id. No other method of product lookup is permitted.</p>
+                </div>
+                <div class="about">
+                    <h4>Optional Parameter</h4>
+                    <h5><span class="code">hard</span> (string)</h5>
+                    <p>If supplied, the selected object will instead be "hard deleted", removing it from the database.</p>
+                    <p class="highlightDanger">
+                        NOTICE! <br> It is <strong>NOT</strong> advised to use this as any orders or other resources that link to products will be unable to find the deleted product! It is fine to use when debugging or testing a product, as long as the product was never saleable.
+                    </p>
+                </div>
+                <div class="about">
+                    <h4>Returns Object</h4>
+                    <pre class="codeBlock"><code>
+{
+    status: "ok" or "error",
+    message: string //Debug information confirming product deletion or error.
+}
+                    </code></pre>
                 </div>
             </div>
         </div>

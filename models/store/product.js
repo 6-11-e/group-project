@@ -22,6 +22,10 @@ var ProductSchema = new Schema({
     inStock: {
         type: Number,
         default: 0
+    },
+    deleted: {
+        type: Boolean,
+        default: false
     }
 });
 

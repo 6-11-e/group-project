@@ -15,6 +15,24 @@ router.get('/', (req, res) => {
     res.status(200).json(msg);
 });
 
+router.get('/products/deleted', (req, res) => {
+    Products.find({deleted: true}, (err, products) => {
+        if(err) console.log(err);
+        
+        let msg = {
+            status: "ok",
+            products: products
+        }
+        if(products.length == 0){
+            msg.products = null;
+            msg.message = 'No products returned'
+        }
+
+        res.status(200).json(msg);
+        
+    })
+})
+
 router.get('/products/:perPage?/:offset?', (req, res) => {
     // var string = "/products";
     // if(req.params.perPage){
@@ -134,6 +152,59 @@ router.post('/product/:id?', (req, res) => {
     }
     
 })
+
+router.delete('/product/:id/:hard?', (req, res) => {
+    if (!req.params.id) {
+        //return error, no id specified
+    } else {
+        try {
+            var productID = new ObjectId(req.params.id);
+        } catch(error) {
+            //Invalid string, return error
+        }
+
+        if(req.params.hard === "true") {
+            //hard delete, remove from DB
+            console.log('Hard delete for product ' + productID + ' requested. Check permission to allow hard deletes and continue');
+            Products.findByIdAndRemove(productID, (err, product) => {
+                if(err) console.log(error);
+                if(product == null) {
+                    let msg = {
+                        status: "error",
+                        message: `No product found with ID: ${req.params.id}`
+                    }
+                    return res.status(409).json(msg);
+                }
+                let msg = {
+                    status: "ok",
+                    message: `Product "${product.name}" (${product._id}) successfully deleted (hard delete)`
+                }
+                res.status(200).json(msg);
+            })
+        } else {
+            console.log('Deleting product: ' + productID + ' (soft delete)');
+            Products.findByIdAndUpdate(productID, {$set: {deleted: true}}, (err, product) => {
+                if (err) {
+                    console.log('Error: When deleting product: ' + productID + '.\n'+err);
+                    let msg = {
+                        status: "error",
+                        message: `Product unable to be deleted. Error: ${err}`
+                    }
+                    res.status(409).json(msg)
+                }
+                console.log('Deleted product ' + product.name + '. (Soft Deleted)');
+                let msg = {
+                    status: "ok",
+                    message: `Product "${product.name}" (${product._id}) successfully deleted (soft delete).`
+                }
+                res.status(200).json(msg);
+            })
+        }
+    }
+
+})
+
+
 
 //Add all /store/* routes to controllers/index.js
 module.exports = router;
