@@ -53,7 +53,7 @@ router.post('/login', (req, res) => {
                 if (isMatch && !err) {
                     var token = jwt.sign(user.toObject(), config.session.secret);
                     console.log(`${user.email} successfully logged in.`)
-                    res.json({status: 'ok', data: {token: 'JWT '+token, user: {email: user.email}}});
+                    res.json({status: 'ok', data: {token: 'JWT '+token, user: user}});
                 } else {
                     console.log('Wrong pass')
                     res.status(401).send({status: 'error', message: 'Auth failed. Wrong password'});
