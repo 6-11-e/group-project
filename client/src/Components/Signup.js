@@ -120,12 +120,12 @@ class SignupModal extends React.Component {
                         onChange={this.handleChange}
                         />
                     </FormGroup>
-                </form>
+                
             </Modal.Body>
             <Modal.Footer>
               <Button type="submit">Sign Up</Button>
             </Modal.Footer>
-            
+            </form>
           </Modal>
         </div>
       );
