@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Navbar } from 'react-bootstrap';
 import { FormGroup } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import { FormControl } from 'react-bootstrap';
 // import SignupModal from './Signup';
 
@@ -12,10 +13,29 @@ const alignNav = {
   
 
 class Login extends Component {
+    //Handle show and hide modal
+  
+
     constructor(props) {
         super(props);
+        this.handleShow = this.handleShow.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+    
+        this.state = {
+          show: false
+        };
+
         this.handleSubmit = this.handleSubmit.bind(this)
     }
+
+    handleClose() {
+        this.setState({ show: false });
+    }
+
+    handleShow() {
+        this.setState({ show: true });
+    }
+
     handleSubmit(event) {
         //Prevent default form handling
         event.preventDefault();
@@ -50,21 +70,33 @@ class Login extends Component {
     }
     render() {
         return (
-            <Navbar.Form pullLeft style={alignNav}>
-
+            <div className="NavDiv">
                 {/* Cant use API endpoint with standard form action (will nav to new page) */}
                 {/* Instead, need to fetch data from API and update state */}
                 {/* <form > action="/api/auth/login" method="POST" */}
-                <form onSubmit={(e) => this.handleSubmit(e)}>
-                <FormGroup style={alignNav}>
-                    <FormControl type="text" name="email" placeholder="Email"/>&nbsp;
-                    <FormControl type="password" name="password" placeholder="Password"/>
-                </FormGroup>{' '}
-                <Button type="submit" style={alignNav}>Submit</Button>
-                {/* <SignupModal style={alignNav}/> */}
-
-                </form>
-            </Navbar.Form>
+                <Button bsStyle="primary" bsSize="small" onClick={this.handleShow} style={alignNav}>
+                    Log In!
+                </Button>
+                <Modal show={this.state.show} onHide={this.handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Log In</Modal.Title>
+                    </Modal.Header>
+                    <form onSubmit={(e) => this.handleSubmit(e)}>
+                    <Modal.Body>
+                        
+                            <FormGroup style={alignNav}>
+                                <FormControl type="text" name="email" placeholder="Email"/>&nbsp;
+                                <FormControl type="password" name="password" placeholder="Password"/>
+                            </FormGroup>{' '}
+                        {/* <SignupModal style={alignNav}/> */}
+                        
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button type="submit" style={alignNav}>Log In</Button>
+                    </Modal.Footer>
+                    </form>
+                </Modal>
+            </div>
         )
     }
 }

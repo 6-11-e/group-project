@@ -58,7 +58,6 @@ router.post('/login', (req, res) => {
                     var token = jwt.sign(user.toObject(), config.session.secret);
                    
                     console.log(`${user.email} successfully logged in.`)
-                    // console.log(jwt.decode(token)) -> Returns payload (user)
                     res.json({status: 'ok', data: {token: 'JWT '+token, user: user}});
                 } else {
                     console.log('Wrong pass')
