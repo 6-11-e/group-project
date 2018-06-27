@@ -21,6 +21,7 @@ router.get('/', (req, res) => {
 
 router.post('/register', (req, res) => {
     if (!req.body.email || !req.body.password) {
+        console.log(req.body)
         res.json({status: 'error', message: 'Please enter email and password'});
     } else {
         console.log(req.body)
@@ -51,9 +52,13 @@ router.post('/login', (req, res) => {
             console.log('Found User ' + user.email + '. Validating pass')
             user.comparePassword(req.body.password, (err, isMatch) => {
                 if (isMatch && !err) {
+                    //Delete user.password since we're passing back user
+                    user.password = undefined;
+                    //Create JWT using user signed with secret.
                     var token = jwt.sign(user.toObject(), config.session.secret);
+                   
                     console.log(`${user.email} successfully logged in.`)
-                    res.json({status: 'ok', data: {token: 'JWT '+token, user: {email: user.email}}});
+                    res.json({status: 'ok', data: {token: 'JWT '+token, user: user}});
                 } else {
                     console.log('Wrong pass')
                     res.status(401).send({status: 'error', message: 'Auth failed. Wrong password'});
