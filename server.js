@@ -3,11 +3,9 @@ var express         = require('express'),
     path            = require('path'),
     cookieParser    = require('cookie-parser'),
     bodyParser      = require('body-parser'),
-    session         = require('express-session'),
+    ejwt         = require('express-jwt'),
     passport        = require('passport'),
-//Deprecated - used in controllers/helpers.
-    // mongoose        = require('mongoose'),
-    // MongoStore      = require('connect-mongo')(session);
+    config          = require('./conf/config'),
     app             = express();
 
 
@@ -21,6 +19,7 @@ app.use((req, res, next) => {
 })
 
 app.use(passport.initialize());
+
 // PRODUCTION ONLY
 app.use(express.static(path.join(__dirname, 'client/build')));
 
@@ -28,6 +27,23 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
+// app.use ( (req, res, next) => {
+//     if(req.tokenPayload) {
+//         req.user = ''//getUserFromDatabase
+//     }
+//     if (req.user){
+//         next();
+//     }
+// })
+
+app.use( (req, res, next) => {
+    if(req.user){
+        console.log(req.user)
+    } else {
+        console.log('User not set')
+    }
+    next();
+})
 
 //Link to ./controllers/index.js
 app.use('/api', require('./controllers'))

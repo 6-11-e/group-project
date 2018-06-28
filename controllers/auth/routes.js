@@ -54,8 +54,9 @@ router.post('/login', (req, res) => {
                 if (isMatch && !err) {
                     //Delete user.password since we're passing back user
                     user.password = undefined;
+                    let userID = user._id;
                     //Create JWT using user signed with secret.
-                    var token = jwt.sign(user.toObject(), config.session.secret);
+                    var token = jwt.sign({user}, config.session.secret);
                    
                     console.log(`${user.email} successfully logged in.`)
                     res.json({status: 'ok', data: {token: 'JWT '+token, user: user}});
