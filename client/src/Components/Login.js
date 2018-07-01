@@ -81,20 +81,21 @@ class Login extends Component {
                     <Modal.Header closeButton>
                         <Modal.Title>Log In</Modal.Title>
                     </Modal.Header>
-
+                    <form onSubmit={(e) => this.handleSubmit(e)}>
                     <Modal.Body>
-                        <form onSubmit={(e) => this.handleSubmit(e)}>
+                        
                             <FormGroup style={alignNav}>
                                 <FormControl type="text" name="email" placeholder="Email"/>&nbsp;
                                 <FormControl type="password" name="password" placeholder="Password"/>
                             </FormGroup>{' '}
                         {/* <SignupModal style={alignNav}/> */}
-                        </form>
+                        
                     </Modal.Body>
                     <Modal.Footer>
                         <Button type="submit" style={alignNav}>Log In</Button>
                     </Modal.Footer>
-            </Modal>
+                    </form>
+                </Modal>
             </div>
         )
     }
