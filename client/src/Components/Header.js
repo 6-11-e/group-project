@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Navbar } from 'react-bootstrap';
+import { Navbar, FormGroup, FormControl, Button } from 'react-bootstrap';
 import { Nav } from 'react-bootstrap';
 import { NavItem } from 'react-bootstrap';
 import { NavDropdown } from 'react-bootstrap';
@@ -16,12 +16,29 @@ const alignNav = {
   float: 'none',
 }
 
-const noMargin = {
-    marginBottom: '0px'
+const noContain = {
+  width: '100%'
 }
+
+const primaryNav = {
+    marginBottom: '0px',
+    // position: 'fixed',
+    width: '100%'
+}
+
+const secondaryNav = {
+  height: '20px',
+  borderColor: '#f8f8f8',
+  marginBottom: '0px'
+}
+
 // Commented to prevent console.warns
 const navItemStyle = {
     marginBottom: '15px'
+}
+
+const searchBar = {
+  left: '100px'
 }
 
 
@@ -33,7 +50,11 @@ class Header extends Component {
     // }
     render() {
         return ( 
-    <Navbar style={noMargin}>
+
+    //Primary Nav
+  <div>
+    <Navbar style={primaryNav}>
+    <header>
       <Navbar.Header>
         <Navbar.Brand>
           {/* E-Commerce */}
@@ -58,7 +79,35 @@ class Header extends Component {
         </NavItem>
         </NavDropdown>
       </Nav>
-    </Navbar>
+      </header>
+      </Navbar>
+
+
+  <Navbar style={secondaryNav}>
+    <header>
+      <Nav style={alignNav}>
+          <NavItem>
+            Category
+          </NavItem>
+          <NavItem>
+            Another
+          </NavItem>
+          <NavItem>
+            Additional
+          </NavItem>
+          <NavItem>
+            Even More
+          </NavItem>
+          <NavItem>
+            Eventually
+          </NavItem>
+          <NavItem>
+            Finally
+          </NavItem>
+      </Nav>
+    </header>
+  </Navbar>
+</div>
     )
 }
 }
