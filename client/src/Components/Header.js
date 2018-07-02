@@ -16,6 +16,13 @@ const alignNav = {
   float: 'none',
 }
 
+const alignButton = {
+  display: 'inline-block',
+  float: 'none',
+  borderRadius: '0%'
+}
+
+
 const noContain = {
   width: '100%'
 }
@@ -24,6 +31,11 @@ const primaryNav = {
     marginBottom: '0px',
     // position: 'fixed',
     width: '100%'
+}
+
+const mySearch = {
+  width: '40%',
+  marginTop: '12px'
 }
 
 const secondaryNav = {
@@ -61,6 +73,9 @@ class Header extends Component {
         <Link to="/">E-Commerce</Link>
         </Navbar.Brand>
       </Navbar.Header>
+
+      <span><input type="text" placeholder="Search" style={mySearch}></input><Button bsStyle="primary" bsSize="small" style={alignButton}>Search</Button></span>
+
       <Nav style={alignNav} pullRight>
         {/* Adjusted <Login /> to be able to adjust state (token,user). Set to only display if user is not logged in */}
         {/* Should have alt component show instead of text. */}
@@ -75,7 +90,7 @@ class Header extends Component {
           <Link to="/profile" style={navItemStyle}>My Profile</Link>
         </NavItem>
         <NavItem>
-          Item{/* <Link to="/" style={navItemStyle}></Link> */}
+          <Button bsStyle="primary" bsSize="small" style={alignButton}>Log Out</Button>
         </NavItem>
         </NavDropdown>
       </Nav>

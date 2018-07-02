@@ -5,6 +5,13 @@ import { Link } from 'react-router-dom';
 import { Grid, Row, Col } from 'react-bootstrap';
 
 //Not yet linked
+const alignButton = {
+    display: 'inline-block',
+    float: 'none',
+    borderRadius: '0%',
+    width: '10%',
+  }
+  
 
 const jumboStyle = {
     backgroundColor: "#4273c1",
@@ -42,21 +49,30 @@ const noContain = {
 
 const divOne = {
     backgroundColor: 'red',
-    height: '40vh',
+    height: '30vh',
     width: '100%'
 }
 
 const divTwo = {
     backgroundColor: 'green',
-    height: '40vh',
+    height: '30vh',
     width: '100%'
 }
 
 const divThree = {
     backgroundColor: 'yellow',
-    height: '40vh',
+    height: '30vh',
     width: '100%'
 }
+
+const catDiv = {
+    border: 'solid black 1px',
+    height: '20vh',
+    // width: '100%',
+    margin: '5px 10px 15px 10px'
+}
+
+
 
 const displayBlocks = {
     padding: '0px',
@@ -76,7 +92,7 @@ class MyJumbotron extends Component {
                 This will be text describing what the user might experience by exploring the site.
             </p>
             <p>
-            <Link to="/gallery"><Button bsStyle="default" bsSize="large">Gallery</Button></Link>   
+            <Link to="/gallery"><Button bsStyle="default" bsSize="large" style={alignButton}>Gallery</Button></Link>   
             </p>
             </div>
         </Jumbotron>
@@ -103,6 +119,55 @@ class MyJumbotron extends Component {
             <h2 style={whiteText}>This might advertise a special deal happening on the site</h2>
             </div>
         </Jumbotron>
+        <Grid style={noContain}>
+        <div>
+        <Row >
+        <Col xs={6} md={3} style={displayBlocks}>
+            <div style={catDiv}>
+                Category
+            </div>
+        </Col>
+        <Col xs={6} md={3} style={displayBlocks}>
+            <div style={catDiv}>
+            Another
+            </div>
+        </Col>
+        <Col xs={6} md={3} style={displayBlocks}>
+            <div style={catDiv}>
+            Additional
+            </div>
+        </Col>
+        <Col xs={6} md={3} style={displayBlocks}>
+            <div style={catDiv}>
+            Even More
+            </div>
+        </Col>
+        </Row>
+        <Row>
+        <Col xs={6} md={3} style={displayBlocks}>
+            <div style={catDiv}>
+            Eventually
+            </div>
+        </Col>
+        <Col xs={6} md={3} style={displayBlocks}>
+            <div style={catDiv}>
+            Almost
+            </div>
+        </Col>
+        <Col xs={6} md={3} style={displayBlocks}>
+            <div style={catDiv}>
+            And
+            </div>
+        </Col>
+        <Col xs={6} md={3} style={displayBlocks}>
+            <div style={catDiv}>
+            Done
+            </div>
+        </Col>
+        </Row>
+        </div>
+        </Grid>
+
 
         {/* <Dummy /> */}
     </div>
