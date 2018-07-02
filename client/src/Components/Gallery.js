@@ -46,8 +46,9 @@ const ulContainer = {
 const myItem = {
     width: '100%',
     height: '250px',
-    backgroundColor: 'red',
-    margin: '50px 10px 10px 10px'
+    backgroundColor: '#3a3a3a',
+    margin: '50px 10px 10px 10px',
+    color: 'white'
 }
 
 const divider = {

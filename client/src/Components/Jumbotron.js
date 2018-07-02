@@ -15,10 +15,10 @@ const alignButton = {
 
 const jumboStyle = {
     backgroundColor: "#4273c1",
-    // backgroundImage: "url()",
-    backgroundSize: 'cover',
-    backgroundAttachment: 'fixed',
+    backgroundImage: "url(https://cdn.flexshopper.xyz/marketing-images/category/slc_hero-videoGames.png)",
+    backgroundSize: '60%',
     backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'right',
     height: '50vh',
     marginTop: '0px',
     marginBottom: '10px'
@@ -49,6 +49,10 @@ const noContain = {
 
 const divOne = {
     backgroundColor: 'red',
+    backgroundImage: 'url(http://www.geekfactormedia.com/wp-content/uploads/2017/08/pf2.png)',
+    backgroundSize: '60%',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
     height: '30vh',
     width: '100%'
 }
@@ -66,12 +70,19 @@ const divThree = {
 }
 
 const catDiv = {
-    border: 'solid black 1px',
+    // border: 'solid black 1px',
     height: '20vh',
     // width: '100%',
-    margin: '5px 10px 15px 10px'
+    margin: '5px 10px 15px 10px',
+    backgroundImage: 'url(https://vignette.wikia.nocookie.net/megamitensei/images/7/74/PlayStation_4.png/revision/latest/scale-to-width-down/511?cb=20170331210204)',
+    backgroundSize: '60%',
+    backgroundRepeat: 'no-repeat',
 }
 
+const divText = {
+    color: 'white',
+    marginTop: '0px'
+}
 
 
 const displayBlocks = {
@@ -92,7 +103,7 @@ class MyJumbotron extends Component {
                 This will be text describing what the user might experience by exploring the site.
             </p>
             <p>
-            <Link to="/gallery"><Button bsStyle="default" bsSize="large" style={alignButton}>Gallery</Button></Link>   
+            <Link to="/gallery"><Button bsStyle="default" bsSize="large" style={alignButton} className='divImageButton'>Gallery</Button></Link>   
             </p>
             </div>
         </Jumbotron>
@@ -100,15 +111,18 @@ class MyJumbotron extends Component {
         <div>
         <Row >
         <Col xs={12} md={4} style={displayBlocks}>
-            <div style={divOne}>
+            <a href='#'>
+            <div style={divOne} className='divImageButton'>
+            <h2 style={divText}>Shop Pathfinder</h2>
+            </div>
+            </a>
+        </Col>
+        <Col xs={12} md={4} style={displayBlocks}>
+            <div style={divTwo} className='divImageButton'>
             </div>
         </Col>
         <Col xs={12} md={4} style={displayBlocks}>
-            <div style={divTwo}>
-            </div>
-        </Col>
-        <Col xs={12} md={4} style={displayBlocks}>
-            <div style={divThree}>
+            <div style={divThree} className='divImageButton'>
             </div>
         </Col>
         </Row>
@@ -119,47 +133,48 @@ class MyJumbotron extends Component {
             <h2 style={whiteText}>This might advertise a special deal happening on the site</h2>
             </div>
         </Jumbotron>
+        <h3>Categories</h3>
         <Grid style={noContain}>
         <div>
         <Row >
-        <Col xs={6} md={3} style={displayBlocks}>
+        <Col xs={6} md={3} style={displayBlocks} className='divImageButton'>
             <div style={catDiv}>
                 Category
             </div>
         </Col>
-        <Col xs={6} md={3} style={displayBlocks}>
+        <Col xs={6} md={3} style={displayBlocks} className='divImageButton'>
             <div style={catDiv}>
             Another
             </div>
         </Col>
-        <Col xs={6} md={3} style={displayBlocks}>
+        <Col xs={6} md={3} style={displayBlocks} className='divImageButton'>
             <div style={catDiv}>
             Additional
             </div>
         </Col>
-        <Col xs={6} md={3} style={displayBlocks}>
+        <Col xs={6} md={3} style={displayBlocks} className='divImageButton'>
             <div style={catDiv}>
             Even More
             </div>
         </Col>
         </Row>
         <Row>
-        <Col xs={6} md={3} style={displayBlocks}>
+        <Col xs={6} md={3} style={displayBlocks} className='divImageButton'>
             <div style={catDiv}>
             Eventually
             </div>
         </Col>
-        <Col xs={6} md={3} style={displayBlocks}>
+        <Col xs={6} md={3} style={displayBlocks} className='divImageButton'>
             <div style={catDiv}>
             Almost
             </div>
         </Col>
-        <Col xs={6} md={3} style={displayBlocks}>
+        <Col xs={6} md={3} style={displayBlocks} className='divImageButton'>
             <div style={catDiv}>
             And
             </div>
         </Col>
-        <Col xs={6} md={3} style={displayBlocks}>
+        <Col xs={6} md={3} style={displayBlocks} className='divImageButton'>
             <div style={catDiv}>
             Done
             </div>

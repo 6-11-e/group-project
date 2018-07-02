@@ -1,3 +1,7 @@
+body {
+  background-color: whitesmoke;
+}
+
 .App {
   text-align: center;
 }
@@ -31,4 +35,28 @@
 .NavDiv {
   display: inline-block;
   margin-left: 5px;
+}
+
+.myButton {
+  border-radius: 0%
+}
+
+.divImageButton {
+  transition: transform .5s;
+}
+
+.divImageButton:hover {
+  transform: scale(1.05);
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.navbar {
+  border: none;
 }

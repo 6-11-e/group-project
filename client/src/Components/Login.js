@@ -9,7 +9,9 @@ import { FormControl } from 'react-bootstrap';
 const alignButton = {
     display: 'inline-block',
     float: 'none',
-    borderRadius: '0%'
+    borderRadius: '0%',
+    backgroundColor: '#3a3a3a',
+    border: 'none'
   }
 
 const alignNav = {
