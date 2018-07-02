@@ -580,7 +580,7 @@ router.post('/checkout', protectRoute, (req, res) => {
         cart.shipping = 12.99;
         //calc shipping
         //calc grandTotal
-
+        console.log(req.user);
         Users.findById(req.user._id, (err, user) => {
             if(err) console.log(err)
             let order = {
@@ -610,7 +610,7 @@ router.post('/checkout', protectRoute, (req, res) => {
 
             let grandTotal = order.subtotal + order.tax + order.shippingCost;
             order.total = grandTotal.toFixed(2);
-            console.log(order)
+            //console.log(order)
 
             stripe.charges.create({
                 amount: order.total * 100,
