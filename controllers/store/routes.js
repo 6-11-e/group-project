@@ -6,10 +6,12 @@ var express     = require('express'),
     stripe      = require('stripe')(config.payments.processors.stripe.secret),
     ObjectId    = require('mongoose').Types.ObjectId,
     passport    = require('passport'),
-
+    roleCheck   = require('../../helpers/auth/roles'),
     router      = express.Router();
+require('../../conf/passport')(passport);
+let protectRoute = passport.authenticate('jwt', {session: false});
 
-router.get('/', (req, res) => {
+router.get('/', protectRoute, roleCheck('Admin'), (req, res) => {
     let msg = {
         status: 'ok',
         data: {
@@ -20,7 +22,7 @@ router.get('/', (req, res) => {
     res.status(200).json(msg);
 });
 
-router.get('/products/deleted', (req, res) => {
+router.get('/products/deleted', protectRoute, roleCheck('Admin'), (req, res) => {
     Products.find({deleted: true}, (err, products) => {
         if(err) console.log(err);
         
@@ -355,7 +357,7 @@ router.post('/product/edit/:id', (req, res) => {
 
 // })
 
-router.delete('/product/:id/:hard?', (req, res) => {
+router.delete('/product/:id/:hard?', protectRoute, roleCheck('Admin'), (req, res) => {
     Products.findById(req.params.id, (err, product) => {
         if (req.params.hard && req.params.hard === "true") {
             //Unable to remove from Stripe Products/SKU if order has been placed
@@ -436,27 +438,34 @@ router.get('/cart/add/:id/:qty?', (req, res) => {
     });
 })
 
-router.get('/testPay', passport.authenticate('jwt', {session: false}),(req, res) => {
-    let charge = {
-        amount: 999,
-        currency: 'usd',
-        source: 'tok_visa',
-        receipt_email: 'xuroth@gmail.com'
-    };
-    // console.log('customer,', verifyUser(req.user));
-    // console.log('ID: ', req.user)
-    processPayment(charge).then((result) => {
-        console.log(result);
-        let msg = {
-            status: "ok",
-            data: {
-                paymentConf: result
-            }
-        }
-        res.status(200).json(msg);
-    })
+
+
+router.get('/testPay', protectRoute, (req, res) => {
+    // let charge = {
+    //     amount: 999,
+    //     currency: 'usd',
+    //     source: 'tok_visa',
+    //     receipt_email: 'xuroth@gmail.com'
+    // };
+    // // console.log('customer,', verifyUser(req.user));
+    // // console.log('ID: ', req.user)
+    // processPayment(charge).then((result) => {
+    //     console.log(result);
+    //     let msg = {
+    //         status: "ok",
+    //         data: {
+    //             paymentConf: result
+    //         }
+    //     }
+    //     res.status(200).json(msg);
+    // })
+    res.status(200).json({user: req.user})
 
     
+})
+
+router.get('/testRole', protectRoute, roleCheck('Customer'), (req, res) => {
+    console.log('Success!');
 })
 
 // router.post('/checkout', (req, res) => {
@@ -550,7 +559,7 @@ router.get('/testPay', passport.authenticate('jwt', {session: false}),(req, res)
 
 // })
 
-router.post('/checkout', passport.authenticate('jwt', {session: false}), (req, res) => {
+router.post('/checkout', protectRoute, (req, res) => {
     let data = req.body;
     // console.log(Object.keys(data));
     data.cart = JSON.parse(data.cart);

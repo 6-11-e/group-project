@@ -1,3 +1,4 @@
+//Include all configurable settings files.
 var databaseConfig    = require('./database'),
     storeConfig       = require('./store'),
     billingConfig     = require('./billing'),

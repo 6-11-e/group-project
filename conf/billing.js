@@ -1,10 +1,13 @@
+//Configure options for payment processing
 payments = {
+    //General settings
     options: {
         live: false,
         currency: 'usd',
         statementInfo: 'ECOM - Yeah!',
         processor: 'stripe'
     },
+    //Payment processor-specific settings.
     processors: {
         stripe: {
             publicTest: 'pk_test_iS14vDu3AhdzHGCxnwapoW9L',

@@ -23,6 +23,10 @@ var UserSchema = new Schema({
     customerID: {
         type: String,
         default:''
+    },
+    role: {
+        type: String,
+        required: true
     }
 });
 

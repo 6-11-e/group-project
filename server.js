@@ -3,15 +3,12 @@ var express         = require('express'),
     path            = require('path'),
     cookieParser    = require('cookie-parser'),
     bodyParser      = require('body-parser'),
-    ejwt         = require('express-jwt'),
     passport        = require('passport'),
-    config          = require('./conf/config'),
     app             = express();
 
 
 
 //Initialize session
-// app.use(require('./helpers/sessions'));
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -27,23 +24,6 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
-// app.use ( (req, res, next) => {
-//     if(req.tokenPayload) {
-//         req.user = ''//getUserFromDatabase
-//     }
-//     if (req.user){
-//         next();
-//     }
-// })
-
-app.use( (req, res, next) => {
-    if(req.user){
-        console.log(req.user)
-    } else {
-        console.log('User not set')
-    }
-    next();
-})
 
 //Link to ./controllers/index.js
 app.use('/api', require('./controllers'))
