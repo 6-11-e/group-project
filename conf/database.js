@@ -1,3 +1,4 @@
+//Configure default Database connection.
 config = {
     host: 'ds163630.mlab.com',
     port: '63630',

@@ -75,7 +75,7 @@ class Login extends Component {
                 {/* Instead, need to fetch data from API and update state */}
                 {/* <form > action="/api/auth/login" method="POST" */}
                 <Button bsStyle="primary" bsSize="small" onClick={this.handleShow} style={alignNav}>
-                    Log In!
+                    Log In! <i className="fal fa-sign-in"></i>
                 </Button>
                 <Modal show={this.state.show} onHide={this.handleClose}>
                     <Modal.Header closeButton>
