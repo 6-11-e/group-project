@@ -9,6 +9,9 @@ const alignNav = {
     float: 'none',
   }
   
+const signUpMargin = {
+  marginBottom: '20px'
+}
 
 class SignupModal extends React.Component {
     
@@ -83,6 +86,7 @@ class SignupModal extends React.Component {
                         value={this.state.value}
                         placeholder='First Name'
                         onChange={this.handleChange}
+                        style={signUpMargin}
                         />
                         <FormControl
                         type='text'
@@ -90,6 +94,7 @@ class SignupModal extends React.Component {
                         value={this.state.value}
                         placeholder='Last Name'
                         onChange={this.handleChange}
+                        style={signUpMargin}
                         />
                         <FormControl
                         type='email'
@@ -97,6 +102,7 @@ class SignupModal extends React.Component {
                         value={this.state.value}
                         placeholder='Email'
                         onChange={this.handleChange}
+                        style={signUpMargin}
                         />
                         <FormControl
                         type='email'
@@ -104,6 +110,7 @@ class SignupModal extends React.Component {
                         value={this.state.value}
                         placeholder='Confirm Email'
                         onChange={this.handleChange}
+                        style={signUpMargin}
                         />
                         <FormControl
                         type='password'
@@ -111,6 +118,7 @@ class SignupModal extends React.Component {
                         value={this.state.value}
                         placeholder='Create a Password'
                         onChange={this.handleChange}
+                        style={signUpMargin}
                         />
                         <FormControl
                         type='password'
