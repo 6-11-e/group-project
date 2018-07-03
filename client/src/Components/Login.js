@@ -6,10 +6,18 @@ import { Modal } from 'react-bootstrap';
 import { FormControl } from 'react-bootstrap';
 // import SignupModal from './Signup';
 
+const alignButton = {
+    display: 'inline-block',
+    float: 'none',
+    borderRadius: '0%',
+    backgroundColor: '#3a3a3a',
+    border: 'none'
+  }
+
 const alignNav = {
     display: 'inline-block',
     float: 'none',
-  }
+}
   
 
 class Login extends Component {
@@ -74,7 +82,7 @@ class Login extends Component {
                 {/* Cant use API endpoint with standard form action (will nav to new page) */}
                 {/* Instead, need to fetch data from API and update state */}
                 {/* <form > action="/api/auth/login" method="POST" */}
-                <Button bsStyle="primary" bsSize="small" onClick={this.handleShow} style={alignNav}>
+                <Button bsStyle="primary" bsSize="small" onClick={this.handleShow} style={alignButton}>
                     Log In!
                 </Button>
                 <Modal show={this.state.show} onHide={this.handleClose}>
