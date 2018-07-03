@@ -14,7 +14,7 @@ class Footer extends Component {
     render() {
         return (
             <footer style={footerStyle}>
-                <div className="container">
+                <div>
                     <p>We Made This © 2018</p>
                 </div>
             </footer>

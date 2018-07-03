@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Grid, Row, Col, Nav, NavDropdown, NavItem, Pager } from 'react-bootstrap'
+import { Link } from 'react-router-dom';
 
 const primaryContainer = {
     float: 'right'
@@ -83,48 +84,48 @@ class Gallery extends Component {
                 <div style={itemContainerMain}>
                     <div style={itemContainer}>
                     <Col xs={12} sm={6} md={3}>
-                            <h4 style={myItem}>Product</h4>
+                        <Link to="/product"><h4 style={myItem}>Product</h4></Link>
                     </Col>
                     <Col xs={12} sm={6} md={3}>
-                            <h4 style={myItem}>Product</h4>
+                        <Link to="/product"><h4 style={myItem}>Product</h4></Link>
                     </Col>
                     <Col xs={12} sm={6} md={3}>
-                            <h4 style={myItem}>Product</h4>
+                        <Link to="/product"><h4 style={myItem}>Product</h4></Link>
                     </Col>
                     <Col xs={12} sm={6} md={3}>
-                            <h4 style={myItem}>Product</h4>
-                    </Col>
-                    </div> 
-                </div>
-                <div style={itemContainerMain}>
-                    <div style={itemContainer}>
-                    <Col xs={12} sm={6} md={3}>
-                            <h4 style={myItem}>Product</h4>
-                    </Col>
-                    <Col xs={12} sm={6} md={3}>
-                            <h4 style={myItem}>Product</h4>
-                    </Col>
-                    <Col xs={12} sm={6} md={3}>
-                            <h4 style={myItem}>Product</h4>
-                    </Col>
-                    <Col xs={12} sm={6} md={3}>
-                            <h4 style={myItem}>Product</h4>
+                        <Link to="/product"><h4 style={myItem}>Product</h4></Link>
                     </Col>
                     </div> 
                 </div>
                 <div style={itemContainerMain}>
                     <div style={itemContainer}>
                     <Col xs={12} sm={6} md={3}>
-                            <h4 style={myItem}>Product</h4>
+                        <Link to="/product"><h4 style={myItem}>Product</h4></Link>
                     </Col>
                     <Col xs={12} sm={6} md={3}>
-                            <h4 style={myItem}>Product</h4>
+                        <Link to="/product"><h4 style={myItem}>Product</h4></Link>
                     </Col>
                     <Col xs={12} sm={6} md={3}>
-                            <h4 style={myItem}>Product</h4>
+                        <Link to="/product"><h4 style={myItem}>Product</h4></Link>
                     </Col>
                     <Col xs={12} sm={6} md={3}>
-                            <h4 style={myItem}>Product</h4>
+                        <Link to="/product"><h4 style={myItem}>Product</h4></Link>
+                    </Col>
+                    </div> 
+                </div>
+                <div style={itemContainerMain}>
+                    <div style={itemContainer}>
+                    <Col xs={12} sm={6} md={3}>
+                        <Link to="/product"><h4 style={myItem}>Product</h4></Link>
+                    </Col>
+                    <Col xs={12} sm={6} md={3}>
+                        <Link to="/product"><h4 style={myItem}>Product</h4></Link>
+                    </Col>
+                    <Col xs={12} sm={6} md={3}>
+                        <Link to="/product"><h4 style={myItem}>Product</h4></Link>
+                    </Col>
+                    <Col xs={12} sm={6} md={3}>
+                        <Link to="/product"><h4 style={myItem}>Product</h4></Link>
                     </Col>
                     </div> 
                 </div>

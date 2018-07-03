@@ -38,7 +38,8 @@ const primaryNav = {
 
 const mySearch = {
   width: '40%',
-  marginTop: '12px'
+  marginTop: '13px',
+  marginLeft: '100px'
 }
 
 const secondaryNav = {
