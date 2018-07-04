@@ -6,10 +6,18 @@ import { Modal } from 'react-bootstrap';
 import { FormControl } from 'react-bootstrap';
 // import SignupModal from './Signup';
 
+const alignButton = {
+    display: 'inline-block',
+    float: 'none',
+    borderRadius: '0%',
+    backgroundColor: '#3a3a3a',
+    border: 'none'
+  }
+
 const alignNav = {
     display: 'inline-block',
     float: 'none',
-  }
+}
   
 
 class Login extends Component {

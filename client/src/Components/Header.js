@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Navbar, FormGroup, FormControl, Button } from 'react-bootstrap';
+import { Navbar, FormGroup, FormControl, Button, Collapse, Toggle } from 'react-bootstrap';
 import { Nav } from 'react-bootstrap';
 import { NavItem } from 'react-bootstrap';
 import { NavDropdown } from 'react-bootstrap';
@@ -16,6 +16,15 @@ const alignNav = {
   float: 'none',
 }
 
+const alignButton = {
+  display: 'inline-block',
+  float: 'none',
+  borderRadius: '0%',
+  backgroundColor: '#3a3a3a',
+  border: 'none'
+}
+
+
 const noContain = {
   width: '100%'
 }
@@ -23,13 +32,21 @@ const noContain = {
 const primaryNav = {
     marginBottom: '0px',
     // position: 'fixed',
-    width: '100%'
+    width: '100%',
+    borderRadius: '0%'
+}
+
+const mySearch = {
+  width: '40%',
+  marginTop: '13px',
+  marginLeft: '100px'
 }
 
 const secondaryNav = {
   height: '20px',
-  borderColor: '#f8f8f8',
-  marginBottom: '0px'
+  borderColor: 'black',
+  marginBottom: '0px',
+  borderRadius: '0%'
 }
 
 // Commented to prevent console.warns
@@ -39,6 +56,15 @@ const navItemStyle = {
 
 const searchBar = {
   left: '100px'
+}
+
+const myBrand = {
+  width: '100px',
+  height: '100px',
+  backgroundImage: 'url(https://www.pngarts.com/files/1/Game-PNG-Download-Image.png)',
+  backgroundSize: '35%',
+  backgroundRepeat: 'no-repeat',
+  marginTop: '-7px'
 }
 
 
@@ -53,14 +79,17 @@ class Header extends Component {
 
     //Primary Nav
   <div>
-    <Navbar style={primaryNav}>
+    <Navbar style={primaryNav} inverse collapseOnSelect>
     <header>
       <Navbar.Header>
-        <Navbar.Brand>
+        <Navbar.Brand >
           {/* E-Commerce */}
-        <Link to="/">E-Commerce</Link>
+        <Link to="/"><div style={myBrand}></div></Link>
         </Navbar.Brand>
       </Navbar.Header>
+
+      <span><input type="text" placeholder="Search" style={mySearch}></input><Button bsStyle="primary" bsSize="small" style={alignButton}>Search</Button></span>
+
       <Nav style={alignNav} pullRight>
         {/* Adjusted <Login /> to be able to adjust state (token,user). Set to only display if user is not logged in */}
         {/* Should have alt component show instead of text. */}
@@ -75,15 +104,14 @@ class Header extends Component {
           <Link to="/profile" style={navItemStyle}>My Profile</Link>
         </NavItem>
         <NavItem>
-          Item{/* <Link to="/" style={navItemStyle}></Link> */}
+          <Button bsStyle="primary" bsSize="small" style={alignButton}>Log Out</Button>
         </NavItem>
         </NavDropdown>
       </Nav>
       </header>
       </Navbar>
 
-
-  <Navbar style={secondaryNav}>
+  <Navbar style={secondaryNav} inverse collapseOnSelect>
     <header>
       <Nav style={alignNav}>
           <NavItem>

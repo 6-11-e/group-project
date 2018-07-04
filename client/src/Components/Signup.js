@@ -4,9 +4,12 @@ import { Modal } from 'react-bootstrap';
 import { FormControl } from 'react-bootstrap';
 import { FormGroup } from 'react-bootstrap';
 
-const alignNav = {
+const alignButton = {
     display: 'inline-block',
     float: 'none',
+    borderRadius: '0%',
+    backgroundColor: '#3a3a3a',
+    border: 'none'
   }
   
 const signUpMargin = {
@@ -66,7 +69,7 @@ class SignupModal extends React.Component {
     render() {  
       return (
         <div className='NavDiv'>
-          <Button bsStyle="primary" bsSize="small" onClick={this.handleShow} style={alignNav}>
+          <Button bsStyle="primary" bsSize="small" onClick={this.handleShow} style={alignButton}>
             Sign Up!
           </Button>
   

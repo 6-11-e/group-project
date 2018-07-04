@@ -8,6 +8,7 @@ import Profile from './Components/Profile';
 import {Route, BrowserRouter, Switch, Link} from 'react-router-dom';
 //import logo from './logo.svg';
 import './App.css';
+import MyProduct from './Components/Product';
 
 class App extends Component {
   //Testing Component
@@ -70,6 +71,7 @@ class App extends Component {
         <Route path='/' exact component={MyJumbotron} />
         <Route path='/gallery' component={Gallery} />
         <Route path='/profile' component={Profile} />
+        <Route path='/product' component={MyProduct} />
         {/* <p>{this.state.token?this.state.token:''}</p> */}
         <Footer />
       </div>
