@@ -1,11 +1,13 @@
 var express     = require('express'),
-//    cors        = require('cors'), //Will be needed for xhr later. Likely used individually by controllers below.
+    passport    = require('passport'),
+    roleCheck   = require('../helpers/auth/roles'),
     router      = express.Router();
-    
+ 
+let protectRoute = passport.authenticate('jwt', {session: false});
 //This file adds all of the individual controllers and routes.
 
 //Admin
-router.use('/admin', require('./admin/routes'));
+router.use('/admin', protectRoute, roleCheck('Admin'), require('./admin/routes'));
 
 //Auth
 router.use('/auth', require('./auth/routes'));
