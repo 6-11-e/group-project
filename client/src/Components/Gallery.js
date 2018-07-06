@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Grid, Row, Col, Nav, NavDropdown, NavItem, Pager } from 'react-bootstrap'
 import { Link } from 'react-router-dom';
+import Products from './Store/Products'
 
 const primaryContainer = {
     float: 'right'
@@ -31,7 +32,7 @@ const navContainer = {
     marginTop: '40px',
     listStyleType: 'none',
     lineHeight: '60px',
-    height: '100vh',
+    height: '150vh',
     float: 'left',
     borderRight: 'solid gray 1px'
 }
@@ -55,10 +56,14 @@ const myItem = {
 const divider = {
     backgroundColor: 'black',
     width: '5px',
-    height: '500px'
+    height: '1000px'
 }
 
+const API = '/api/store/products';
+
+
 class Gallery extends Component {
+
     render() {
         return (
         <div>
@@ -78,31 +83,13 @@ class Gallery extends Component {
                         <li><a>SubCategory</a></li>
                     </ul>
                 </div>
-            <Grid style={noContain}>
-            <Row>
+            {/* <Grid style={noContain}>
+            <Row> */}
                 {/* <div style={primaryContainer}> */}
-                <div style={itemContainerMain}>
-                    <div style={itemContainer}>
-                    <Col xs={12} sm={6} md={3}>
-                        <Link to="/product"><h4 style={myItem}>Product</h4></Link>
-                    </Col>
-                    <Col xs={12} sm={6} md={3}>
-                        <Link to="/product"><h4 style={myItem}>Product</h4></Link>
-                    </Col>
-                    <Col xs={12} sm={6} md={3}>
-                        <Link to="/product"><h4 style={myItem}>Product</h4></Link>
-                    </Col>
-                    <Col xs={12} sm={6} md={3}>
-                        <Link to="/product"><h4 style={myItem}>Product</h4></Link>
-                    </Col>
-                    </div> 
-                </div>
-                <div style={itemContainerMain}>
-                    <div style={itemContainer}>
-                    <Col xs={12} sm={6} md={3}>
-                        <Link to="/product"><h4 style={myItem}>Product</h4></Link>
-                    </Col>
-                    <Col xs={12} sm={6} md={3}>
+                {/* <div style={itemContainerMain}>
+                    <div style={itemContainer}> */}
+                        <Products />
+                    {/* <Col xs={12} sm={6} md={3}>
                         <Link to="/product"><h4 style={myItem}>Product</h4></Link>
                     </Col>
                     <Col xs={12} sm={6} md={3}>
@@ -129,13 +116,29 @@ class Gallery extends Component {
                     </Col>
                     </div> 
                 </div>
+                <div style={itemContainerMain}>
+                    <div style={itemContainer}>
+                    <Col xs={12} sm={6} md={3}>
+                        <Link to="/product"><h4 style={myItem}>Product</h4></Link>
+                    </Col>
+                    <Col xs={12} sm={6} md={3}>
+                        <Link to="/product"><h4 style={myItem}>Product</h4></Link>
+                    </Col>
+                    <Col xs={12} sm={6} md={3}>
+                        <Link to="/product"><h4 style={myItem}>Product</h4></Link>
+                    </Col>
+                    <Col xs={12} sm={6} md={3}>
+                        <Link to="/product"><h4 style={myItem}>Product</h4></Link>
+                    </Col> */}
+                    {/* </div> 
+                </div> */}
                 {/* </div> */}
-                </Row>
+                {/* </Row> */}
                 <Pager>
                     <Pager.Item href="#">Previous</Pager.Item>{' '}
                     <Pager.Item href="#">Next</Pager.Item>
                 </Pager>
-            </Grid>
+            {/* // </Grid> */}
         </div>
         )
     }
