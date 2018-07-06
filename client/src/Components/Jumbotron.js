@@ -48,7 +48,7 @@ const noContain = {
 }
 
 const divOne = {
-    backgroundColor: 'red',
+    backgroundColor: 'rgb(34,34,34)',
     backgroundImage: 'url(http://www.geekfactormedia.com/wp-content/uploads/2017/08/pf2.png)',
     backgroundSize: '60%',
     backgroundPosition: 'center',
@@ -58,13 +58,13 @@ const divOne = {
 }
 
 const divTwo = {
-    backgroundColor: 'green',
+    backgroundColor: 'rgb(34,34,34)',
     height: '30vh',
     width: '100%'
 }
 
 const divThree = {
-    backgroundColor: 'yellow',
+    backgroundColor: 'rgb(34,34,34)',
     height: '30vh',
     width: '100%'
 }
