@@ -3,17 +3,12 @@ var express         = require('express'),
     path            = require('path'),
     cookieParser    = require('cookie-parser'),
     bodyParser      = require('body-parser'),
-    session         = require('express-session'),
     passport        = require('passport'),
-//Deprecated - used in controllers/helpers.
-    // mongoose        = require('mongoose'),
-    // MongoStore      = require('connect-mongo')(session);
     app             = express();
 
 
 
 //Initialize session
-// app.use(require('./helpers/sessions'));
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -21,6 +16,7 @@ app.use((req, res, next) => {
 })
 
 app.use(passport.initialize());
+
 // PRODUCTION ONLY
 app.use(express.static(path.join(__dirname, 'client/build')));
 

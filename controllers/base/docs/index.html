@@ -40,10 +40,17 @@
             text-decoration: none;
             color: #fff;
             font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-weight: 800;
         }
         .nav a:hover {
             margin-right: 5px;
             text-decoration: underline;
+        }
+        .subnav {
+            list-style: none;
+        }
+        .subnav li a {
+            font-weight: 300 !important;
         }
         .container{
             width: 80%;
@@ -104,6 +111,10 @@
             padding: 5px;
             border-radius: 5px;
         }
+        .highlightDanger {
+            background-color: rgba(223, 112, 112, 0.7);
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
@@ -118,6 +129,14 @@
             </li>
             <li>
                 <a href="#store">Store Router</a>
+                <ul class="subnav">
+                    <li><a href="#getProducts">GET Multiple products</a></li>
+                    <li><a href="#getProduct">GET Specified Product</a></li>
+                    <li><a href="#postNewProduct">POST New/Edit Product</a></li>
+                    <li><a href="#getDeletedProducts">GET Deleted Products</a></li>
+                    <li><a href="#deleteProduct">DELETE Product</a></li>
+                    <li><a href="#checkout">POST Checkout</a></li>
+                </ul>
             </li>
         </ul>
     </div>
@@ -270,7 +289,7 @@
                 </p>
             </div>
             <div class="route">
-                <h3>GET <span class="route-title">/api/store/products[/perpage[/offset]]</span></h3>
+                <h3 id="getProducts">GET <span class="route-title">/api/store/products[/perpage[/offset]]</span></h3>
                 <div class="about">
                     <h4>Description</h4>
                     <p>
@@ -314,7 +333,7 @@
                 </div>
             </div>
             <div class="route">
-                <h3>GET <span class="route-title">/api/store/product/[id=xxx]or[name=xxxx]</span></h3>
+                <h3 id="getProduct">GET <span class="route-title">/api/store/product/[id=xxx]or[name=xxxx]</span></h3>
                 <div class="about">
                     <h4>Description</h4>
                     <p>
@@ -353,7 +372,7 @@
                 </div>
             </div>
             <div class="route">
-                <h3>POST <span class="route-title">/api/store/product[/id]</span> <span class="badge-red">[ADMIN]</span></h3>
+                <h3 id="postNewProduct">POST <span class="route-title">/api/store/product[/id]</span> <span class="badge-red">[ADMIN]</span></h3>
                 <div class="about">
                     <h4>Description</h4>
                     <p>
@@ -411,6 +430,160 @@
     message: string //Debug information showing error information
 }
                     </pre>
+                </div>
+            </div>
+            <div class="route">
+                <h3 id="getDeletedProducts">GET <span class="route-title">/api/store/products/deleted</span> <span class="badge-red">[ADMIN]</span></h3>
+                <div class="about">
+                    <h4>Description</h4>
+                    <p>This will show all products marked as deleted. These products are not viewable in standard searches, and only visible with admin privileges. These products can be "restored" without having to re-create them. An edit to the product setting <span class="code">{deleted: false}</span> will restore the product.</p>
+                </div>
+                <div class="about">
+                    <h4>Returns Object</h4>
+                    <pre class="codeBlock"><code>
+{
+    status: "ok",
+    products: [ //aray of products
+        {
+            name: string,
+            _id:  string,
+            price: double, //(ie 1.99 or 10.00)
+            categories: [
+                'categoryName',
+                'categoryName',
+                ...
+            ],
+            description: string,
+            inStock: number //(literally, how many of this item is remaining in stock. Will be updated when order is completed.)
+        },
+        ...
+    ]
+}
+                    </code></pre>
+                </div>
+            </div>
+            <div class="route">
+                <h3 id="deleteProduct">DELETE <span class="route-title">/api/store/product/id[/hard]</span> <span class="badge-red">[ADMIN]</span></h3>
+                <div class="about">
+                    <h4>Description</h4>
+                    <p>This will delete the specified product. There are two types of deletion. By default, all delete requests are "soft deletes" which means a flag is added to the product to prevent it from showing in searches, but retains the product in case it should be restored.</p>
+                </div>
+                <div class="about">
+                    <h4>Requires Parameter</h4>
+                    <h5><span class="code">id</span> (string)</h5>
+                    <p>This must be the product's _id. No other method of product lookup is permitted.</p>
+                </div>
+                <div class="about">
+                    <h4>Optional Parameter</h4>
+                    <h5><span class="code">hard</span> (string)</h5>
+                    <p>If supplied, the selected object will instead be "hard deleted", removing it from the database.</p>
+                    <p class="highlightDanger">
+                        NOTICE! <br> It is <strong>NOT</strong> advised to use this as any orders or other resources that link to products will be unable to find the deleted product! It is fine to use when debugging or testing a product, as long as the product was never saleable.
+                    </p>
+                </div>
+                <div class="about">
+                    <h4>Returns Object</h4>
+                    <pre class="codeBlock"><code>
+{
+    status: "ok" or "error",
+    message: string //Debug information confirming product deletion or error.
+}
+                    </code></pre>
+                </div>
+            </div>
+            <div class="route">
+                <h3 id="checkout">POST <span class="route-title">/api/store/checkout</span></h3>
+                <div class="about">
+                    <h4>Description</h4>
+                    <p>This function will process an order checkout. This must include a cart object and a user object, as defined below. Assuming all required data is submitted and passes validation, this endpoint will then call Stipe's API to process the payment supplied and finally create a pending order.</p>
+                </div>
+                <div class="about">
+                    <h4>Requires Object - Cart</h4>
+                    <pre class="codeBlock"><code>
+{
+    items: [ //Array of products
+        {
+            id: string, //Product's ID
+            qty: number //How many of this product is desired
+        }
+    ],
+    total: double //The subtotal of all items in the cart. This value is pre-shipping and pre-tax
+}
+                    </code></pre>
+                    <p>The cart object here is a good practice for how the cart should be saved on the client side. This will allow you control over the cart and you can easily pass it to the request with minimal effort. Note, since the cart is saved in the client side state, an issue may arise if a user adds products to the cart, then fails to checkout until a later time (during which, the admin team has adjusted the price of one or more products). In such a scenario, there will be a mismatch in the cart's stated total and the actual total. If this is detected, this request will get a 'Price mismatch' error to prevent the customer for being charged a 'wrong' amount. This also disallows session data tampering (the user edits the session data to indicate all objects cost '0.00' for instance).</p>
+                </div>
+                <div class="about">
+                    <h4>Requires Object - User</h4>
+                    <pre class="codeBlock"><code>
+{
+    shippingName: string, //Customers firstName and lastName by default, though the customer can specify a different name
+    addresses: object {
+        shipping: {
+            street: string, //The first line of an address
+            line2: string, //The second line, if needed, as well as building/lot/apartment number
+            city: string, //shipping city
+            state: string, //state/province or territory
+            zip: string, //zip code for addresses in countries that require it
+            country: string //usa by default. Don't allow the user to adjust this yet, as international shipping/address validation is not configured
+        },
+        billing: {
+            ... //same fields as shipping. On checkout page, have customer fill this field out first, and present the option to use this same address for shipping. If the user does so, set all shipping fields equal to these.
+        //Note: BOTH shipping and billing addresses must be supplied. this may be adjusted later to check for a checkbox field when validating request.
+        }
+    },
+    email: string, //Should be pre-filled with user's email. This email is where order confirmation and correspondence will be sent.
+    phone: string //Telephone number to use to contact customer in case of problem with order or payment
+}
+                    </code></pre>
+                </div>
+                <div class="about">
+                    <h4>Requires Object - Payment Source</h4>
+                    <pre class="codeBlock"><code>
+{
+    paymentSource: string //This should be a string returned from Stripe API on frontend during form submission. It is a secure one-time use token.
+    //Will be added to customer's stripe object to allow refunds and future use at a later date. You will need to collect card number, expiration, cvv, billing zip, and cardholder name.
+    //Grab billing zip from billing address.zip and name pre-filled as customer firstName and lastName
+}
+                    </code></pre>
+                </div>
+                <div class="about">
+                    <h4>Returns Object - Success (order pending)</h4>
+                    <pre class="codeBlock"><code>
+{
+    status: "ok",
+    message: string //success message.
+}
+                    </code></pre>
+                </div>
+                <div class="about">
+                    <h4>Returns Object - Pending (charge incomplete (not failed))</h4>
+                    <pre class="codeBlock"><code>
+{
+    status: "ok",
+    message: string //describes order placed, but charge not yet complete
+}
+                    </code></pre>
+                </div>
+                <div class="about">
+                    <h4>Returns Object - Failed</h4>
+                    <p>This could be a payment network fail, api-to-api fail, or payment was declined</p>
+                    <pre class="codeBlock"><code>
+{
+    status: "error",
+    message: string, //Could fail for variety of reasons
+    data: {
+        error: '', //should provide a bit more specificity as to why
+        cart: {
+            ... //This should be the same cart as was sent in request, returned for convenience. All items have been verified and total recalculated
+        }
+    }
+}
+                    </code></pre>
+                </div>
+                <div class="about">
+                    <h4>Note</h4>
+                    <p>Upon successful submission of this request, the customer's payment method will have a charge attempted. This call should be made after the customer has double checked and confirmed everything, and all client-side validation has passed. The user will need to authenticated, and the Authorization header will need to contain the user's token. The user's account will be checked to see if disabled (security and anti-fraud) before processing. Ideally, the user's Stripe object will store payment source tokens so that you can present a list of saved payment options to the customer to select, or alternatively the user can supply a new one. There should also be a checkbox option to allow the user to 'save' the payment (will be added to Stripe object) or use just this once (not saved on our side or Stripe's)</p>
+                    <p>To ensure compliance with PCI DSS, we <em>may</em> store the token, but we do NOT save the actual card information. This ensures that in the event of a breach, none of the customer's payment information is compromised.</p>
                 </div>
             </div>
         </div>
