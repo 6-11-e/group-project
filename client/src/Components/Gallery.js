@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Grid, Row, Col, Nav, NavDropdown, NavItem, Pager } from 'react-bootstrap'
 import { Link } from 'react-router-dom';
 import Products from './Store/Products'
+import Categories from './Store/Categories'
 
 const primaryContainer = {
     float: 'right'
@@ -69,7 +70,7 @@ class Gallery extends Component {
         <div>
                 <div>
                 </div>
-                <div style={navContainer}>
+                <div style={navContainer} className="hideMobile">
                     <ul style={ulContainer}>
                         <li><a>SubCategory</a></li>
                         <li><a>SubCategory</a></li>
