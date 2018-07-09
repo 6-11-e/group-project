@@ -9,7 +9,6 @@ const alignButton = {
     display: 'inline-block',
     float: 'none',
     borderRadius: '0%',
-    width: '10%',
   }
   
 

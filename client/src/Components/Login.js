@@ -18,6 +18,11 @@ const alignNav = {
     display: 'inline-block',
     float: 'none',
 }
+
+const modalStyle = {
+    height: '100px',
+    display: 'inline-block'
+}
   
 
 class Login extends Component {
