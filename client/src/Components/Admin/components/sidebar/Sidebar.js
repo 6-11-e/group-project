@@ -1,5 +1,5 @@
 import React from 'react';
-import {Nav, NavDropdown, NavItem, MenuItem} from 'react-bootstrap';
+import {Nav, NavItem} from 'react-bootstrap';
 import {NavLink} from 'react-router-dom';
 import './sidebar.css';
 
@@ -65,12 +65,3 @@ class Sidebar extends React.Component {
 }
 
 export default Sidebar;
-
-{/* <Nav style={styles.sidebar}>
-                    <NavItem componentClass="span" style={styles.navItem}>
-                        <Link to="/admin" style={styles.link}>Dashboard</Link>
-                    </NavItem>
-                    <NavItem componentClass="span" style={styles.navItem}>
-                        <Link to="/admin/users">Users</Link>
-                    </NavItem>
-                </Nav> */}

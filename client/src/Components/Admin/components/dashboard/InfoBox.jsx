@@ -1,9 +1,7 @@
 import React from 'react';
 import './InfoBox.css';
 class InfoBox extends React.Component {
-    constructor(props) {
-        super(props)
-    }
+    
     className = 'infoBoxIcon ' + this.props.bgColor;
     iconName = 'fal fa-lg ' + this.props.icon;
     render() {

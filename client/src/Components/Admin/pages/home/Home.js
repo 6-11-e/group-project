@@ -9,17 +9,17 @@ import InfoBox from '../../components/dashboard/InfoBox';
 
 class Home extends React.Component {
     componentDidMount(){
-        fetch('/api/admin/dashboardMetrics')
-        .then(response => {
-            console.log(response)
-            if(response.ok == true){
-                return response.json();
-            }
-            return response.statusText; //Return null instead, in next .then, check if null or undefined. if false, call method to update state
-        })
-        .then(response => {
-            console.log(response);
-        })
+        // fetch('/api/admin/dashboardMetrics')
+        // .then(response => {
+        //     // console.log(response)
+        //     if(response.ok === true){
+        //         return response.json();
+        //     }
+        //     return response.statusText; //Return null instead, in next .then, check if null or undefined. if false, call method to update state
+        // })
+        // .then(response => {
+        //     console.log(response);
+        // })
     }
     render() {
         return (

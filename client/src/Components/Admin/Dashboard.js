@@ -14,25 +14,12 @@ var styles = {
 }
 
 class Dashboard extends React.Component {
-    // constructor(props) {
-    //     super(props);
-
-    // this.state = {};
-    // }
-    componentDidMount() {
-        
-        // this.setState(this.props.state)
-        console.log('state',this.state)
-        console.log('prop.state', this.props.state)
-    }
-    
-
-    
+       
     render(){
 
         return (
             <div>
-                <Topbar user={{firstName: 'Test Admin'}}/>
+                <Topbar username={this.props.state.user.firstName}/>
                 <Grid fluid>
                     <Row>
                         <Col xs={10} md={2} style={styles.sidebar}>

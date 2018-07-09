@@ -5,7 +5,7 @@ import Footer from './Components/Footer';
 import Gallery from './Components/Gallery';
 import MyJumbotron from './Components/Jumbotron';
 import Profile from './Components/Profile';
-import {Route, BrowserRouter, Switch, Link} from 'react-router-dom';
+import {Route} from 'react-router-dom';
 //import logo from './logo.svg';
 import './App.css';
 import MyProduct from './Components/Product';
@@ -73,7 +73,8 @@ class App extends Component {
         <Route path='/gallery' component={Gallery} />
         <Route path='/profile' component={Profile} />
         <Route path='/api/store/product/' component={MyProduct} />
-        <Route path='/admin' component={Dashboard} state={this.state}/>
+        <Route path='/admin' render={(props) => <Dashboard {...props} state={this.state}/>}/>
+        {/* <Route path='/admin' component={Dashboard} state={this.state}/> */}
         {/* <p>{this.state.token?this.state.token:''}</p> */}
         <Footer />
       </div>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Navbar, FormGroup, FormControl, Button, Collapse, Toggle } from 'react-bootstrap';
+import { Navbar, Button} from 'react-bootstrap';
 import { Nav } from 'react-bootstrap';
 import { NavItem } from 'react-bootstrap';
 import { NavDropdown } from 'react-bootstrap';
@@ -25,9 +25,9 @@ const alignButton = {
 }
 
 
-const noContain = {
-  width: '100%'
-}
+// const noContain = {
+//   width: '100%'
+// }
 
 const primaryNav = {
     marginBottom: '0px',
@@ -54,9 +54,9 @@ const navItemStyle = {
     marginBottom: '15px'
 }
 
-const searchBar = {
-  left: '100px'
-}
+// const searchBar = {
+//   left: '100px'
+// }
 
 const myBrand = {
   width: '100px',
@@ -97,13 +97,13 @@ class Header extends Component {
         
         {this.props.state.isLoggedIn === false ? <SignupModal style={alignNav}/> : ''}
         <NavDropdown eventKey={3} title="Options" id="basic-nav-dropdown" style={alignNav}>
-        <NavItem>
+        <NavItem componentClass="span">
           <Link to="/gallery" style={navItemStyle}>Gallery</Link>
         </NavItem>
-        <NavItem>
+        <NavItem componentClass="span">
           <Link to="/profile" style={navItemStyle}>My Profile</Link>
         </NavItem>
-        <NavItem>
+        <NavItem componentClass="span">
           <Button bsStyle="primary" bsSize="small" style={alignButton}>Log Out</Button>
         </NavItem>
         </NavDropdown>
