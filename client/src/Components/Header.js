@@ -111,7 +111,7 @@ class Header extends Component {
       </header>
       </Navbar>
 
-  <Navbar style={secondaryNav} inverse className="secondaryNav">
+  <Navbar style={secondaryNav} inverse className="hideMobile">
     <header>
       <Nav style={alignNav}>
           <NavItem>
