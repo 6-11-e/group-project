@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Pager } from 'react-bootstrap'
 // import { Link } from 'react-router-dom';
-import Products from './Store/Products'
-import Categories from './Store/Categories'
+import Products from '../components/Products'
+import Categories from '../components/Categories'
 
 // const primaryContainer = {
 //     float: 'right'

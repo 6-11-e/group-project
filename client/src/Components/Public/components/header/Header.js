@@ -6,9 +6,8 @@ import { NavDropdown } from 'react-bootstrap';
 // import { MenuItem } from 'react-bootstrap'; //Commented out to prevent console.warns
 import { Link } from 'react-router-dom'; //Commented out to prevent console.warns
 // import { Collapse } from 'react-bootstrap'; //Commented out to prevent console.warns
-import Login from './Login';
-import SignupModal from "./Signup"; //Commented out to prevent console.warns
-
+import Login from '../login/Login';
+import SignupModal from "../signup/Signup"; //Commented out to prevent console.warns
 //Commented out sections are waiting on routing
 
 const alignNav = {
@@ -33,7 +32,9 @@ const primaryNav = {
     marginBottom: '0px',
     // position: 'fixed',
     width: '100%',
-    borderRadius: '0%'
+    borderRadius: '0%',
+    paddingRight: '30px',
+    paddingLeft: '30px'
 }
 
 const mySearch = {
@@ -79,7 +80,7 @@ class Header extends Component {
 
     //Primary Nav
   <div>
-    <Navbar style={primaryNav} inverse collapseOnSelect>
+    <Navbar style={primaryNav} inverse collapseOnSelect fluid>
     <header>
       <Navbar.Header>
         <Navbar.Brand >
