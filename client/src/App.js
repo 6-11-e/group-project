@@ -9,7 +9,7 @@ import {Route, BrowserRouter, Switch, Link} from 'react-router-dom';
 //import logo from './logo.svg';
 import './App.css';
 import MyProduct from './Components/Product';
-import Dashboard from './Components/Dashboard';
+import Dashboard from './Components/Admin/Dashboard';
 
 class App extends Component {
   //Testing Component
@@ -73,7 +73,7 @@ class App extends Component {
         <Route path='/gallery' component={Gallery} />
         <Route path='/profile' component={Profile} />
         <Route path='/api/store/product/' component={MyProduct} />
-        <Route path='/admin' component={Dashboard} />
+        <Route path='/admin' component={Dashboard} state={this.state}/>
         {/* <p>{this.state.token?this.state.token:''}</p> */}
         <Footer />
       </div>
