@@ -1,31 +1,31 @@
 import React, { Component } from 'react';
-import { Button, Grid, Row, Col, Nav, NavDropdown, NavItem, Pager } from 'react-bootstrap'
-import { Link } from 'react-router-dom';
-import Products from './Store/Products'
-import Categories from './Store/Categories'
+import { Pager } from 'react-bootstrap'
+// import { Link } from 'react-router-dom';
+import Products from '../components/Products'
+import Categories from '../components/Categories'
 
-const primaryContainer = {
-    float: 'right'
-}
+// const primaryContainer = {
+//     float: 'right'
+// }
 
-const noContain = {
-    width: '84%',
-    marginRight: '0'
-}
+// const noContain = {
+//     width: '84%',
+//     marginRight: '0'
+// }
 
-const itemContainerMain = {
-    // display: 'flex',
-    // justifyContent: 'flex-end',
-    marginRight: '50px'
-}
+// const itemContainerMain = {
+//     // display: 'flex',
+//     // justifyContent: 'flex-end',
+//     marginRight: '50px'
+// }
 
-const itemContainer = {
-    // display: 'flex',
-    // justifyContent: 'flex-end',
-    // width: '75%',
-    marginTop: '0px',
-    marginRight: '5px'
-}
+// const itemContainer = {
+//     // display: 'flex',
+//     // justifyContent: 'flex-end',
+//     // width: '75%',
+//     marginTop: '0px',
+//     marginRight: '5px'
+// }
 
 const navContainer = {
     width: '15%',
@@ -46,21 +46,21 @@ const ulContainer = {
     paddingRight: '30px'
 }
 
-const myItem = {
-    width: '100%',
-    height: '250px',
-    backgroundColor: '#3a3a3a',
-    margin: '50px 10px 10px 10px',
-    color: 'white'
-}
+// const myItem = {
+//     width: '100%',
+//     height: '250px',
+//     backgroundColor: '#3a3a3a',
+//     margin: '50px 10px 10px 10px',
+//     color: 'white'
+// }
 
-const divider = {
-    backgroundColor: 'black',
-    width: '5px',
-    height: '1000px'
-}
+// const divider = {
+//     backgroundColor: 'black',
+//     width: '5px',
+//     height: '1000px'
+// }
 
-const API = '/api/store/products';
+// const API = '/api/store/products';
 
 
 class Gallery extends Component {

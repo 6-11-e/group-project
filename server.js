@@ -25,6 +25,13 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
 
+//Init DB Session
+app.use( (req, res, next) => {
+   var mongoose = require('mongoose');
+   let db = require('./conf/database');
+   mongoose.connect(db.uri)
+   next();
+})
 //Link to ./controllers/index.js
 app.use('/api', require('./controllers'))
 
