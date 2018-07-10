@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 // import Gallery from './Components/Public/pages/gallery/Gallery';
 // import MyJumbotron from './Components/Jumbotron';
 // import Profile from './Components/Profile';
-import {Route} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 //import logo from './logo.svg';
 import './App.css';
 // import MyProduct from './Components/Product';
@@ -74,8 +74,11 @@ class App extends Component {
         <Route path='/gallery' component={Gallery} />
         <Route path='/profile' component={Profile} />
         <Route path='/api/store/product/' component={MyProduct} /> */}
-        <Route path='/admin' render={(props) => <Dashboard {...props} state={this.state}/>}/>
-        <Route path='/' render={(props) => <Public {...props} onTokenChange={this.updateTokenState} onUserChange={this.updateUserState} state={this.state}/>}/>
+        <Switch>
+          <Route path='/admin' render={(props) => <Dashboard {...props} state={this.state}/>}/>
+          <Route path='/' render={(props) => <Public {...props} onTokenChange={this.updateTokenState} onUserChange={this.updateUserState} state={this.state}/>}/>
+        </Switch>
+        
         {/* <Route path='/admin' component={Dashboard} state={this.state}/> */}
         {/* <p>{this.state.token?this.state.token:''}</p> */}
         {/* <Footer /> */}

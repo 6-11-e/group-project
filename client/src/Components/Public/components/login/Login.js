@@ -72,6 +72,7 @@ class Login extends Component {
         }).then(response => response.json())
         .then(response => {
             if(response.status === "ok" && response.data.token){
+                console.log(this.props)
                 //Successful login! We should have a token, and some userdata.
                 this.props.onTokenChange(response.data.token);
                 this.props.onUserChange(response.data.user);

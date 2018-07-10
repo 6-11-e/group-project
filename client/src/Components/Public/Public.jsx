@@ -10,12 +10,14 @@ import Profile from './pages/profile/Profile';
 import MyProduct from './pages/product/Product';
 
 class Public extends React.Component {
+    
     render() {
+        console.log('Public.jsx Props',this.props)
         return (
             <Grid fluid>
                 {/* Header */}
                 <Row>
-                    <Header onTokenChange={this.props.updateTokenState} onUserChange={this.props.updateUserState} state={this.props.state}/>
+                    <Header onTokenChange={this.props.onTokenChange} onUserChange={this.props.onUserChange} state={this.props.state}/>
                 </Row>
 
                 {/* Pages */}
