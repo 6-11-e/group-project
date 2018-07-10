@@ -9,7 +9,6 @@ const alignButton = {
     display: 'inline-block',
     float: 'none',
     borderRadius: '0%',
-    width: '10%',
   }
   
 
@@ -111,7 +110,7 @@ class MyJumbotron extends Component {
         <div>
         <Row >
         <Col xs={12} md={4} style={displayBlocks}>
-            <a href='#'>
+            <a>
             <div style={divOne} className='divImageButton'>
             <h2 style={divText}>Shop Pathfinder</h2>
             </div>

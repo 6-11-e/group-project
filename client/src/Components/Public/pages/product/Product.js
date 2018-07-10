@@ -16,9 +16,9 @@ const primaryProduct = {
     padding: '50px'
 }
 
-const noContain = {
-    width: '100%'
-}
+// const noContain = {
+//     width: '100%'
+// }
 
 const productFeature = {
     height: '60vh',
@@ -36,10 +36,10 @@ const relatedProducts = {
     marginBottom: '25px'
 }
 
-const relatedProductsBg = {
-    backgroundColor: 'whitesmoke',
-    width: '100%'
-}
+// const relatedProductsBg = {
+//     backgroundColor: 'whitesmoke',
+//     width: '100%'
+// }
 
 class MyProduct extends Component {
     render() {

@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 // import { render } from 'react-dom';
-import Header from './Components/Header';
-import Footer from './Components/Footer';
-import Gallery from './Components/Gallery';
-import MyJumbotron from './Components/Jumbotron';
-import Profile from './Components/Profile';
-import {Route, BrowserRouter, Switch, Link} from 'react-router-dom';
+// import Header from './Components/Header';
+// import Footer from './Components/Footer';
+// import Gallery from './Components/Public/pages/gallery/Gallery';
+// import MyJumbotron from './Components/Jumbotron';
+// import Profile from './Components/Profile';
+import {Route, Switch} from 'react-router-dom';
 //import logo from './logo.svg';
 import './App.css';
-import MyProduct from './Components/Product';
-import Dashboard from './Components/Dashboard';
+// import MyProduct from './Components/Product';
+import Dashboard from './Components/Admin/Dashboard';
+import Public from './Components/Public/Public';
 
 class App extends Component {
   //Testing Component
@@ -68,14 +69,19 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Header onTokenChange={this.updateTokenState} onUserChange={this.updateUserState} state={this.state}/>
+        {/* <Header onTokenChange={this.updateTokenState} onUserChange={this.updateUserState} state={this.state}/>
         <Route path='/' exact component={MyJumbotron} />
         <Route path='/gallery' component={Gallery} />
         <Route path='/profile' component={Profile} />
-        <Route path='/api/store/product/' component={MyProduct} />
-        <Route path='/admin' component={Dashboard} />
+        <Route path='/api/store/product/' component={MyProduct} /> */}
+        <Switch>
+          <Route path='/admin' render={(props) => <Dashboard {...props} state={this.state}/>}/>
+          <Route path='/' render={(props) => <Public {...props} onTokenChange={this.updateTokenState} onUserChange={this.updateUserState} state={this.state}/>}/>
+        </Switch>
+        
+        {/* <Route path='/admin' component={Dashboard} state={this.state}/> */}
         {/* <p>{this.state.token?this.state.token:''}</p> */}
-        <Footer />
+        {/* <Footer /> */}
       </div>
     );
   }

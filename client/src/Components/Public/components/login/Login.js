@@ -1,22 +1,27 @@
 import React, { Component } from 'react';
-import { Navbar } from 'react-bootstrap';
+// import { Navbar } from 'react-bootstrap';
 import { FormGroup } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import { Modal } from 'react-bootstrap';
 import { FormControl } from 'react-bootstrap';
 // import SignupModal from './Signup';
 
-const alignButton = {
-    display: 'inline-block',
-    float: 'none',
-    borderRadius: '0%',
-    backgroundColor: '#3a3a3a',
-    border: 'none'
-  }
+// const alignButton = {
+//     display: 'inline-block',
+//     float: 'none',
+//     borderRadius: '0%',
+//     backgroundColor: '#3a3a3a',
+//     border: 'none'
+//   }
 
 const alignNav = {
     display: 'inline-block',
     float: 'none',
+}
+
+const modalStyle = {
+    height: '100px',
+    display: 'inline-block'
 }
   
 
@@ -67,6 +72,7 @@ class Login extends Component {
         }).then(response => response.json())
         .then(response => {
             if(response.status === "ok" && response.data.token){
+                console.log(this.props)
                 //Successful login! We should have a token, and some userdata.
                 this.props.onTokenChange(response.data.token);
                 this.props.onUserChange(response.data.user);

@@ -1,4 +1,5 @@
 import React from 'react';
+import ViewProducts from './Admin/ViewProducts';
 
 const displayFlex = {
     display: 'flex',
@@ -31,7 +32,7 @@ class Dashboard extends React.Component {
                 </ul>
             </div>
             <div style={mainInfo}>
-                <h1>Info</h1>
+                <ViewProducts />
             </div>
         </div>
         )

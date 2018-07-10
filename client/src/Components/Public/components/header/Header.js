@@ -1,14 +1,13 @@
 import React, { Component } from "react";
-import { Navbar, FormGroup, FormControl, Button, Collapse, Toggle } from 'react-bootstrap';
+import { Navbar, Button} from 'react-bootstrap';
 import { Nav } from 'react-bootstrap';
 import { NavItem } from 'react-bootstrap';
 import { NavDropdown } from 'react-bootstrap';
 // import { MenuItem } from 'react-bootstrap'; //Commented out to prevent console.warns
 import { Link } from 'react-router-dom'; //Commented out to prevent console.warns
 // import { Collapse } from 'react-bootstrap'; //Commented out to prevent console.warns
-import Login from './Login';
-import SignupModal from "./Signup"; //Commented out to prevent console.warns
-
+import Login from '../login/Login';
+import SignupModal from "../signup/Signup"; //Commented out to prevent console.warns
 //Commented out sections are waiting on routing
 
 const alignNav = {
@@ -25,15 +24,17 @@ const alignButton = {
 }
 
 
-const noContain = {
-  width: '100%'
-}
+// const noContain = {
+//   width: '100%'
+// }
 
 const primaryNav = {
     marginBottom: '0px',
     // position: 'fixed',
     width: '100%',
-    borderRadius: '0%'
+    borderRadius: '0%',
+    paddingRight: '30px',
+    paddingLeft: '30px'
 }
 
 const mySearch = {
@@ -54,9 +55,9 @@ const navItemStyle = {
     marginBottom: '15px'
 }
 
-const searchBar = {
-  left: '100px'
-}
+// const searchBar = {
+//   left: '100px'
+// }
 
 const myBrand = {
   width: '100px',
@@ -75,11 +76,12 @@ class Header extends Component {
     //   super(props)
     // }
     render() {
+        console.log('HEader props',this.props)
         return ( 
 
     //Primary Nav
   <div>
-    <Navbar style={primaryNav} inverse collapseOnSelect>
+    <Navbar style={primaryNav} inverse collapseOnSelect fluid>
     <header>
       <Navbar.Header>
         <Navbar.Brand >
@@ -97,13 +99,13 @@ class Header extends Component {
         
         {this.props.state.isLoggedIn === false ? <SignupModal style={alignNav}/> : ''}
         <NavDropdown eventKey={3} title="Options" id="basic-nav-dropdown" style={alignNav}>
-        <NavItem>
+        <NavItem componentClass="span">
           <Link to="/gallery" style={navItemStyle}>Gallery</Link>
         </NavItem>
-        <NavItem>
+        <NavItem componentClass="span">
           <Link to="/profile" style={navItemStyle}>My Profile</Link>
         </NavItem>
-        <NavItem>
+        <NavItem componentClass="span">
           <Button bsStyle="primary" bsSize="small" style={alignButton}>Log Out</Button>
         </NavItem>
         </NavDropdown>
@@ -111,7 +113,7 @@ class Header extends Component {
       </header>
       </Navbar>
 
-  <Navbar style={secondaryNav} inverse collapseOnSelect>
+  <Navbar style={secondaryNav} inverse className="hideMobile">
     <header>
       <Nav style={alignNav}>
           <NavItem>
