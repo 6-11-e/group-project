@@ -36,15 +36,15 @@ app.use( (req, res, next) => {
 app.use('/api', require('./controllers'))
 
 //Errors
-app.use( (req, res, next) => {
-    console.error('Error 404: ', req.originalUrl);
-    let msg = {
-        status: 'error',
-        message: 'Error 404 - Resource was not found'
-    };
-    res.type('json')
-    res.status(404).json(msg);
-})
+// app.use( (req, res, next) => {
+//     console.error('Error 404: ', req.originalUrl);
+//     let msg = {
+//         status: 'error',
+//         message: 'Error 404 - Resource was not found'
+//     };
+//     res.type('json')
+//     res.status(404).json(msg);
+// })
 
 // PRODUCTION ONLY
 app.get('*', (req, res) => {
