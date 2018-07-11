@@ -4,6 +4,7 @@ var express         = require('express'),
     cookieParser    = require('cookie-parser'),
     bodyParser      = require('body-parser'),
     passport        = require('passport'),
+    cors            = require('cors'),
     app             = express();
 
 
@@ -16,7 +17,7 @@ app.use((req, res, next) => {
 })
 
 app.use(passport.initialize());
-
+app.use(cors())
 // PRODUCTION ONLY
 app.use(express.static(path.join(__dirname, 'client/build')));
 

@@ -12,6 +12,8 @@ import './App.css';
 import Dashboard from './Components/Admin/Dashboard';
 import Public from './Components/Public/Public';
 
+
+
 class App extends Component {
   //Testing Component
 
@@ -66,8 +68,10 @@ class App extends Component {
       }
     })
   }
+  
   render() {
     return (
+
       <div className="App">
         {/* <Header onTokenChange={this.updateTokenState} onUserChange={this.updateUserState} state={this.state}/>
         <Route path='/' exact component={MyJumbotron} />
@@ -75,7 +79,7 @@ class App extends Component {
         <Route path='/profile' component={Profile} />
         <Route path='/api/store/product/' component={MyProduct} /> */}
         <Switch>
-          <Route path='/admin' render={(props) => <Dashboard {...props} state={this.state}/>}/>
+          <Route path='/admin' render={(props) => <Dashboard {...props} state={this.state} token={this.state.token} onTokenChange={this.updateTokenState} onUserChange={this.updateUserState}/>}/>
           <Route path='/' render={(props) => <Public {...props} onTokenChange={this.updateTokenState} onUserChange={this.updateUserState} state={this.state}/>}/>
         </Switch>
         
@@ -83,6 +87,8 @@ class App extends Component {
         {/* <p>{this.state.token?this.state.token:''}</p> */}
         {/* <Footer /> */}
       </div>
+
+      
     );
   }
 }

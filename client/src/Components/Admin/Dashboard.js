@@ -14,9 +14,24 @@ var styles = {
 }
 
 class Dashboard extends React.Component {
-       
+    state={
+        token: this.props.token
+    }
+    
+    
+    componentWillMount(){
+        // this.setState({token: this.props.state.token})
+        console.log('WillMount', this.props)
+    }
+    componentDidMount(){
+        console.log('DidMount', this.state)
+    }
+    // token = this.props.state.token;
     render(){
-
+        const {token} = this.state
+        console.log('Dashboard.js',this.props.state.token)
+        // let token = this.props.state.token;
+        // const token = this.props.state.token;
         return (
             <div>
                 <Topbar username={this.props.state.user.firstName}/>
@@ -27,7 +42,8 @@ class Dashboard extends React.Component {
                         </Col>{/* /Sidebar */}
                         <Col xs={12} md={10}>
                             <div className="pageDisplay">
-                                <Route exact path='/admin' component={Home} />
+                                
+                                <Route exact path='/admin' render={(props) => <Home {...props} token={this.props.token} />} />
                                 <Route path='/admin/users' component={Users} />
                             </div>
                         </Col>{/* /Page */}
