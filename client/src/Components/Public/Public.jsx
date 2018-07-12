@@ -1,7 +1,11 @@
 import React from 'react';
 import {Route} from 'react-router-dom';
+import{
+    Container as Grid,
+    Row
+} from 'reactstrap'
 
-import {Grid, Col, Row} from 'react-bootstrap';
+// import {Grid, Col, Row} from 'react-bootstrap';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 
@@ -16,10 +20,12 @@ class Public extends React.Component {
     render() {
         console.log('Public.jsx Props',this.props)
         return (
+            <div>
+            <Header onTokenChange={this.props.onTokenChange} onUserChange={this.props.onUserChange} state={this.props.state}/>
             <Grid fluid>
                 {/* Header */}
                 <Row>
-                    <Header onTokenChange={this.props.onTokenChange} onUserChange={this.props.onUserChange} state={this.props.state}/>
+                    
                 </Row>
 
                 {/* Pages */}
@@ -34,6 +40,7 @@ class Public extends React.Component {
                     <Footer />
                 </Row>
             </Grid>
+            </div>
         )
     }
 }

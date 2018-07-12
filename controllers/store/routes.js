@@ -65,7 +65,7 @@ router.get('/products/:perPage?/:offset?', (req, res) => {
     var offset = (req.params.offset <= 0 ? 0 : req.params.offset-1) * qty;
     console.log(offset);
     //Get products from db
-    Products.find({}).skip(offset).limit(qty).exec( (err, products) => {
+    Products.find({}).skip(offset).limit(qty).lean().exec( (err, products) => {
         if(err) console.log(err)
         let msg = {
             status: 'ok',
