@@ -27,7 +27,7 @@ class Public extends React.Component {
                     <Route exact path='/' component={MyJumbotron}/>
                     <Route path="/gallery" component={Gallery}/>{/* Maybe products so url reads 'example.com/products/'. Gallery does have a nice ring though.*/}
                     <Route path="/profile" component={Profile} />
-                    <Route path="/product" component={MyProduct} /> {/* */}
+                    <Route path="/store/product/:id" component={MyProduct} /> {/* */}
                 </Row>
                 {/* Footer */}
                 <Row>

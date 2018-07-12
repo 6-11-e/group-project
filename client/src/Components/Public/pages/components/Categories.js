@@ -18,12 +18,14 @@ class Categories extends React.Component {
         };
     }
 
+
+
     componentDidMount() {
         fetch(api)
         .then(response => {
             return response.json();
         }).then(data => {
-            let products = data.map((category) => {
+            let products = data.map((products, id) => {
                 return (
                     <ul style={ulContainer}>
                         <li>{products.categories}</li>

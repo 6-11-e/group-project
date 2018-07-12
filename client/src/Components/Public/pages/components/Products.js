@@ -31,7 +31,7 @@ class Products extends React.Component {
             let products = data.map((products, id) => {
                 console.log(products)
                 return (
-                    <Link to={'/api/store/product/' + products._id}>
+                    <Link to={"/store/product/" + encodeURIComponent(products.name)}>
                     <div key={products._id} style={productBlocks}>
                         <h4>{products.name}</h4>
                         <p>{products.price}</p>
