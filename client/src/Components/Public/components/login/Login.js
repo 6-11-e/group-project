@@ -14,6 +14,13 @@ import { FormControl } from 'react-bootstrap';
 //     border: 'none'
 //   }
 
+const modalContainer = {
+    position: 'absolute',
+    right: '140px',
+    backgroundColor: 'white',
+    width: '40%'
+}
+
 const alignNav = {
     display: 'inline-block',
     float: 'none',
@@ -92,12 +99,12 @@ class Login extends Component {
                     Log In! <i className="fal fa-sign-in"></i>
                 </Button>
                 <Modal show={this.state.show} onHide={this.handleClose}>
+                    <div style={modalContainer}>
                     <Modal.Header closeButton>
                         <Modal.Title>Log In</Modal.Title>
                     </Modal.Header>
                     <form onSubmit={(e) => this.handleSubmit(e)}>
-                    <Modal.Body>
-                        
+                    <Modal.Body>    
                             <FormGroup style={alignNav}>
                                 <FormControl type="text" name="email" placeholder="Email"/>&nbsp;
                                 <FormControl type="password" name="password" placeholder="Password"/>
@@ -109,6 +116,7 @@ class Login extends Component {
                         <Button type="submit" style={alignNav}>Log In</Button>
                     </Modal.Footer>
                     </form>
+                    </div>
                 </Modal>
             </div>
         )

@@ -28,7 +28,7 @@ import Categories from '../components/Categories'
 // }
 
 const navContainer = {
-    width: '15%',
+    width: '25%',
     // position: 'fixed',
     marginTop: '40px',
     listStyleType: 'none',
@@ -71,7 +71,8 @@ class Gallery extends Component {
                 <div>
                 </div>
                 <div style={navContainer} className="hideMobile">
-                    <ul style={ulContainer}>
+                    <Categories />
+                    {/* <ul style={ulContainer}>
                         <li><a>SubCategory</a></li>
                         <li><a>SubCategory</a></li>
                         <li><a>SubCategory</a></li>
@@ -82,7 +83,7 @@ class Gallery extends Component {
                         <li><a>SubCategory</a></li>
                         <li><a>SubCategory</a></li>
                         <li><a>SubCategory</a></li>
-                    </ul>
+                    </ul> */}
                 </div>
             {/* <Grid style={noContain}>
             <Row> */}

@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import { Modal } from 'react-bootstrap';
 import { FormControl } from 'react-bootstrap';
 import { FormGroup } from 'react-bootstrap';
+import './Signup.css'
 
 const alignButton = {
     display: 'inline-block',
