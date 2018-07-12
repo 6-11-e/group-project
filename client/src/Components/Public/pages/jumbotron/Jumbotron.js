@@ -20,7 +20,9 @@ const jumboStyle = {
     backgroundPosition: 'right',
     height: '50vh',
     marginTop: '0px',
-    marginBottom: '10px'
+    marginBottom: '10px',
+    borderRadius: '0%'
+
 }
 
 const jumboStyle2 = {
@@ -31,7 +33,8 @@ const jumboStyle2 = {
     backgroundRepeat: 'no-repeat',
     marginTop: '10px',
     marginBottom: '10px',
-    height: '25vh'
+    height: '25vh',
+    borderRadius: '0%'
 }
 
 const whiteText = {

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col, Button } from 'react-bootstrap';
+import { POINT_CONVERSION_COMPRESSED } from 'constants';
+import Products from '../components/Products';
 
 const mainDiv = {
     width: '100%',
@@ -41,7 +43,51 @@ const relatedProducts = {
 //     width: '100%'
 // }
 
-class MyProduct extends Component {
+
+// function getQueryVariable(variable)
+// {
+//        var query = window.location.search.substring(1);
+//        var vars = query.split("&");
+//        for (var i=0;i<vars.length;i++) {
+//                var pair = vars[i].split("=");
+//                if(pair[0] == variable){return pair[1];}
+//        }
+//        return(false);
+// }
+
+// getQueryVariable("id");
+
+// console.log(vars);
+
+class MyProduct extends React.Component {
+    constructor(props){
+        super(props);
+        console.log(this.props)
+        this.state = {
+            data: {
+
+            }
+        }
+    }
+
+    componentDidMount() {
+        fetch('/api/store/product/name=' + this.props.match.params.id)
+        .then(response => response.json())
+        .then(response => {
+            console.log(response)
+            let data = this.state.data;
+            data.product = response.data.product;
+            let product = () => {
+                return (
+                    <h2>{data.products.name}</h2>
+                )
+            }
+            this.setState({product})
+            console.log(product)
+            console.log(data.product.name)
+        })
+    }
+
     render() {
         return (
             <div style={mainDiv}>
@@ -52,36 +98,35 @@ class MyProduct extends Component {
                     </div>
                     </Col>
                     <Col md={6}>
-                    <div style={primaryProduct}>
-                        <h2>Product Name</h2>
-                        <p>This is a description of the product</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vestibulum arcu quis consectetur placerat. Pellentesque interdum massa ut neque consectetur, ut tempus enim condimentum. Curabitur a congue erat, in blandit urna. Pellentesque cursus odio vitae lorem consequat, dapibus malesuada sem molestie. </p>
-                        <label>Qty</label>
-                        <input type="number" name="quantity" /><br />
-                        <Button>Add to cart</Button>
-                    </div>
-                    </Col>
-                    </Row>
-                    <Row>
-                    <h3>Related Products</h3>
-                    <Col md={4}>
-                        <div style={relatedProducts}>
+                        <div style={primaryProduct}>
+                            {this.state.product}
+                            {/* <h2></h2>
+                            <label>Qty</label>
+                            <input type="number" name="quantity" /><br />
+                            <Button>Add to cart</Button> */}
+                        </div>
+                     </Col>
+                     </Row>
+                     <Row>
+                     <h3>Related Products</h3>
+                     <Col md={4}>
+                         <div style={relatedProducts}>
 
-                        </div>
-                    </Col>
-                    <Col md={4}>
-                        <div style={relatedProducts}>
+                         </div>
+                     </Col>
+                     <Col md={4}>
+                         <div style={relatedProducts}>
                             
-                        </div>
-                    </Col>
-                    <Col md={4}>
-                        <div style={relatedProducts}>
+                         </div>
+                     </Col>
+                     <Col md={4}>
+                         <div style={relatedProducts}>
                             
-                        </div>
-                    </Col>
-                    </Row>
-                </Grid>
-            </div>
+                         </div>
+                     </Col>
+                     </Row>
+                 </Grid>
+             </div>
         )
     }
 }
