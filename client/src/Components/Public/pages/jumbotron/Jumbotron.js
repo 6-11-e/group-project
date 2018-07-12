@@ -94,7 +94,7 @@ const displayBlocks = {
 class MyJumbotron extends Component {
     render(){
         return (
-    <div>
+    <div style={{width: '100%'}}>
         <Jumbotron style={jumboStyle}>
             <div>
             <h1 style={whiteText}>This is the header</h1>

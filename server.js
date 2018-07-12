@@ -20,7 +20,9 @@ app.use(passport.initialize());
 app.use(cors())
 // PRODUCTION ONLY
 app.use(express.static(path.join(__dirname, 'client/build')));
+app.use('/images', express.static('images'));
 
+// Serve static images by /images[/...subfolders]/ImageName.png
 // app middleware
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))

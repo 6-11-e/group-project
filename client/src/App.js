@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
-// import { render } from 'react-dom';
-// import Header from './Components/Header';
-// import Footer from './Components/Footer';
-// import Gallery from './Components/Public/pages/gallery/Gallery';
-// import MyJumbotron from './Components/Jumbotron';
-// import Profile from './Components/Profile';
 import {Route, Switch} from 'react-router-dom';
-//import logo from './logo.svg';
+import {Provider} from 'unstated'
 import './App.css';
-// import MyProduct from './Components/Product';
-import Dashboard from './Components/Admin/Dashboard';
+//PageLoaders
+import Admin from './Components/Admin/Pages/Admin';
 import Public from './Components/Public/Public';
 
 
@@ -53,20 +47,20 @@ class App extends Component {
       this.updateUserState(JSON.parse(sessionStorage.getItem('user')));
     }
     //Perform fetch inside this method
-    fetch('/api/version')
-    .then(res => {
-      console.log(res);
-      return res.json()})
-    .then(res => {
-      //API will return 'ok' if the request was successful.
-      //For errors (both logic and http (ie 404) status will be 'error' and 'message' will have text to describe it)
-      if(res.status !== 'ok') {
-        //If there is an error, we will log it
-        console.log(res.message);
-      } else {
-        this.setState(res.data)
-      }
-    })
+    // fetch('/api/version')
+    // .then(res => {
+    //   console.log(res);
+    //   return res.json()})
+    // .then(res => {
+    //   //API will return 'ok' if the request was successful.
+    //   //For errors (both logic and http (ie 404) status will be 'error' and 'message' will have text to describe it)
+    //   if(res.status !== 'ok') {
+    //     //If there is an error, we will log it
+    //     console.log(res.message);
+    //   } else {
+    //     this.setState(res.data)
+    //   }
+    // })
   }
   
   render() {
@@ -78,11 +72,12 @@ class App extends Component {
         <Route path='/gallery' component={Gallery} />
         <Route path='/profile' component={Profile} />
         <Route path='/api/store/product/' component={MyProduct} /> */}
+        <Provider>
         <Switch>
-          <Route path='/admin' render={(props) => <Dashboard {...props} state={this.state} token={this.state.token} onTokenChange={this.updateTokenState} onUserChange={this.updateUserState}/>}/>
+          <Route path='/admin' component={Admin}/>
           <Route path='/' render={(props) => <Public {...props} onTokenChange={this.updateTokenState} onUserChange={this.updateUserState} state={this.state}/>}/>
         </Switch>
-        
+        </Provider>
         {/* <Route path='/admin' component={Dashboard} state={this.state}/> */}
         {/* <p>{this.state.token?this.state.token:''}</p> */}
         {/* <Footer /> */}

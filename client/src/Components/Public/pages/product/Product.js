@@ -62,8 +62,9 @@ class MyProduct extends Component {
                     </div>
                     </Col>
                     </Row>
-                    <Row>
                     <h3>Related Products</h3>
+                    <Row>
+                    
                     <Col md={4}>
                         <div style={relatedProducts}>
 

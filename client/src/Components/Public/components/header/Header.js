@@ -3,7 +3,7 @@ import { Navbar, Button} from 'react-bootstrap';
 import { Nav } from 'react-bootstrap';
 import { NavItem } from 'react-bootstrap';
 import { NavDropdown } from 'react-bootstrap';
-// import { MenuItem } from 'react-bootstrap'; //Commented out to prevent console.warns
+import { MenuItem } from 'react-bootstrap'; //Commented out to prevent console.warns
 import { Link } from 'react-router-dom'; //Commented out to prevent console.warns
 // import { Collapse } from 'react-bootstrap'; //Commented out to prevent console.warns
 import Login from '../login/Login';
@@ -80,9 +80,9 @@ class Header extends Component {
         return ( 
 
     //Primary Nav
-  <div>
+  <div style={{width: '100%'}}>
     <Navbar style={primaryNav} inverse collapseOnSelect fluid>
-    <header>
+    <header style={{width: '100%'}}>
       <Navbar.Header>
         <Navbar.Brand >
           {/* E-Commerce */}
@@ -99,9 +99,9 @@ class Header extends Component {
         
         {this.props.state.isLoggedIn === false ? <SignupModal style={alignNav}/> : ''}
         <NavDropdown eventKey={3} title="Options" id="basic-nav-dropdown" style={alignNav}>
-        <NavItem componentClass="span">
+        <MenuItem componentClass="span">
           <Link to="/gallery" style={navItemStyle}>Gallery</Link>
-        </NavItem>
+        </MenuItem>
         <NavItem componentClass="span">
           <Link to="/profile" style={navItemStyle}>My Profile</Link>
         </NavItem>
