@@ -28,13 +28,14 @@ class Products extends React.Component {
         .then(response => {
             return response.json();
         }).then(data => {
-            let products = data.map((products, id) => {
-                console.log(products)
+            // console.log(data.data)
+            let products = data.data.map((product, id) => {
+                // console.log(products)
                 return (
-                    <Link to={"/store/product/" + encodeURIComponent(products.name)}>
-                    <div key={products._id} style={productBlocks}>
-                        <h4>{products.name}</h4>
-                        <p>{products.price}</p>
+                    <Link to={"/store/product/" + encodeURIComponent(product.name)} key={id}>
+                    <div key={product._id} style={productBlocks}>
+                        <h4>{product.name}</h4>
+                        <p>{product.price}</p>
                     </div>
                     </Link>
                 )

@@ -8,13 +8,13 @@ const ulContainer = {
     paddingRight: '30px'
 }
 
-let api = '/api/store/products/'
+let api = '/api/store/categories/public'
 
 class Categories extends React.Component {
     constructor() {
         super();
         this.state = {
-            products: [],
+            categories: [],
         };
     }
 
@@ -24,22 +24,25 @@ class Categories extends React.Component {
         fetch(api)
         .then(response => {
             return response.json();
-        }).then(data => {
-            let products = data.map((products, id) => {
+        }).then(response => {
+            console.log('cats', response.data)
+            let categories = response.data.categories.map((category, id) => {
                 return (
-                    <ul style={ulContainer}>
-                        <li>{products.categories}</li>
-                    </ul>
+                    // <ul style={ulContainer}>
+                        <li key={id}>{category.name}</li>
+                    // </ul>
                 )
             })
-            this.setState({products})
+            this.setState({categories})
         })
     }
 
     render() {
         return (
             <div>
-                {this.state.products}
+                <ul style={ulContainer}>
+                    {this.state.categories}
+                </ul>
             </div>
         )
     }

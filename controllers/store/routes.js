@@ -3,6 +3,7 @@ var express     = require('express'),
     Products    = require('../../models/store/product'),
     Users       = require('../../models/auth/user'),
     Orders      = require('../../models/store/order'),
+    Categories  = require('../../models/store/category'),
     stripe      = require('stripe')(config.payments.processors.stripe.secret),
     ObjectId    = require('mongoose').Types.ObjectId,
     passport    = require('passport'),
@@ -41,15 +42,7 @@ router.get('/products/deleted', protectRoute, roleCheck('Admin'), (req, res) => 
 })
 
 router.get('/products/:perPage?/:offset?', (req, res) => {
-    // var string = "/products";
-    // if(req.params.perPage){
-    //     string += '/' + req.params.perPage;
-    // }
-    // if(req.params.offset) {
-    //     string+= '/' + req.params.offset;
-    // }
-    // res.status(200).json(string)
-    
+        
     //Ensure that any and all params are numbers or not set.
     if(req.params){
         for( param in req.params ){
@@ -72,14 +65,112 @@ router.get('/products/:perPage?/:offset?', (req, res) => {
     var offset = (req.params.offset <= 0 ? 0 : req.params.offset-1) * qty;
     console.log(offset);
     //Get products from db
-    Products.find({}).skip(offset).limit(qty).exec( (err, products) => {
+    Products.find({}).skip(offset).limit(qty).lean().exec( (err, products) => {
         if(err) console.log(err)
-        res.status(200).json(products)
+        let msg = {
+            status: 'ok',
+            data: products
+        }
+        res.status(200).json(msg)
     })
     //return result.
     
 });
 
+router.get('/categories/:fpOnly?', (req, res) => {
+    var qry = {}
+    if(req.params.fpOnly == 'public') {
+        qry = {showFP: true};
+    } else if(req.params.fpOnly == 'hidden') {
+        qry = {showFP: false}
+    }
+    Categories.find(qry).lean().exec( (err, cats) => {
+        if(err) console.log(err);
+        let msg = {
+            status: 'ok',
+            data: {
+                categories: cats
+            }
+        }
+        res.status(200).json(msg);
+    })
+})
+
+router.get('/category/:id', (req, res) => {
+    var field = req.params.id.match(/.*?(?==|$)/i)[0];
+    var value = req.params.id.match(/[^=]*$/)[0];
+    var qry = {};
+
+    if(field == "id"){
+        qry['_id'] = new ObjectId(value)
+    } else if (field == "name"){
+        try {
+            value = decodeURIComponent(value);
+        } catch(err) {
+            console.log('Cannot decode name: ' + value)
+            let msg = {
+                status: 'error',
+                message: 'Unable to parse name. May not be encoded properly'
+            }
+            return res.status(409).json(msg);
+        }
+        qry['name'] = value;
+    } else {
+        //param is neither 'id' or 'name'
+        let msg = {
+            status: 'error',
+            message: 'You need to supply a valid identifier. If using product\'s ID, api string should end in /id=[product.id]. For name, instead use /name=[product.name] **Make sure the name is encoded via encodeURIComponent()'
+        }
+        return res.status(409).json(msg)
+    }
+    Categories.findOne({})
+    .where(qry)
+    .lean()
+    .exec( (err, cat) => {
+        if(err) console.log(err);
+        let msg = {
+            status: 'ok',
+            data: {
+                category: cat
+            }
+        }
+        return res.status(200).json(msg);
+    })
+})
+router.post('/category/edit/:id', (req, res) => {
+    if(!req.params.id){
+        let msg = {
+            status: 'error',
+            message: 'No ID was supplied with request'
+        }
+        return res.status(409).json(msg)
+    }
+    //Category should be validated from validator middleware
+    let data = req.body;
+    if(data.showFP == "on"){
+        data.showFP = true;
+    } else if (data.showFP === "off"){
+        data.showFP = false;
+    }
+    Categories.findByIdAndUpdate(req.params.id, data).exec( (err) => {
+        if(err){
+            console.log(err);
+            let msg = {
+                status: 'error',
+                message: 'Error updating category',
+                data: {
+                    error: 'Error: ' + err
+                }
+            }
+            return res.status(500).json(msg);
+        }
+        let msg = {
+            status: 'ok',
+            message: 'Category updated!'
+        }
+        return res.status(200).json(msg)
+    })
+})
 router.get('/product/:id?', (req, res) => {
     //If no productID available, redirect and return /products
     if(!req.params.id) {
@@ -132,51 +223,6 @@ router.get('/product/:id?', (req, res) => {
     
 })
 
-// router.post('/product/:id?', (req, res) => {
-//     //need validator class!
-//     var editedProduct = {
-//         name: req.body.name, //Should be validator.product.name(...) or validator.string(...)
-//         price: req.body.price,
-//         categories: (req.body.categories?JSON.parse(req.body.categories):[]),
-//         description: req.body.description,
-//         inStock: (req.body.inStock ? parseInt(req.body.inStock):0)
-//     };
-
-//     //Stripe Product info
-//     let stripeData = {
-//         name: editedProduct.name,
-//         type: 'good',
-//         //Other data as needed.
-//     }
-    
-//     if(req.params.id){
-//         // Editing existing product
-//         Products.findById(req.params.id, (err, product) => {
-//             if (err) console.log(err);
-//             stripe.products.update(product.stripeData.id, stripeData).then(updatedStripe => {
-//                 product.stripeData = updatedStripe;
-
-//                 Products.findByIdAndUpdate( req.params.id, editedProduct, (err) => {
-//                     if (err) return res.json({status: "error", message: "Unable to save data for product! Try again\n", err})
-//                     res.status(200).json({status: 'ok', message: 'Successfully edited ' + req.body.name});
-//                 })
-//             })
-//         })
-        
-//     } else {
-//         //New product
-//         stripe.products.create(stripeData).then( result => {
-//             editedProduct.stripeDat = result;
-//         })
-//         var newProduct = new Products(editedProduct);
-
-//         newProduct.save( (err) => {
-//             if (err) return res.json({status: "error", message: "Unable to save new product!\n",err})
-//             res.status(200).json({status: "ok", message: "Successfully added new product " + req.body.name});
-//         });
-//     }
-    
-// })
 router.post('/product/new', (req, res) => {
     //Get formData
     var product = {
@@ -306,57 +352,6 @@ router.post('/product/edit/:id', (req, res) => {
     })
 })
 
-// router.delete('/product/:id/:hard?', (req, res) => {
-//     if (!req.params.id) {
-//         //return error, no id specified
-//     } else {
-//         try {
-//             var productID = new ObjectId(req.params.id);
-//         } catch(error) {
-//             //Invalid string, return error
-//         }
-
-//         if(req.params.hard === "true") {
-//             //hard delete, remove from DB
-//             console.log('Hard delete for product ' + productID + ' requested. Check permission to allow hard deletes and continue');
-//             Products.findByIdAndRemove(productID, (err, product) => {
-//                 if(err) console.log(error);
-//                 if(product == null) {
-//                     let msg = {
-//                         status: "error",
-//                         message: `No product found with ID: ${req.params.id}`
-//                     }
-//                     return res.status(409).json(msg);
-//                 }
-//                 let msg = {
-//                     status: "ok",
-//                     message: `Product "${product.name}" (${product._id}) successfully deleted (hard delete)`
-//                 }
-//                 res.status(200).json(msg);
-//             })
-//         } else {
-//             console.log('Deleting product: ' + productID + ' (soft delete)');
-//             Products.findByIdAndUpdate(productID, {$set: {deleted: true}}, (err, product) => {
-//                 if (err) {
-//                     console.log('Error: When deleting product: ' + productID + '.\n'+err);
-//                     let msg = {
-//                         status: "error",
-//                         message: `Product unable to be deleted. Error: ${err}`
-//                     }
-//                     res.status(409).json(msg)
-//                 }
-//                 console.log('Deleted product ' + product.name + '. (Soft Deleted)');
-//                 let msg = {
-//                     status: "ok",
-//                     message: `Product "${product.name}" (${product._id}) successfully deleted (soft delete).`
-//                 }
-//                 res.status(200).json(msg);
-//             })
-//         }
-//     }
-
-// })
-
 router.delete('/product/:id/:hard?', protectRoute, roleCheck('Admin'), (req, res) => {
     Products.findById(req.params.id, (err, product) => {
         if (req.params.hard && req.params.hard === "true") {
@@ -467,97 +462,6 @@ router.get('/testPay', protectRoute, (req, res) => {
 router.get('/testRole', protectRoute, roleCheck('Customer'), (req, res) => {
     console.log('Success!');
 })
-
-// router.post('/checkout', (req, res) => {
-//     //Ensure all required fields are present
-//     var data = req.body;
-//     //Need cart object, user object, addresses object, payment object
-//     let reqFields = [
-//         'cart',
-//         'user',
-//         'addresses',
-//         'payment'
-//     ];
-//     let missingFields = {
-//         message: 'Missing Fields: ',
-//         fields: []
-//     }
-//     let orderErrors = [];
-//     for (field in reqFields) {
-//         if( !data.hasOwnProperty(field)) {
-//             missingFields.fields.push(reqFields[field])
-//         }
-//     }
-
-//     if(missingFields.fields.length != 0){
-//         //Missing data, return error
-//         let msg = {
-//             status: "error",
-//             message: 'Unable to proceed with checkout due to:',
-//             data: {
-//                 error: missingFields
-//             }
-//         }
-//         return res.status(200).json(msg);
-//     } else {
-//         //All data is accounted for. Should process additional validation
-
-//         //For brevity, validator not present. Proceeding with test
-//         let order = {
-//             cart: verifyCart(data.cart),
-//             userInfo: verifyUser(data.user),
-//             addresses: verifyAddresses(data.addresses),
-//             payment: verifyPaymentDetails(data.payment)
-//         }
-//         //Check for errors
-//         for (field in reqFields) {
-//             if(order[field].errors.length != 0){
-//                 orderErrors.push({type: field, errors: order[field].errors})
-//             }
-//         }
-
-//         //Ensure total supplied from cart is equal to verified cart total
-//         if (data.cart.total != order.cart.total){
-//             //Price changed somewhere. 
-//             orderErrors.push({type: 'Order Total Mismatch', errors: [{error: 'Total order amount is different from expected value', details: `Expected total $${data.cart.total}, got $${order.cart.total}. Please verify cart using API endpoint.`}]});
-//         }
-
-//         if(orderErrors.length != 0){
-//             let msg = {
-//                 status: "error",
-//                 message: 'Unable to proceed with checkout due to errors.',
-//                 data: {
-//                     errors: orderErrors
-//                 }
-//             }
-//             return res.status(200).json(msg)
-//         }
-        
-//         //Process Payment
-//         let charge = {
-//             amount: order.cart.total * 100,
-//             currency: config.payments.options.currency,
-//             source: order.payment,
-//             receipt_email: order.userInfo.email,
-//             statement_descriptor: config.payments.options.statementInfo,
-//             customer: order.userInfo.customerData
-//         }
-
-//         let result = processPayment(charge);
-
-//         //result should be an object
-
-//         //check if result is success or fail
-
-//         //On success, create order info, save, return success with info
-
-//         //On error, return error with info
-
-
-//     }
-    
-
-// })
 
 router.post('/checkout', protectRoute, (req, res) => {
     let data = req.body;
@@ -695,99 +599,5 @@ function verifyCart(cart) {
     
 }
 
-// function verifyCart(cartData) {
-//     //Searches cart data and ensures all products are available and valid
-//     let cart = {
-//         products: [],
-//         errors: [],
-//         total: 0
-//     };
-
-//     for (product in cartData.products) {
-//         try {
-//             var productID = new ObjectId(product.id);
-//         } catch(err) {
-//             console.log('Error: ', err);
-//             cart.errors.push({message: 'Invalid product ID: '+ product.id, details: err});
-//         }
-//         Products.findById(productID, (err, productData) => {
-//             if(err) {
-//                 console.log(err);
-//                 cart.errors.push({
-//                     message: 'Unable to get product data for id: ' + productID,
-//                     details: err
-//                 });
-//             } else {
-//                 if(parseInt(product.qty) <= productData.inStock) {
-//                     let newProd = {
-//                         id: productData._id,
-//                         name: productData.name,
-//                         qty: product.qty
-//                     };
-//                     cart.products.push(newProd);
-//                 } else {
-//                     //Invalid amount
-//                     cart.errors.push({
-//                         message: 'Invalid qty for product id: ' + productID,
-//                         details: 'The maximum available qty is ' + productData.inStock
-//                     })
-//                 }
-                
-//             }
-//         })
-//     }
-//     //Return cart
-//     return cart;
-// }
-
-function verifyUser(userData) {
-
-    //Perform check to see if userData.customerID set, else set it!
-    Users.findById(userData._id).then( (user) => {
-        // console.log("USER FROM DB",user)
-        // console.log(user.customerID)
-        // console.log(user.hasOwnProperty('customerID'))
-        if(user && user.customerID && user.customerID !== ''){
-            // console.log(user.customerID)
-            stripe.customers.retrieve(user.customerID, (err, customer) => {
-                console.log('Got customer Data!');
-                if(err) console.log(err);
-                return customer;
-            })
-        } else {
-            // console.log(user.customerID)
-            stripe.customers.create({
-                email: user.email
-            }).then( (customer) => {
-                // if(err) console.log(err);
-                Users.findByIdAndUpdate(user._id, {customerID: customer.id}).then( (result) => {
-                    // if(err) console.log('error', err)
-                    // console.log(result)
-                    console.log('Creating customer data.')
-                    return customer;
-                })          
-            })
-        }
-    })
-    
-}
-
-function verifyAddresses(addressData) {
-    //Validate correct format, maybe even use address service to determine validity
-    return addressData;
-}
-
-function verifyPaymentDetails(paymentData) {
-    //Validate payment information to ensure everything looks good prior to processing payment.
-
-    //To ensure PCI Compliance, we want this to only accept and verify a token, meaning the card data is
-    // never saved to session, memory, or database.
-
-    //Later in checkout process, token will be sent to payment processor api to auth charge.
-}
-
-function processPayment(charge){
-     return stripe.charges.create(charge)
-}
 //Add all /store/* routes to controllers/index.js
 module.exports = router;

@@ -1,5 +1,8 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
+import {
+  Button
+} from 'reactstrap'
+// import { Button } from 'react-bootstrap';
 import { Modal } from 'react-bootstrap';
 import { FormControl } from 'react-bootstrap';
 import { FormGroup } from 'react-bootstrap';
@@ -70,7 +73,7 @@ class SignupModal extends React.Component {
     render() {  
       return (
         <div className='NavDiv'>
-          <Button bsStyle="primary" bsSize="small" onClick={this.handleShow} style={alignButton}>
+          <Button color="secondary" size="sm" onClick={this.handleShow} >
             Sign Up!
           </Button>
   

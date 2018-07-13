@@ -67,7 +67,7 @@ class Gallery extends Component {
 
     render() {
         return (
-        <div>
+        <div style={{width: '100%'}}>
                 <div>
                 </div>
                 <div style={navContainer} className="hideMobile">
