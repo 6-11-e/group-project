@@ -38,35 +38,17 @@ const relatedProducts = {
     marginBottom: '25px'
 }
 
-// const relatedProductsBg = {
-//     backgroundColor: 'whitesmoke',
-//     width: '100%'
-// }
-
-
-// function getQueryVariable(variable)
-// {
-//        var query = window.location.search.substring(1);
-//        var vars = query.split("&");
-//        for (var i=0;i<vars.length;i++) {
-//                var pair = vars[i].split("=");
-//                if(pair[0] == variable){return pair[1];}
-//        }
-//        return(false);
-// }
-
-// getQueryVariable("id");
-
-// console.log(vars);
 
 class MyProduct extends React.Component {
     constructor(props){
         super(props);
         console.log(this.props)
+        this.state = this.props.state;
         this.state = {
             data: {
 
-            }
+            },
+            done: false
         }
     }
 
@@ -76,59 +58,65 @@ class MyProduct extends React.Component {
         .then(response => {
             console.log(response)
             let data = this.state.data;
-            data.product = response.data.product;
-            let product = () => {
-                return (
-                    <h2>{data.products.name}</h2>
-                )
-            }
-            this.setState({product})
-            console.log(product)
-            console.log(data.product.name)
+            data = response.data
+            console.log(data)
+            this.setState({data})
         })
+        .then( () => this.setState({done: true}))
     }
 
     render() {
-        return (
-            <div style={mainDiv}>
-                <Grid>
-                    <Row>
-                    <Col md={6}>
-                    <div style={productFeature}>
-                    </div>
-                    </Col>
-                    <Col md={6}>
-                        <div style={primaryProduct}>
-                            {this.state.product}
-                            {/* <h2></h2>
-                            <label>Qty</label>
-                            <input type="number" name="quantity" /><br />
-                            <Button>Add to cart</Button> */}
-                        </div>
-                     </Col>
-                     </Row>
-                     <Row>
-                     <h3>Related Products</h3>
-                     <Col md={4}>
-                         <div style={relatedProducts}>
+        if(this.state.done){
+            return(
 
+                            <div style={mainDiv}>
+                            <Grid>
+                                <Row>
+                                <Col md={6}>
+                                <div style={productFeature}>
+                                </div>
+                                </Col>
+                                <Col md={6}>
+                                    <div style={primaryProduct}>
+                                        <h2>{this.state.data.product.name}</h2>
+                                        <h4>{this.state.data.product.price}</h4>
+                                        <p>{this.state.data.product.description}</p>
+                                        <label>Qty</label>
+                                        <input type="number" name="quantity" /><br />
+                                        <Button>Add to cart</Button>
+                                    </div>
+                                 </Col>
+                                 </Row>
+                                 <Row>
+                                 <h3>Related Products</h3>
+                                 <Col md={4}>
+                                     <div style={relatedProducts}>
+            
+                                     </div>
+                                 </Col>
+                                 <Col md={4}>
+                                     <div style={relatedProducts}>
+                                        
+                                     </div>
+                                 </Col>
+                                 <Col md={4}>
+                                     <div style={relatedProducts}>
+                                        
+                                     </div>
+                                 </Col>
+                                 </Row>
+                             </Grid>
                          </div>
-                     </Col>
-                     <Col md={4}>
-                         <div style={relatedProducts}>
-                            
-                         </div>
-                     </Col>
-                     <Col md={4}>
-                         <div style={relatedProducts}>
-                            
-                         </div>
-                     </Col>
-                     </Row>
-                 </Grid>
-             </div>
-        )
+            
+            )
+        } else {
+            return(
+                <div>
+                    No data yet! Style this however you want!
+                </div>
+            )
+        }
     }
-}
 
+}
 export default MyProduct;
