@@ -9,6 +9,7 @@ import{
   Button,
   UncontrolledDropdown,
   DropdownToggle,
+  DropdownMenu,
   Input,
   InputGroup,
   InputGroupAddon
@@ -134,15 +135,18 @@ class Header extends Component {
               <DropdownToggle nav caret>
                 {this.props.state.user.firstName}
               </DropdownToggle>
-              <DropdownItem componentClass="span">
-                <Link to="/gallery" style={navItemStyle}>Gallery</Link>
-              </DropdownItem>
-              <DropdownItem componentClass="span">
-                <Link to="/profile" style={navItemStyle}>My Profile</Link>
-              </DropdownItem>
-              <DropdownItem componentClass="span">
-                <Link to="/">Logout</Link>
-              </DropdownItem>
+              <DropdownMenu right>
+                <DropdownItem componentClass="span">
+                  <Link to="/gallery" style={navItemStyle}>Gallery</Link>
+                </DropdownItem>
+                <DropdownItem componentClass="span">
+                  <Link to="/profile" style={navItemStyle}>My Profile</Link>
+                </DropdownItem>
+                <DropdownItem componentClass="span">
+                  <Link to="/">Logout</Link>
+                </DropdownItem>
+              </DropdownMenu>
+              
             </UncontrolledDropdown>
           </div>
         )}

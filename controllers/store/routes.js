@@ -8,8 +8,14 @@ var express     = require('express'),
     ObjectId    = require('mongoose').Types.ObjectId,
     passport    = require('passport'),
     roleCheck   = require('../../helpers/auth/roles'),
+    // multer      = require('multer'),
+    fs          = require('fs-extra'),
+    Busboy      = require('busboy'),
+    path        = require('path'),
     router      = express.Router();
+    
 require('../../conf/passport')(passport);
+// require('connect-busboy')
 let protectRoute = passport.authenticate('jwt', {session: false});
 
 router.get('/', protectRoute, roleCheck('Admin'), (req, res) => {
@@ -95,6 +101,21 @@ router.get('/categories/:fpOnly?', (req, res) => {
         res.status(200).json(msg);
     })
 })
+router.post('/category/new', (req, res) => {
+    let newCategory = req.body;
+    newCategory = new Categories(newCategory);
+    newCategory.save((err, category) => {
+        if(err)console.log(err)
+        let msg = {
+            status: "ok",
+            message: 'Successfully created category!',
+            data: {
+                name: category.name
+            }
+        }
+        return res.status(200).json(msg);
+    } )
+})
 
 router.get('/category/:id', (req, res) => {
     var field = req.params.id.match(/.*?(?==|$)/i)[0];
@@ -171,7 +192,7 @@ router.post('/category/edit/:id', (req, res) => {
         return res.status(200).json(msg)
     })
 })
-router.get('/product/:id?', (req, res) => {
+router.get('/product/:id?/:includeCats?', (req, res) => {
     //If no productID available, redirect and return /products
     if(!req.params.id) {
         //redirect to route
@@ -211,146 +232,220 @@ router.get('/product/:id?', (req, res) => {
                 // let errorProducts = [...products].shift();
                 console.warn('ERROR: Duplicate results found for function that returns single result!\n', products, '\nReturning only first item!')
             }
-            let msg = {
-                status: "ok",
-                data: {
-                    product: products[0]
+            if(req.params.includeCats && req.params.includeCats === 'includeCats'){
+                Categories.find({}).lean().exec((err, cats) => {
+                    if(err) console.log(err)
+                    console.log(cats.length)
+                    let msg = {
+                        status: 'ok',
+                        data: {
+                            product: products[0],
+                            categories: cats
+                        }
+                    }
+                    return res.status(200).json(msg)
+                })
+            } else {
+                let msg = {
+                    status: "ok",
+                    data: {
+                        product: products[0]
+                    }
                 }
+                return res.status(200).json(msg);
             }
-            res.status(200).json(msg);
         })
     }   
     
 })
 
-router.post('/product/new', (req, res) => {
-    //Get formData
-    var product = {
-        name: req.body.name,
-        type: 'good',
-        description: req.body.description,
-        livemode: congig.payments.options.live
 
-    };
+router.post('/product/edit/:id', (req, res) =>{
+    //SHould validate the productData incoming!
 
-    stripe.products.create(product).then(resultProduct =>{
-        var sku = {
-            product: resultProduct.id,
-            currency: config.payments.options.currency,
-            inventory: {
-                type: 'finite',
-                quantity: parseInt(req.body.stock)
-            },
-            price: parseFloat(req.body.price) * 100,
-            package_dimensions: {
-                height: parseInt(req.body.height),
-                length: parseInt(req.body.length),
-                weight: parseInt(req.body.weight),
-                width: parseInt(req.body.width)
-            }
-        };
-
-        stripe.skus.create(sku).then(resultSKU => {
-            var newProduct = {
-                productID: resultProduct.id,
-                skuID: resultSKU.id,
-                name: product.name,
-                description: product.description,
-                price: sku.price / 100,
-                dimensions: sku.package_dimensions,
-                inventory: sku.inventory.quantity,
-                categories: req.body.categories
-            };
-
-            newProduct = new Products(newProduct);
-
-            newProduct.save( (err) => {
-                if (err) {
-                    let msg = {
-                        status: "error",
-                        message: "Unable to add new product",
-                        data : {
-                            name: req.body.name,
-                            error: err
-                        }
-                    };
-                    return res.status(200).json(msg);
+    //Also, save product price history for tracking purposes! Short term, use order.items[] instead.
+    var product = req.body;
+    Products.findByIdAndUpdate(req.params.id, product).lean().exec( (err, productDB) => {
+        if(err) console.log(err)
+        if(productDB.images){
+            if(product.images !== productDB.images){
+            
+                let arrObjCompare = (arrayB) => {
+                    return (arrayA) => {
+                        return arrayB.filter( other => {
+                            return other.name == arrayA.name
+                        }).length == 0;
+                    }
                 }
-                let msg = {
-                    status: "ok",
-                    message: `Successfully added product "${req.body.name}"`
-                };
-                return res.status(200).json(msg)
-            });
-        });
-    });
-});
-
-router.post('/product/edit/:id', (req, res) => {
-    //Get product from db
-    Products.findById(req.params.id, (err, product) => {
-        if (err) {
-            let msg = {
-                status: 'error',
-                message: `Unable to find product ID "${req.body.id}"`
-            }
-            console.log("Error: ", msg.message);
-            return res.status(200).json(msg);
-        }
-
-        stripe.products.retrieve(product.productID).then( stripeProduct => {
-            stripe.skus.retrieve(product.skuID).then( stripeSku => {
-                stripeSku.inventory.quantity = parseInt(req.body.stock);
-                stripeSku.price = parseFloat(req.body.price) * 100;
-                stripeSku.package_dimensions = {
-                    height: parseInt(req.body.height),
-                    length: parseInt(req.body.length),
-                    weight: parseInt(req.body.weight),
-                    width: parseInt(req.body.width)
-                };
-
-                stripe.skus.update(stripeSku.id, stripeSku).then( resultSku => {
-                    stripeProduct.name = req.body.name
-                    stripeProduct.description = req.body.description;
-
-                    stripe.products.update(stripeProduct.id, stripeProduct).then( resultProduct => {
-                        product.name = req.body.name;
-                        product.price = parseInt(req.body.price);
-                        product.description = req.body.description
-                        product.dimensions = {
-                            height: parseInt(req.body.height),
-                            length: parseInt(req.body.length),
-                            weight: parseInt(req.body.weight),
-                            width: parseInt(req.body.width)
-
-                        }
-                        product.inventory = parseInt(req.body.stock);
-                        //product.categories = req.body.categories
-
-                        Products.findByIdAndUpdate(product._id, product, (err) => {
-                            if (err) {
-                                let msg = {
-                                    status: 'error',
-                                    message: 'Unable to save product data!',
-                                    data: {
-                                        error: err,
-                                        formData: req.body
-                                    }
-                                };
-                                return res.status(200).json(msg);
-                            }
-                            let msg = {
-                                status: 'ok',
-                                message: 'Successfully updated "${req.body.name}"'
-                            };
-                            return res.status(200).json(msg);
-                        })
+                let imgsDel = productDB.images.filter(arrObjCompare(product.images));
+                
+                console.log(imgsDel)
+                
+                let delCount = 0;
+                for(img of imgsDel){
+                    let imgPath = path.join(__dirname, `../../images/products/${req.params.id}/${img.name}`);
+                    fs.unlink(imgPath, () => {
+                        //cb - just incr counter
+                        delCount++
+                        console.log('Deleted Count: ' + delCount + ' of ' + imgsDel.length)
+                        console.log('Deleted image: ' + imgPath)
                     })
-                })
-            })
-        })
+                }
+                
+    
+            }
+        }
+        
+        let msg = {
+            status: 'ok',
+            message: 'Successfully updated product!'
+        }
+        return res.status(200).json(msg);
     })
 })
+
+
+router.post('/product/new', (req, res) => {
+    var product = new Products(req.body);
+    product.save( (err, product) => {
+        if(err) console.log(err)
+        let msg={
+            status: 'ok',
+            message: 'Successfully created new product',
+            data: {id: product._id}
+        }
+        return res.status(200).json(msg);
+    })
+})
+
+// router.post('/product/new', (req, res) => {
+//     //Get formData
+//     var product = {
+//         name: req.body.name,
+//         type: 'good',
+//         description: req.body.description,
+//         livemode: congig.payments.options.live
+
+//     };
+
+//     stripe.products.create(product).then(resultProduct =>{
+//         var sku = {
+//             product: resultProduct.id,
+//             currency: config.payments.options.currency,
+//             inventory: {
+//                 type: 'finite',
+//                 quantity: parseInt(req.body.stock)
+//             },
+//             price: parseFloat(req.body.price) * 100,
+//             package_dimensions: {
+//                 height: parseInt(req.body.height),
+//                 length: parseInt(req.body.length),
+//                 weight: parseInt(req.body.weight),
+//                 width: parseInt(req.body.width)
+//             }
+//         };
+
+//         stripe.skus.create(sku).then(resultSKU => {
+//             var newProduct = {
+//                 productID: resultProduct.id,
+//                 skuID: resultSKU.id,
+//                 name: product.name,
+//                 description: product.description,
+//                 price: sku.price / 100,
+//                 dimensions: sku.package_dimensions,
+//                 inventory: sku.inventory.quantity,
+//                 categories: req.body.categories
+//             };
+
+//             newProduct = new Products(newProduct);
+
+//             newProduct.save( (err) => {
+//                 if (err) {
+//                     let msg = {
+//                         status: "error",
+//                         message: "Unable to add new product",
+//                         data : {
+//                             name: req.body.name,
+//                             error: err
+//                         }
+//                     };
+//                     return res.status(200).json(msg);
+//                 }
+//                 let msg = {
+//                     status: "ok",
+//                     message: `Successfully added product "${req.body.name}"`
+//                 };
+//                 return res.status(200).json(msg)
+//             });
+//         });
+//     });
+// });
+
+// router.post('/product/edit/:id', (req, res) => {
+//     //Get product from db
+//     Products.findById(req.params.id, (err, product) => {
+//         if (err) {
+//             let msg = {
+//                 status: 'error',
+//                 message: `Unable to find product ID "${req.body.id}"`
+//             }
+//             console.log("Error: ", msg.message);
+//             return res.status(200).json(msg);
+//         }
+
+//         stripe.products.retrieve(product.productID).then( stripeProduct => {
+//             stripe.skus.retrieve(product.skuID).then( stripeSku => {
+//                 stripeSku.inventory.quantity = parseInt(req.body.stock);
+//                 stripeSku.price = parseFloat(req.body.price) * 100;
+//                 stripeSku.package_dimensions = {
+//                     height: parseInt(req.body.height),
+//                     length: parseInt(req.body.length),
+//                     weight: parseInt(req.body.weight),
+//                     width: parseInt(req.body.width)
+//                 };
+
+//                 stripe.skus.update(stripeSku.id, stripeSku).then( resultSku => {
+//                     stripeProduct.name = req.body.name
+//                     stripeProduct.description = req.body.description;
+
+//                     stripe.products.update(stripeProduct.id, stripeProduct).then( resultProduct => {
+//                         product.name = req.body.name;
+//                         product.price = parseInt(req.body.price);
+//                         product.description = req.body.description
+//                         product.dimensions = {
+//                             height: parseInt(req.body.height),
+//                             length: parseInt(req.body.length),
+//                             weight: parseInt(req.body.weight),
+//                             width: parseInt(req.body.width)
+
+//                         }
+//                         product.inventory = parseInt(req.body.stock);
+//                         //product.categories = req.body.categories
+
+//                         Products.findByIdAndUpdate(product._id, product, (err) => {
+//                             if (err) {
+//                                 let msg = {
+//                                     status: 'error',
+//                                     message: 'Unable to save product data!',
+//                                     data: {
+//                                         error: err,
+//                                         formData: req.body
+//                                     }
+//                                 };
+//                                 return res.status(200).json(msg);
+//                             }
+//                             let msg = {
+//                                 status: 'ok',
+//                                 message: 'Successfully updated "${req.body.name}"'
+//                             };
+//                             return res.status(200).json(msg);
+//                         })
+//                     })
+//                 })
+//             })
+//         })
+//     })
+// })
 
 router.delete('/product/:id/:hard?', protectRoute, roleCheck('Admin'), (req, res) => {
     Products.findById(req.params.id, (err, product) => {
@@ -470,6 +565,7 @@ router.post('/checkout', protectRoute, (req, res) => {
     data.user = JSON.parse(data.user);
     verifyCart(data.cart.items).then( cart => {
         if(data.cart.total != cart.total) {
+            console.log('CartTotal: ',data.cart.total, 'ActualTotal: ', cart.total)
             let msg = {
                 status: 'error',
                 message: 'The total of all items in user cart differs from verified total. Means either user manipulated price data in cart, or more likely, took too long to submit and a price change occurred by an admin. Just reshow the cart and advise user changes occurred and to submit again.',
@@ -512,8 +608,9 @@ router.post('/checkout', protectRoute, (req, res) => {
                 transactionID: ''
             };
 
-            let grandTotal = order.subtotal + order.tax + order.shippingCost;
-            order.total = grandTotal.toFixed(2);
+            let grandTotal = parseFloat(order.subtotal) + parseFloat(order.tax) + parseFloat(order.shippingCost);
+            console.log('Grand Total: $', grandTotal, ' Type: ', typeof grandTotal)
+            order.total = parseFloat(grandTotal).toFixed(2);
             //console.log(order)
 
             stripe.charges.create({
@@ -572,6 +669,78 @@ router.post('/checkout', protectRoute, (req, res) => {
 
 
 })
+//define middleware that sets const upload and id
+// express.use(busboy())
+router.post('/product/:id/uploadImages', (req, res) => {
+    Products.findById(req.params.id).limit(1).lean().exec( (err, product) => {
+        var busboy = new Busboy({headers: req.headers});
+        var images = product.images || [];
+        var imgCount = 0;
+        busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+            if(filename == ''){
+                let msg = {
+                    status: 'error',
+                    message: 'No file uploaded'
+                }
+                return res.status(409).json(msg);
+            }
+            console.log('Uploading File'+filename);
+            let imgDir = path.join(__dirname, `../../images/products/${req.params.id}/`);
+            let ensureExists = (path, cb) => {
+                let mask = 0777;
+                fs.mkdir(path, mask, (err) => {
+                    if (err){
+                        if (err.code === 'EEXIST') cb(null);
+                        else cb(err)
+                    } else cb(null)
+                });
+            }
+            ensureExists(imgDir, (err) => {
+                if(err){
+                    console.log(err)
+                    let msg = {
+                        status: 'error',
+                        message: err
+                    }
+                    return res.status(500).json(msg)
+                }
+            })
+            var saveTo = path.join(__dirname, `../../images/products/${req.params.id}/${filename}`)
+            file.pipe(fs.createWriteStream(saveTo));
+            file.on('data', (data) => {
+                console.log(filename + " = " + data.length)
+            })
+            file.on('end', ()=> {
+                console.log(filename + " done!")
+                images.push({name: filename, primary: false});
+                imgCount++;
+            })
+        })
+        busboy.on('finish', () => {
+            console.log('DONE!')
+            product.images = images;
+            Products.findByIdAndUpdate(req.params.id, product).exec( (err) => {
+                if(err)console.log(err);
+                let msg = {
+                    status: 'ok',
+                    message: `${imgCount} images successfully uploaded!`
+                }
+                return res.status(200).json(msg)
+            })
+        })
+        req.pipe(busboy);
+        
+    })
+})
+
+// router.delete('/product/:id/images', (req, res) => {
+//     //Should sanitize body
+//     let {images} = req.body;
+//     Products.findById(req.params.id).limit(1).lean().exec( (err, product) => {
+//         if(err) console.log(err)
+//         console.log(product)
+//     })
+// })
 
 function verifyCart(cart) {
     return new Promise((resolve, reject) => {
@@ -582,21 +751,164 @@ function verifyCart(cart) {
         var itemCount = 0;
         // cart = JSON.parse(cart);
         for(item of cart) {
+            console.log(`Item ${itemCount + 1}`, item)
             itemCount++
-            Products.findById(item.id, (err, product) => {
-                if (err) console.log(err)
-                itemCount--;
-                product.qty = item.qty;
-                //Need to trim product?
-                verifiedCart.items.push(product);
-                verifiedCart.total += product.price * product.qty;
-                if (itemCount == 0) {
-                    resolve(verifiedCart)
-                };
-            })
+            ((item) => {
+                Products.findById(item.id).lean().exec( (err, product) => {
+                    if (err) console.log(err)
+                    itemCount--;
+                    product.qty = item.qty;
+                    console.log(item)
+                    //Need to trim product?
+                    verifiedCart.items.push(product);
+                    let total = (product.price * product.qty).toFixed(2)
+                    total = parseFloat(total);
+                    console.log('Total for item: ', total, 'type: ', typeof total) 
+                    verifiedCart.total += total;
+                    
+                    
+                    if (itemCount == 0) {
+                        verifiedCart.total = parseFloat(verifiedCart.total).toFixed(2);
+                        resolve(verifiedCart)
+                    };
+                })
+            })(item)
+            
+            // let product = getCartItem(item.id)
+            // console.log(product)
         }
+
     })
     
+}
+
+
+router.get('/order/admin/:id', (req, res) => {
+    Orders.findById(req.params.id).lean().exec( (err, order) => {
+        if(err) console.log(err)
+        //Get Customer
+        Users.findById(order.user).lean().exec( (err, customer) => {
+            let msg = {
+                status: 'ok',
+                data: {order: order, customer: customer}
+            }
+            return res.status(200).json(msg);
+        })
+        
+    })
+})
+router.post('/order/admin/:id/refund', (req, res) => {
+    Orders.findById(req.params.id).lean().exec( (err, order) => {
+        if(err) console.log(err)
+        let orderItems = order.items;
+        let remItems = req.body;
+        let amt = 0.00
+        for(let remItem of remItems){
+            // console.log('remItem ', remItem.id)
+            for(let orderItem of orderItems){
+                // console.log(typeof orderItem._id)
+                if(orderItem._id == remItem.id){
+                    orderItem.qty -= remItem.qty;
+                    amt += parseFloat((parseFloat(orderItem.price) * remItem.qty).toFixed(2))
+                }
+            }
+        }
+        
+        // console.log('orderItems', orderItems)
+        let refundAmt = parseFloat((amt * 1.06).toFixed(2))
+        
+        //set order.amountRefunded = order.amountRefunded + refundAmt
+        stripe.refunds.create({
+            charge: order.transactionID,
+            amount: parseFloat(refundAmt.toFixed(2)) * 100
+        }, (err, refund) => {
+            if(err) console.log(err)
+            let event = {
+                date: new Date(),
+                message: `Refunded ${refundAmt}`
+            }
+            order.history.push(event);
+            order.items = orderItems;
+            order.refundedItems = remItems;
+            order.amountReturned = parseFloat(order.amountReturned + refundAmt)
+            Orders.findByIdAndUpdate(req.params.id, order).lean().exec( (err) => {
+                if(err) console.log(err);
+                let msg = {
+                    status: 'ok',
+                    message: 'Successfully processed refund',
+                    data: {
+                        amount: refundAmt
+                    }
+                }
+                return res.status(200).json(msg);
+            })
+        })
+        //set order.items = orderItems
+        //processRefund
+    })
+})
+router.post('/order/admin/:id', (req, res) => {
+    Orders.findByIdAndUpdate(req.params.id, req.body).exec( (err) => {
+        if(err) console.log(err)
+        let msg = {
+            status: 'ok',
+            message: 'Updated Order.'
+        }
+        return res.status(200).json(msg);
+    })
+})
+router.get('/orders/admin/:perPage?/:offset?', (req, res) => {
+    console.log('GET ORDERS-ADMIN with: ',req.params)
+    //Ensure that any and all params are numbers or not set.
+    if(req.params){
+        for( param in req.params ){
+            let regex = /^[0-9]+$/;
+            if(regex.test(req.params[param]) || req.params[param] === undefined){
+                //Param not set, bypass.
+                if(req.params[param] === undefined) continue;
+                //Param is a number, force type.
+                req.params[param] = parseInt(req.params[param]);
+            } else {
+                //param is not a number. cancel request and return error
+                return res.status(404).json({status: "error", message: "404 - Resource not found."});
+            }
+        }
+    }
+
+
+    //Set number of products perPage and offSet for search.
+    var qty = parseInt(req.params.perPage) || config.store.defaultQtyPerPage;
+    var offset = (req.params.offset <= 0 ? 0 : req.params.offset-1) * qty;
+
+    Orders.find({}).skip(offset).limit(qty).lean().exec( (err, orders) => {
+        if(err) console.log(err)
+        let msg = {
+            status: 'ok',
+            data: {orders: orders}
+        }
+        return res.status(200).json(msg);
+    })
+    // console.log(offset);
+    // //Get products from db
+    // Products.find({}).skip(offset).limit(qty).lean().exec( (err, products) => {
+    //     if(err) console.log(err)
+    //     let msg = {
+    //         status: 'ok',
+    //         data: products
+    //     }
+    //     res.status(200).json(msg)
+    // })
+    // //return result.
+})
+
+var uploadFilter = (data) => {
+    for(let file of data){
+        if(!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)){
+            // file = undefined;
+            console.log('filtered', file)
+        }
+    }
+    return data;
 }
 
 //Add all /store/* routes to controllers/index.js

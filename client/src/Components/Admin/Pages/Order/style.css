@@ -1,0 +1,34 @@
+.totalBox {
+    /* border: 1px solid black; */
+}
+.totalBox p {
+    margin-bottom: 5px;
+    margin-right: 5px;
+    display: block;
+}
+.totalBox span.divider {
+    border-bottom: 1px solid black;
+    height: 1px;
+    width: 90%;
+    display: block;
+    /* float: right; */
+    margin-left: 8%;
+}
+.itemContainer {
+    list-style: none;
+    margin: 0px;
+    max-height: 100%;
+    padding-left: 0px;
+}
+.itemContainer .prodImg {
+    /* height: 100%; */
+    max-width: 3rem;
+    display: inline-block;
+    margin: auto;
+}
+.itemContainer .prodInfo {
+    display: inline-block;
+}
+.listItem {
+    border: 1px solid black;
+}

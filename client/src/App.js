@@ -1,66 +1,47 @@
 import React, { Component } from 'react';
 import {Route, Switch} from 'react-router-dom';
-import {Provider} from 'unstated'
+import {Provider, Subscribe} from 'unstated';
+import MainContainer from './store/main';
+import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
 //PageLoaders
 import Admin from './Components/Admin/Pages/Admin';
 import Public from './Components/Public/Public';
 
-
+import Logout from './Components/Logout/Logout';
 
 class App extends Component {
   //Testing Component
 
   //Define state
-  state = {
-    token: null,
-    user: {},
-    isLoggedIn: false
-  };
+  // state = {
+  //   token: null,
+  //   user: {},
+  //   isLoggedIn: false
+  // };
   constructor(props) {
     super(props);
     //Bind 'this' to functions so they can be passed to child components and be able
     // to update the global state.
-    this.updateTokenState = this.updateTokenState.bind(this);
-    this.updateUserState = this.updateUserState.bind(this);
+    // this.updateTokenState = this.updateTokenState.bind(this);
+    // this.updateUserState = this.updateUserState.bind(this);
+    
     
   }
   //Seperate the token information from userData. (Temporary)
-  updateTokenState(token) {
-    this.setState({token: token});
-    sessionStorage.setItem('token', token)
-    this.setState({isLoggedIn: true})
-  }
+  // updateTokenState(token) {
+  //   this.setState({token: token});
+  //   sessionStorage.setItem('token', token)
+  //   this.setState({isLoggedIn: true})
+  // }
 
   //Update state to include userData
-  updateUserState(userData){
-    this.setState({user: userData});
-    sessionStorage.setItem('user', JSON.stringify(userData));
-  }
+  // updateUserState(userData){
+  //   this.setState({user: userData});
+  //   sessionStorage.setItem('user', JSON.stringify(userData));
+  // }
 
   componentDidMount() {
-    //Check if token and userdata is set in session, load it into app.
-    // The only data to be accepted by the server is the token to prevent
-    // user/account manipulation on frontend.
-    if(sessionStorage.getItem('token')) {
-      this.updateTokenState(sessionStorage.getItem('token'));
-      this.updateUserState(JSON.parse(sessionStorage.getItem('user')));
-    }
-    //Perform fetch inside this method
-    // fetch('/api/version')
-    // .then(res => {
-    //   console.log(res);
-    //   return res.json()})
-    // .then(res => {
-    //   //API will return 'ok' if the request was successful.
-    //   //For errors (both logic and http (ie 404) status will be 'error' and 'message' will have text to describe it)
-    //   if(res.status !== 'ok') {
-    //     //If there is an error, we will log it
-    //     console.log(res.message);
-    //   } else {
-    //     this.setState(res.data)
-    //   }
-    // })
   }
   
   render() {
@@ -73,10 +54,17 @@ class App extends Component {
         <Route path='/profile' component={Profile} />
         <Route path='/api/store/product/' component={MyProduct} /> */}
         <Provider>
-        <Switch>
-          <Route path='/admin' component={Admin}/>
-          <Route path='/' render={(props) => <Public {...props} onTokenChange={this.updateTokenState} onUserChange={this.updateUserState} state={this.state}/>}/>
-        </Switch>
+          <Subscribe to={[MainContainer]}>
+            {mainContainer => (
+              <Switch>
+                <Route path="/logout" render={(props) => <Logout {...props} state={mainContainer.state} logout={mainContainer.logout}/>} />
+                <Route path='/admin' render={(props) => <Admin {...props} state={mainContainer.state} />} />
+                <Route path='/' render={(props) => <Public {...props} onTokenChange={mainContainer.updateToken} onUserChange={mainContainer.updateUser} state={mainContainer.state}/>}/>
+                
+              </Switch>
+            )}
+          </Subscribe>
+        
         </Provider>
         {/* <Route path='/admin' component={Dashboard} state={this.state}/> */}
         {/* <p>{this.state.token?this.state.token:''}</p> */}

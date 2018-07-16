@@ -11,7 +11,8 @@ import{
 	Input,
 	Label,
 	ListGroup,
-	ListGroupItem
+	ListGroupItem,
+	Button
 } from 'reactstrap';
 import Loader from '../../Loader/Loader';
 
@@ -29,7 +30,7 @@ export default class Products extends React.Component {
 
 	getProducts() {
 		this.setState({done: false});
-		if(this.state.loading === false) {
+		
 			console.log('Fetching Products')
 			fetch(`/api/store/products/${this.state.perPage}/${this.state.page}`, {
 				headers: {
@@ -52,14 +53,16 @@ export default class Products extends React.Component {
 			.then( () => {
 				this.setState({done: true})
 			})
-		}
+		
 	}
 	componentWillMount() {
 		this.getProducts();
 	}
 	handleChangePerPage(event) {
-		this.setState({perPage: event.target.value})
-		this.getUsers();
+		this.setState({perPage: event.target.value}, this.getProducts)
+		// this.getProducts();
+
+		//make sure when adding pager, add totalCount to returned products. if totalcount<this.state.perPage, dont show pager
 	}
 	render(){
 		return(
@@ -68,13 +71,16 @@ export default class Products extends React.Component {
 					<div>
 						<div className="pageHeader">
 							<h1>Products</h1>
+							<span className="pullRight">
+								<Button href="/admin/store/product/new">New Product</Button>
+							</span>
 						</div>
 						{console.log(this.state.data.products)}
 						<Row>
 							<Col xs="12">
 								<Card>
 									<CardHeader>
-										<div className="cardToo">
+										<div className="cardTools">
 											<Form inline className="cardToolsForm">
 												<Input type="text" placeholder="Search Products..." className="form-control" bsSize="sm"/>&nbsp;
 												<Label for="perPageSelect">Per Page&nbsp;</Label>

@@ -1,9 +1,20 @@
 import React, { Component } from 'react';
 // import { Navbar } from 'react-bootstrap';
-import { FormGroup } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
-import { Modal } from 'react-bootstrap';
-import { FormControl } from 'react-bootstrap';
+import {
+    FormGroup,
+    Button,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    Input,
+    Form,
+    Col
+} from 'reactstrap';
+import {toast} from 'react-toastify';
+// import { FormGroup } from 'react-bootstrap';
+// import { Button } from 'react-bootstrap';
+// import { Modal } from 'react-bootstrap';
+// import { FormControl } from 'react-bootstrap';
 // import SignupModal from './Signup';
 
 // const alignButton = {
@@ -39,7 +50,7 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.handleShow = this.handleShow.bind(this);
-        this.handleClose = this.handleClose.bind(this);
+        this.handleToggle = this.handleToggle.bind(this);
     
         this.state = {
           show: false
@@ -48,8 +59,8 @@ class Login extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
-    handleClose() {
-        this.setState({ show: false });
+    handleToggle() {
+        this.setState({ show: !this.state.show });
     }
 
     handleShow() {
@@ -83,6 +94,10 @@ class Login extends Component {
                 //Successful login! We should have a token, and some userdata.
                 this.props.onTokenChange(response.data.token);
                 this.props.onUserChange(response.data.user);
+                toast.success(`Welcome back, ${response.data.user.firstName}`, {
+                    position: toast.POSITION.BOTTOM_RIGHT,
+                  })
+                this.handleToggle()
             } else {
                 //Error occurred. Check for error message (probably wrong password.)
             }
@@ -95,28 +110,28 @@ class Login extends Component {
                 {/* Cant use API endpoint with standard form action (will nav to new page) */}
                 {/* Instead, need to fetch data from API and update state */}
                 {/* <form > action="/api/auth/login" method="POST" */}
-                <Button bsStyle="primary" bsSize="small" onClick={this.handleShow} style={alignNav}>
+                <Button color="primary" size="sm" onClick={this.handleShow} style={alignNav}>
                     Log In! <i className="fal fa-sign-in"></i>
                 </Button>
-                <Modal show={this.state.show} onHide={this.handleClose}>
-                    <div style={modalContainer}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Log In</Modal.Title>
-                    </Modal.Header>
-                    <form onSubmit={(e) => this.handleSubmit(e)}>
-                    <Modal.Body>    
-                            <FormGroup style={alignNav}>
-                                <FormControl type="text" name="email" placeholder="Email"/>&nbsp;
-                                <FormControl type="password" name="password" placeholder="Password"/>
-                            </FormGroup>{' '}
-                        {/* <SignupModal style={alignNav}/> */}
-                        
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button type="submit" style={alignNav}>Log In</Button>
-                    </Modal.Footer>
-                    </form>
-                    </div>
+                <Modal isOpen={this.state.show} toggle={this.handleToggle} className="loginModal">
+                    <ModalHeader toggle={this.handleToggle}>
+                        Login
+                    </ModalHeader>
+                    
+                    <ModalBody>
+                        <Col xs={12} md={{size: 10, offset: 1}}>
+                            <Form onSubmit={this.handleSubmit}> 
+                                <FormGroup row>
+                                    <Input type="email" name="email" placeholder="Email" className="form-control" />&nbsp;
+                                </FormGroup>    
+                                <FormGroup row>    
+                                    <Input type="password" name="password" placeholder="Password" className="form-control" />
+                                </FormGroup>
+                                <Button color="primary" type="submit" block>Login</Button>
+                            {/* <SignupModal style={alignNav}/> */}
+                            </Form>
+                        </Col>
+                    </ModalBody>
                 </Modal>
             </div>
         )

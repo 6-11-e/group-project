@@ -4,7 +4,7 @@ import{
     Container as Grid,
     Row
 } from 'reactstrap'
-
+import {ToastContainer, toast} from 'react-toastify';
 // import {Grid, Col, Row} from 'react-bootstrap';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
@@ -18,7 +18,7 @@ import MyProduct from './pages/product/Product';
 class Public extends React.Component {
     
     render() {
-        console.log('Public.jsx Props',this.props)
+        // console.log('Public.jsx Props',this.props)
         return (
             <div>
             <Header onTokenChange={this.props.onTokenChange} onUserChange={this.props.onUserChange} state={this.props.state}/>
@@ -37,6 +37,7 @@ class Public extends React.Component {
                 </Row>
                 {/* Footer */}
                 <Row>
+                    <ToastContainer/>
                     <Footer />
                 </Row>
             </Grid>

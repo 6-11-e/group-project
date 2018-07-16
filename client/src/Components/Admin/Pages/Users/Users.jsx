@@ -63,8 +63,8 @@ export default class Users extends React.Component {
         this.getUsers();
     }
     handleChangePerPage(event){
-        this.setState({perPage: event.target.value})
-        this.getUsers();
+        this.setState({perPage: event.target.value}, this.getUsers)
+        // this.getUsers();
     }
     render() {
         return(
