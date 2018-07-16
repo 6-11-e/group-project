@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col, Button } from 'react-bootstrap';
+// import { Grid, Row, Col, Button } from 'react-bootstrap';
 import { POINT_CONVERSION_COMPRESSED } from 'constants';
 import Products from '../components/Products';
+import { Container, Row, Col, Button } from 'reactstrap';
+
 
 const mainDiv = {
     width: '100%',
@@ -15,7 +17,10 @@ const primaryProduct = {
     // float: 'right'
     textAlign: 'left',
     backgroundColor: 'whitesmoke',
-    padding: '50px'
+    padding: '50px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-evenly'
 }
 
 // const noContain = {
@@ -70,7 +75,7 @@ class MyProduct extends React.Component {
             return(
 
                             <div style={mainDiv}>
-                            <Grid>
+                            <Container fluid>
                                 <Row>
                                 <Col md={6}>
                                 <div style={productFeature}>
@@ -79,33 +84,32 @@ class MyProduct extends React.Component {
                                 <Col md={6}>
                                     <div style={primaryProduct}>
                                         <h2>{this.state.data.product.name}</h2>
-                                        <h4>{this.state.data.product.price}</h4>
+                                        <h4>${this.state.data.product.price}</h4>
                                         <p>{this.state.data.product.description}</p>
-                                        <label>Qty</label>
-                                        <input type="number" name="quantity" /><br />
+                                        <span><label>Qty</label><input type="number" name="quantity" value="1" /></span>
                                         <Button>Add to cart</Button>
                                     </div>
                                  </Col>
                                  </Row>
-                                 <Row>
                                  <h3>Related Products</h3>
-                                 <Col md={4}>
+                                 <Row>
+                                 <Col sm={4}>
                                      <div style={relatedProducts}>
             
                                      </div>
                                  </Col>
-                                 <Col md={4}>
+                                 <Col sm={4}>
                                      <div style={relatedProducts}>
                                         
                                      </div>
                                  </Col>
-                                 <Col md={4}>
+                                 <Col sm={4}>
                                      <div style={relatedProducts}>
                                         
                                      </div>
                                  </Col>
                                  </Row>
-                             </Grid>
+                             </Container>
                          </div>
             
             )

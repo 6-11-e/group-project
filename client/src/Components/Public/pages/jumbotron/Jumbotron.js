@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { Button } from 'react-bootstrap';
 import { Jumbotron } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { Grid, Row, Col } from 'react-bootstrap';
+// import { Grid, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col } from 'reactstrap';
 
 //Not yet linked
 const alignButton = {
@@ -109,7 +110,7 @@ class MyJumbotron extends Component {
             </p>
             </div>
         </Jumbotron>
-        <Grid style={noContain}>
+        <Container fluid>
         <div>
         <Row >
         <Col xs={12} md={4} style={displayBlocks}>
@@ -129,14 +130,14 @@ class MyJumbotron extends Component {
         </Col>
         </Row>
         </div>
-        </Grid>
+        </Container>
         <Jumbotron style={jumboStyle2}>
             <div>
             <h2 style={whiteText}>This might advertise a special deal happening on the site</h2>
             </div>
         </Jumbotron>
         <h3>Categories</h3>
-        <Grid style={noContain}>
+        <Container fluid>
         <div>
         <Row >
         <Col xs={6} md={3} style={displayBlocks} className='divImageButton'>
@@ -183,7 +184,7 @@ class MyJumbotron extends Component {
         </Col>
         </Row>
         </div>
-        </Grid>
+        </Container>
 
 
         {/* <Dummy /> */}

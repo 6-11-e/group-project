@@ -1,12 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Container, Row, Col } from 'reactstrap';
+
 
 const productBlocks = {
     width: '20%',
     height: '250px',
     border: '1px solid gray',
-    margin: '25px',
-    padding: '10px',
+    margin: '20px',
+    padding: '5px',
     display: 'inline-block'
 }
 
@@ -34,7 +36,7 @@ class Products extends React.Component {
                     <Link to={"/store/product/" + encodeURIComponent(product.name)} key={id}>
                     <div key={product._id} style={productBlocks}>
                         <h4>{product.name}</h4>
-                        <p>{product.price}</p>
+                        <p>${product.price}</p>
                     </div>
                     </Link>
                 )

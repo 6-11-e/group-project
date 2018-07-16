@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Pager } from 'react-bootstrap'
 import Products from '../components/Products'
 import Categories from '../components/Categories'
+import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 
 
 const navContainer = {
@@ -31,11 +33,15 @@ class Gallery extends Component {
                 <div style={navContainer} className="hideMobile">
                     <Categories />
                 </div>
+                <Container fluid>
                         <Products />
+                </Container>
+                <div>
                 <Pager>
                     <Pager.Item href="#">Previous</Pager.Item>{' '}
                     <Pager.Item href="#">Next</Pager.Item>
                 </Pager>
+                </div>
         </div>
         )
     }

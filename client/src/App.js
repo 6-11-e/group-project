@@ -3,7 +3,7 @@ import {Route, Switch} from 'react-router-dom';
 import {Provider} from 'unstated'
 import './App.css';
 //PageLoaders
-import Admin from './Components/Admin/Pages/Admin';
+import Admin from './Components/Admin/pages/Admin';
 import Public from './Components/Public/Public';
 
 
