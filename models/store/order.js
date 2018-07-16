@@ -71,6 +71,9 @@ var ProductSchema = new Schema({
     deleted: {
         type: Boolean,
         default: false
+    },
+    qty: {
+        type: Number
     }
 });
 var OrderSchema = new Schema({
@@ -92,6 +95,10 @@ var OrderSchema = new Schema({
         type: Schema.Types.Double,
         required: true,
         default: 0.00
+    },
+    total: {
+        type: Schema.Types.Double,
+        required: true
     },
     status: {
         type: String,
@@ -118,6 +125,17 @@ var OrderSchema = new Schema({
     updated: {
         type: Date,
         default: null,
+    },
+    refundedItems: {
+        type: [{
+            id: {
+                type: String
+            },
+            qty: {
+                type: Number
+            }
+        }],
+        default: null
     },
     history: {
         type: [{

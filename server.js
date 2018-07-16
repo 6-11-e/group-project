@@ -6,6 +6,8 @@ var express         = require('express'),
     passport        = require('passport'),
     cors            = require('cors'),
     app             = express();
+    // fileUpload      = require('express-fileupload');
+    // busboy          = require('connect-busboy');
 
 
 
@@ -18,6 +20,7 @@ app.use((req, res, next) => {
 
 app.use(passport.initialize());
 app.use(cors())
+// app.use(fileUpload())
 // PRODUCTION ONLY
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.use('/images', express.static('images'));
