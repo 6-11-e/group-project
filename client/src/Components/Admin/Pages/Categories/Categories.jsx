@@ -57,6 +57,7 @@ export default class Categories extends React.Component {
                     <div>
                         <div className="pageHeader">
                             <h1>Product Categories</h1>
+                            <Button href="/admin/store/category/new">New Category</Button>
                         </div>
                         <Row>
                             <Col xs="12">

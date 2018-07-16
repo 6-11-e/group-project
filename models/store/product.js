@@ -1,7 +1,16 @@
 var mongoose    = require('mongoose'),
     Schema      = mongoose.Schema;
     require('mongoose-double')(mongoose);
-
+var ImagesSchema = new Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    primary: {
+        type: Boolean,
+        default: false
+    }
+}, {_id: false});
 var ProductSchema = new Schema({
     name: {
         type: String,
@@ -14,6 +23,9 @@ var ProductSchema = new Schema({
     },
     categories: {
         type: Array
+    },
+    images: {
+        type: [ImagesSchema]
     },
     description: {
         type: String,

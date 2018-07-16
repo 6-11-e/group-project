@@ -15,7 +15,7 @@ class Footer extends Component {
         return (
             <footer style={footerStyle}>
                 <div>
-                    <p>We Made This © 2018</p>
+                    <p style={{marginBottom: '0px'}}>We Made This © 2018</p>
                 </div>
             </footer>
         )

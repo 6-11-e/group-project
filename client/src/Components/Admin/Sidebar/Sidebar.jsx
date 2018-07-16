@@ -21,6 +21,9 @@ export default class Sidebar extends React.Component {
                 <NavItem>
                     <NavLink href="/admin/store/categories">Categories</NavLink>
                 </NavItem>
+                <NavItem>
+                    <NavLink href="/admin/store/orders">Orders</NavLink>
+                </NavItem>
             </Nav>
         )
     }

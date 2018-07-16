@@ -1,0 +1,31 @@
+.asSuggestionsContainer {
+    /* border: 1px solid green */
+}
+.asSuggestionsContainerOpen {
+    border: 1px solid black;
+    padding-bottom: 0px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-top-color:transparent;
+}
+
+.asContainerOpen {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-bottom-color: none;
+    /* padding-bottom: 0; */
+}
+.asSuggestion {
+    width: 100%;
+    padding: 5px;
+}
+
+.asSuggestionsList {
+    padding: 0px;
+    list-style-type: none;
+    
+}
+.asSuggestionHighlighted {
+    background-color: #007bff;
+    color: #fff;
+}

@@ -4,6 +4,7 @@ var express     = require('express'),
     passport    = require('passport'),
     config      = require('../../conf/config'),
     jwt         = require('jsonwebtoken'),
+    stripe      = require('stripe')(config.payments.processors.stripe.secret)
     router      = express.Router();
                   require('../../conf/passport')(passport);
 
@@ -27,18 +28,25 @@ router.post('/register', (req, res) => {
             firstName: req.body.firstName,
             lastName: req.body.lastName
         };
+        stripe.customers.create({
+            metadata: {firstName: newUser.firstName, lastName: newUser.lastName, email: newUser.email}
+        }, (err, customer) => {
+            if(err) console.log(err)
+            newUser.customerID = customer.id;
+            GroupModel.findOne({default: true}, (err, group) => {
+                if (err) console.log(err);
+                newUser.role = group.id;
 
-        GroupModel.findOne({default: true}, (err, group) => {
-            if (err) console.log(err);
-            newUser.role = group.id;
+                newUser = new User(newUser);
 
-            newUser = new User(newUser);
+                newUser.save( (err) => {
+                    if (err) return res.json({status: 'error', message: 'Username already exists ' + err});
+                    res.status(200).json({status: 'ok', message: 'Successfully created new user'});
+                });
+            })
+        })
 
-            newUser.save( (err) => {
-                if (err) return res.json({status: 'error', message: 'Username already exists ' + err});
-                res.status(200).json({status: 'ok', message: 'Successfully created new user'});
-            });
-        })  
+          
     }
 });
 
