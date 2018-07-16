@@ -91,7 +91,7 @@ export default class Orders extends React.Component{
                                         <ListGroup>
                                             {/* {console.log('Data: ', data)} */}
                                             {orders.map( (order, key) => (
-                                                <ListGroupItem key={key} tag="a" href={`/admin/store/order/${order._id}`}>
+                                                <ListGroupItem key={key} tag="a" href={`/admin/store/orders/${order._id}`}>
                                                     <div className="orderListHeader">
                                                         <h4>Order # {order._id}</h4>
                                                         <span className="pullRight">

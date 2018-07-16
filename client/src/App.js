@@ -57,6 +57,7 @@ class App extends Component {
           <Subscribe to={[MainContainer]}>
             {mainContainer => (
               <Switch>
+                {console.log('App State: ', mainContainer.state)}
                 <Route path="/logout" render={(props) => <Logout {...props} state={mainContainer.state} logout={mainContainer.logout}/>} />
                 <Route path='/admin' render={(props) => <Admin {...props} state={mainContainer.state} />} />
                 <Route path='/' render={(props) => <Public {...props} onTokenChange={mainContainer.updateToken} onUserChange={mainContainer.updateUser} state={mainContainer.state}/>}/>

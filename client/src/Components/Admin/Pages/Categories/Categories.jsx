@@ -57,7 +57,7 @@ export default class Categories extends React.Component {
                     <div>
                         <div className="pageHeader">
                             <h1>Product Categories</h1>
-                            <Button href="/admin/store/category/new">New Category</Button>
+                            <Button href="/admin/store/categories/new">New Category</Button>
                         </div>
                         <Row>
                             <Col xs="12">
@@ -78,7 +78,7 @@ export default class Categories extends React.Component {
                                     <CardBody>
                                         <ListGroup>
                                             {this.state.data.categories.map( (cat, key) => (
-                                                <ListGroupItem tag="a" key={key} href={"/admin/store/category/edit/"+cat._id}>
+                                                <ListGroupItem tag="a" key={key} href={"/admin/store/categories/edit/"+cat._id}>
                                                     {cat.name}
                                                     {/* Badge to display if showFP */}
                                                 </ListGroupItem>
