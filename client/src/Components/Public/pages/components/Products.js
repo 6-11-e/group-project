@@ -1,5 +1,4 @@
 import React from 'react';
-// import { Button, Grid, Row, Col, Nav, NavDropdown, NavItem, Pager } from 'react-bootstrap'
 import { Link } from 'react-router-dom';
 
 const productBlocks = {
