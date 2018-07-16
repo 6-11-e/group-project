@@ -1,6 +1,19 @@
 import React from 'react';
+import {toast, Slide, Zoom, Flip} from 'react-toastify';
 
 export default class Loader extends React.Component {
+    loadingToast = null
+    componentWillMount(){
+        this.loadingToast = toast('Fetching Data', {
+            autoClose: false, 
+            position: toast.POSITION.BOTTOM_RIGHT, 
+            closeButton: false,
+            transition: Slide
+        })
+    }
+    componentWillUnmount(){
+        toast.dismiss(this.loadingToast)
+    }
     render() {
         return(
             <div className="pageLoader">

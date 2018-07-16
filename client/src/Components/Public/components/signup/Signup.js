@@ -1,11 +1,20 @@
 import React from 'react';
 import {
-  Button
+  Button,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  Form,
+  FormGroup,
+  Input,
+  Label,
+  Col
 } from 'reactstrap'
+import {toast} from 'react-toastify';
 // import { Button } from 'react-bootstrap';
-import { Modal } from 'react-bootstrap';
+// import { Modal } from 'react-bootstrap';
 import { FormControl } from 'react-bootstrap';
-import { FormGroup } from 'react-bootstrap';
+// import { FormGroup } from 'react-bootstrap';
 import './Signup.css'
 
 const alignButton = {
@@ -28,6 +37,7 @@ class SignupModal extends React.Component {
   
       this.handleShow = this.handleShow.bind(this);
       this.handleClose = this.handleClose.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this)
   
       this.state = {
         show: false
@@ -39,7 +49,7 @@ class SignupModal extends React.Component {
     }
   
     handleShow() {
-      this.setState({ show: true });
+      this.setState({ show: !this.state.show });
     }
     
     handleSubmit(event) {
@@ -67,6 +77,9 @@ class SignupModal extends React.Component {
       }).then(response => response.json())
       .then(response => {
         console.log(response);
+        toast.success(`Thanks! You're now registered and can log in!`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        })
         this.setState({show: false})
       });
     }
@@ -77,16 +90,37 @@ class SignupModal extends React.Component {
             Sign Up!
           </Button>
   
-          <Modal show={this.state.show} onHide={this.handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>Sign Up</Modal.Title>
-            </Modal.Header>
+          <Modal isOpen={this.state.show} toggle={this.handleShow}>
+            <ModalHeader toggle={this.handleShow}>
+              Register
+            </ModalHeader>
 
             {/* <form action="api/auth/register" method="POST"> */}
-            <form onSubmit={(e) => this.handleSubmit(e)}>
-            <Modal.Body>
-                
-                    <FormGroup>
+            <ModalBody>
+              <Col xs={12} md={{size: 10, offset: 1}}>
+              <Form onSubmit={this.handleSubmit}>
+                <FormGroup row>
+                  <Input type="text" className="form-control" name="firstName" placeholder="First Name" />
+                </FormGroup>
+                <FormGroup row>
+                  <Input type="text" className="form-control" name="lastName" placeholder="Last Name" />
+                </FormGroup>
+                <FormGroup row>
+                  <Input type="email" className="form-control" name="email" placeholder="Email" />
+                </FormGroup>
+                <FormGroup row>
+                  <Input type="email" className="form-control" name="emailConfirm" placeholder="Confirm Email" />
+                </FormGroup>
+                <FormGroup row>
+                  <Input type="password" className="form-control" name="password" placeholder="Create a Password" />
+                </FormGroup>
+                <FormGroup row>
+                  <Input type="password" className="form-control" name="passwordConfirm" placeholder="Confirm Password" />
+                </FormGroup>
+                <Button type="submit" block>Register</Button>
+              </Form>
+              </Col> 
+                    {/* <FormGroup>
                         <FormControl
                         type='text'
                         name='firstName'
@@ -134,14 +168,9 @@ class SignupModal extends React.Component {
                         placeholder='Confirm Password'
                         onChange={this.handleChange}
                         />
-                    </FormGroup>
+                    </FormGroup> */}
                 
-            </Modal.Body>
-            
-            <Modal.Footer>
-              <Button type="submit">Sign Up</Button>
-            </Modal.Footer>
-            </form>
+            </ModalBody>
           </Modal>
         </div>
       );
