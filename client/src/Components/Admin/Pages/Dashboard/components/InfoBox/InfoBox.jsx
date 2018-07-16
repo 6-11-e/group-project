@@ -1,9 +1,9 @@
 import React from 'react';
-import './InfoBox.css';
-class InfoBox extends React.Component {
-    
+
+export default class InfoBox extends React.Component {
     className = 'infoBoxIcon ' + this.props.bgColor;
-    iconName = 'fal fa-lg ' + this.props.icon;
+    iconName = 'fal fa-fw ' + this.props.icon;
+
     render() {
         return(
             <div className="infoBox">
@@ -11,12 +11,14 @@ class InfoBox extends React.Component {
                     <i className={this.iconName}></i>
                 </span>
                 <div className="infoBoxContent">
-                    <span className="infoBoxText">{this.props.text}</span>
-                    <span className="infoBoxNumber">{this.props.data}</span>
+                    <span className="infoBoxText">
+                        {this.props.title}
+                    </span>
+                    <span className="infoBoxData">
+                        {this.props.data}
+                    </span>
                 </div>
             </div>
         )
     }
 }
-
-export default InfoBox;

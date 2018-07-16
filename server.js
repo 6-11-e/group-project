@@ -4,6 +4,7 @@ var express         = require('express'),
     cookieParser    = require('cookie-parser'),
     bodyParser      = require('body-parser'),
     passport        = require('passport'),
+    cors            = require('cors'),
     app             = express();
 
 
@@ -16,10 +17,12 @@ app.use((req, res, next) => {
 })
 
 app.use(passport.initialize());
-
+app.use(cors())
 // PRODUCTION ONLY
 app.use(express.static(path.join(__dirname, 'client/build')));
+app.use('/images', express.static('images'));
 
+// Serve static images by /images[/...subfolders]/ImageName.png
 // app middleware
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -36,15 +39,15 @@ app.use( (req, res, next) => {
 app.use('/api', require('./controllers'))
 
 //Errors
-app.use( (req, res, next) => {
-    console.error('Error 404: ', req.originalUrl);
-    let msg = {
-        status: 'error',
-        message: 'Error 404 - Resource was not found'
-    };
-    res.type('json')
-    res.status(404).json(msg);
-})
+// app.use( (req, res, next) => {
+//     console.error('Error 404: ', req.originalUrl);
+//     let msg = {
+//         status: 'error',
+//         message: 'Error 404 - Resource was not found'
+//     };
+//     res.type('json')
+//     res.status(404).json(msg);
+// })
 
 // PRODUCTION ONLY
 app.get('*', (req, res) => {

@@ -1,8 +1,22 @@
 import React, { Component } from "react";
-import { Navbar, Button} from 'react-bootstrap';
-import { Nav } from 'react-bootstrap';
-import { NavItem } from 'react-bootstrap';
-import { NavDropdown } from 'react-bootstrap';
+import{
+  Nav,
+  Navbar,
+  NavbarBrand,
+  NavItem,
+  NavLink,
+  DropdownItem,
+  Button,
+  UncontrolledDropdown,
+  DropdownToggle,
+  Input,
+  InputGroup,
+  InputGroupAddon
+} from 'reactstrap'
+// import { Navbar, Button} from 'react-bootstrap';
+// import { Nav } from 'react-bootstrap';
+// import { NavItem } from 'react-bootstrap';
+// import { NavDropdown } from 'react-bootstrap';
 // import { MenuItem } from 'react-bootstrap'; //Commented out to prevent console.warns
 import { Link } from 'react-router-dom'; //Commented out to prevent console.warns
 // import { Collapse } from 'react-bootstrap'; //Commented out to prevent console.warns
@@ -44,10 +58,15 @@ const mySearch = {
 }
 
 const secondaryNav = {
-  height: '20px',
-  borderColor: 'black',
-  marginBottom: '0px',
-  borderRadius: '0%'
+  // height: '20px',
+  // borderColor: 'black',
+  // marginBottom: '0px',
+  // borderRadius: '0%'
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'center',
+  alignItems: 'space-between',
+  color: '#fff'
 }
 
 // Commented to prevent console.warns
@@ -68,7 +87,12 @@ const myBrand = {
   marginTop: '-7px'
 }
 
-
+const myInput = {
+  width: '50%',
+  margin: '0 auto',
+  paddingLeft: '10%',
+  marginRight: '0'
+}
 
 class Header extends Component {
     //No need to declare constructor if not used (aside from super()).
@@ -82,61 +106,74 @@ class Header extends Component {
 
     //Primary Nav
   <div>
-    <Navbar style={primaryNav} inverse collapseOnSelect fluid>
-    <header>
-      <Navbar.Header>
-        <Navbar.Brand >
-          {/* E-Commerce */}
-        <Link to="/"><div style={myBrand}></div></Link>
-        </Navbar.Brand>
-      </Navbar.Header>
+    <Navbar style={primaryNav} dark expand="md" color="dark">
+        <NavbarBrand href="/">
+          <img src="/images/ecLogo_40.png" alt="Site Logo"/>
+        </NavbarBrand>
+        <InputGroup style={myInput}>
+          <Input type="text" placeholder="Search..." bsSize="xs"/>
+          <InputGroupAddon addonType="append">
+            <Button color="secondary">Go</Button>
+          </InputGroupAddon>
+        </InputGroup>
 
-      <span><input type="text" placeholder="Search" style={mySearch}></input><Button bsStyle="primary" bsSize="small" style={alignButton}>Search</Button></span>
+      {/* <span><input type="text" placeholder="Search" style={mySearch}/><Button bsStyle="primary" bsSize="small" style={alignButton}>Search</Button></span> */}
 
-      <Nav style={alignNav} pullRight>
+      <Nav style={alignNav} className="ml-auto">
         {/* Adjusted <Login /> to be able to adjust state (token,user). Set to only display if user is not logged in */}
         {/* Should have alt component show instead of text. */}
-        {this.props.state.isLoggedIn === false ? <Login onTokenChange={this.props.onTokenChange} onUserChange={this.props.onUserChange}/> : 'Howdy, ' + (this.props.state.user.firstName ? this.props.state.user.firstName : this.props.state.user.email)}
-        
-        {this.props.state.isLoggedIn === false ? <SignupModal style={alignNav}/> : ''}
-        <NavDropdown eventKey={3} title="Options" id="basic-nav-dropdown" style={alignNav}>
-        <NavItem componentClass="span">
-          <Link to="/gallery" style={navItemStyle}>Gallery</Link>
-        </NavItem>
-        <NavItem componentClass="span">
-          <Link to="/profile" style={navItemStyle}>My Profile</Link>
-        </NavItem>
-        <NavItem componentClass="span">
-          <Button bsStyle="primary" bsSize="small" style={alignButton}>Log Out</Button>
-        </NavItem>
-        </NavDropdown>
+        {this.props.state.isLoggedIn === false ? (
+          <div>
+            <Login onTokenChange={this.props.onTokenChange} onUserChange={this.props.onUserChange}/>
+            <SignupModal style={alignNav}/>
+          </div>
+        ) : (
+          <div>
+            <span>Howdy, </span>
+            <UncontrolledDropdown eventKey={3} id="basic-nav-dropdown" style={alignNav} nav inNavbar>
+              <DropdownToggle nav caret>
+                {this.props.state.user.firstName}
+              </DropdownToggle>
+              <DropdownItem componentClass="span">
+                <Link to="/gallery" style={navItemStyle}>Gallery</Link>
+              </DropdownItem>
+              <DropdownItem componentClass="span">
+                <Link to="/profile" style={navItemStyle}>My Profile</Link>
+              </DropdownItem>
+              <DropdownItem componentClass="span">
+                <Link to="/">Logout</Link>
+              </DropdownItem>
+            </UncontrolledDropdown>
+          </div>
+        )}
       </Nav>
-      </header>
+      {/* </header> */}
       </Navbar>
-
-  <Navbar style={secondaryNav} inverse className="hideMobile">
-    <header>
-      <Nav style={alignNav}>
+      {/* style={secondaryNav} className="hideMobile" */}
+    <Navbar  dark color="dark" expand="md">
+    {/* <header> */}
+    {/* style={alignNav} */}
+      <Nav navbar className="mx-auto" style={secondaryNav}>
           <NavItem>
-            Category
+            <NavLink href="/">Category</NavLink>
           </NavItem>
           <NavItem>
-            Another
+            <NavLink href="/">Another</NavLink>
           </NavItem>
           <NavItem>
-            Additional
+            <NavLink href="/">Additional</NavLink>
           </NavItem>
           <NavItem>
-            Even More
+            <NavLink href="/">Even More</NavLink>
           </NavItem>
           <NavItem>
-            Eventually
+            <NavLink href="/">Eventually</NavLink>
           </NavItem>
           <NavItem>
-            Finally
+            <NavLink href="/">Finally</NavLink>
           </NavItem>
       </Nav>
-    </header>
+    {/* </header> */}
   </Navbar>
 </div>
     )
@@ -146,3 +183,4 @@ class Header extends Component {
 
 
 export default Header;
+

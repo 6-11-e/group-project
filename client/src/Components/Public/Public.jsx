@@ -1,23 +1,31 @@
 import React from 'react';
 import {Route} from 'react-router-dom';
-import {Grid, Col, Row} from 'react-bootstrap';
+import{
+    Container as Grid,
+    Row
+} from 'reactstrap'
+
+// import {Grid, Col, Row} from 'react-bootstrap';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
+
 //Pages
 import Gallery from './pages/gallery/Gallery';
 import MyJumbotron from './pages/jumbotron/Jumbotron';
 import Profile from './pages/profile/Profile';
 import MyProduct from './pages/product/Product';
-
+// import './bootstrap/css/bootstrap.min.css';
 class Public extends React.Component {
     
     render() {
         console.log('Public.jsx Props',this.props)
         return (
+            <div>
+            <Header onTokenChange={this.props.onTokenChange} onUserChange={this.props.onUserChange} state={this.props.state}/>
             <Grid fluid>
                 {/* Header */}
                 <Row>
-                    <Header onTokenChange={this.props.onTokenChange} onUserChange={this.props.onUserChange} state={this.props.state}/>
+                    
                 </Row>
 
                 {/* Pages */}
@@ -32,6 +40,7 @@ class Public extends React.Component {
                     <Footer />
                 </Row>
             </Grid>
+            </div>
         )
     }
 }
