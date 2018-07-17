@@ -14,6 +14,7 @@ import Gallery from './pages/gallery/Gallery';
 import MyJumbotron from './pages/jumbotron/Jumbotron';
 import Profile from './pages/profile/Profile';
 import MyProduct from './pages/product/Product';
+import Cart from './pages/Cart/ShoppingCart';
 // import './bootstrap/css/bootstrap.min.css';
 class Public extends React.Component {
     
@@ -33,6 +34,7 @@ class Public extends React.Component {
                     <Route exact path='/' component={MyJumbotron}/>
                     <Route path="/gallery" component={Gallery}/>{/* Maybe products so url reads 'example.com/products/'. Gallery does have a nice ring though.*/}
                     <Route path="/profile" component={Profile} />
+                    <Route path="/cart" component={Cart} />
                     <Route path="/store/product/:id" component={MyProduct} /> {/* */}
                 </Row>
                 {/* Footer */}

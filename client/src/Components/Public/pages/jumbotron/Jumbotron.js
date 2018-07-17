@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { Button } from 'react-bootstrap';
 import { Jumbotron } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { Grid, Row, Col } from 'react-bootstrap';
+// import { Grid, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col } from 'reactstrap';
 
 //Not yet linked
 const alignButton = {
@@ -61,8 +62,12 @@ const divOne = {
 
 const divTwo = {
     backgroundColor: 'rgb(34,34,34)',
+    backgroundImage: 'url(http://www.pngmart.com/files/3/Nintendo-Characters-Transparent-PNG.png)',
+    backgroundSize: '80%',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
     height: '30vh',
-    width: '100%'
+    width: '100%',
 }
 
 const divThree = {
@@ -109,7 +114,7 @@ class MyJumbotron extends Component {
             </p>
             </div>
         </Jumbotron>
-        <Grid style={noContain}>
+        <Container fluid>
         <div>
         <Row >
         <Col xs={12} md={4} style={displayBlocks}>
@@ -121,6 +126,7 @@ class MyJumbotron extends Component {
         </Col>
         <Col xs={12} md={4} style={displayBlocks}>
             <div style={divTwo} className='divImageButton'>
+            <h2 style={divText}>Shop Nintendo</h2>
             </div>
         </Col>
         <Col xs={12} md={4} style={displayBlocks}>
@@ -129,14 +135,14 @@ class MyJumbotron extends Component {
         </Col>
         </Row>
         </div>
-        </Grid>
+        </Container>
         <Jumbotron style={jumboStyle2}>
             <div>
             <h2 style={whiteText}>This might advertise a special deal happening on the site</h2>
             </div>
         </Jumbotron>
         <h3>Categories</h3>
-        <Grid style={noContain}>
+        <Container fluid>
         <div>
         <Row >
         <Col xs={6} md={3} style={displayBlocks} className='divImageButton'>
@@ -183,7 +189,7 @@ class MyJumbotron extends Component {
         </Col>
         </Row>
         </div>
-        </Grid>
+        </Container>
 
 
         {/* <Dummy /> */}

@@ -48,8 +48,8 @@ const primaryNav = {
     // position: 'fixed',
     width: '100%',
     borderRadius: '0%',
-    paddingRight: '30px',
-    paddingLeft: '30px'
+    // paddingRight: '30px',
+    // paddingLeft: '30px'
 }
 
 const mySearch = {
@@ -95,6 +95,10 @@ const myInput = {
   marginRight: '0'
 }
 
+const buttonBox = {
+  marginLeft: '5px'
+}
+
 class Header extends Component {
     //No need to declare constructor if not used (aside from super()).
     // constructor(props) {
@@ -127,6 +131,7 @@ class Header extends Component {
           <div>
             <Login onTokenChange={this.props.onTokenChange} onUserChange={this.props.onUserChange}/>
             <SignupModal style={alignNav}/>
+            <Button href="/cart" outline color="secondary" size="sm" style={buttonBox}>Cart <i class="fal fa-shopping-cart"></i></Button>
           </div>
         ) : (
           <div>
