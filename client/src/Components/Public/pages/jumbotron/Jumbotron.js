@@ -100,6 +100,54 @@ const displayBlocks = {
 }
 
 class MyJumbotron extends Component {
+    constructor(props){
+        super(props)
+        this.state = (this.props.state ? this.props.state : {} );
+        this.state.data = {
+            primaryJumbo: {
+                title: '',
+                tagline: '',
+                image: ''
+            },
+            secondaryJumbo: {
+                title: '',
+                tagline: '',
+                image: ''
+            },
+            categories: [
+                {name: ''}
+            ]
+        }
+    }
+    getFPData(){
+        //Main announcement
+        //featuredProducts*3
+        //featuredAnnounce
+        //categories
+        
+        /*
+        { featuredAnnounce
+            name:
+            shortDesc
+        }
+        {
+            featuredProducts 
+            product.name
+            product.image
+        }
+        { mainAnnouncement
+            title:
+            tagline:
+            backgroundImage
+        }
+        */
+       fetch(``, {
+           headers: {
+               'Content-Type': 'application/json'
+           }
+       })
+
+    }
     render(){
         return (
     <div style={{width: '100%'}}>

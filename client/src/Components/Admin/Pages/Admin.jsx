@@ -16,7 +16,7 @@ import{
 import './Admin.css';
 //Components
 import Dashboard from './Dashboard/Dashboard';
-import Users from './users/Users'
+import Users from './Users/Users'
 import User from './User/User'
 // import Groups from './Groups/Groups'
 // import Group from './Group/Group'
