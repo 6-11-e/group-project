@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, Button } from 'reactstrap';
 
 
 const productBlocks = {
@@ -8,11 +8,13 @@ const productBlocks = {
     height: '250px',
     border: '1px solid gray',
     margin: '20px',
-    padding: '5px',
-    display: 'inline-block'
+    padding: '20px',
+    paddingTop: '20px',
+    display: 'inline-block',
+    verticalAlign: 'top'
 }
 
-let api = '/api/store/products/12'
+let api = '/api/store/products/9'
 
 
 class Products extends React.Component {
@@ -21,11 +23,13 @@ class Products extends React.Component {
         this.state = {
             products: [],
         };
+        this.state.perPage = 9;
+        this.state.page = 1;
     }
 
     componentDidMount() {
 
-        fetch(api)
+        fetch(`/api/store/products/${this.state.perPage}/${this.state.page}`)
         .then(response => {
             return response.json();
         }).then(data => {
@@ -35,7 +39,7 @@ class Products extends React.Component {
                 return (
                     <Link to={"/store/product/" + encodeURIComponent(product.name)} key={id}>
                     <div key={product._id} style={productBlocks}>
-                        <h4>{product.name}</h4>
+                        <h6>{product.name}</h6>
                         <p>${product.price}</p>
                     </div>
                     </Link>
@@ -44,11 +48,14 @@ class Products extends React.Component {
             this.setState({products});
             })
     }
+
+
     render() {
         return(
             <div>
                 {this.state.products}
             </div>
+            
         )
     }
 }

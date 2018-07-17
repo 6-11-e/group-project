@@ -1,13 +1,40 @@
 import React, { Component } from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, Button } from 'reactstrap';
 
 const demoCol = {
     textAlign: 'left',
-    border: 'solid 1px black',
+    border: 'solid 1px gray',
     height: 'auto',
-    margin: '25px',
-    padding: '20px'
+    // margin: '25px',
+    padding: '15px',
+    display: 'flex',
+    flexDirection: 'column'
 }
+
+const itemSpans = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end'
+}
+
+const mySpan = {
+    display: 'flex',
+    justifyContent: 'space-between'
+}
+
+const orderSummary = {
+    marginBottom: '100px'
+}
+
+const demoCol2 = {
+    textAlign: 'left',
+    border: 'solid 1px gray',
+    height: 'auto',
+    // margin: '25px',
+    padding: '15px',
+    marginTop: '20px'
+}
+
 
 const borderBottom = {
     // borderBottom: 'solid 1px black'
@@ -22,7 +49,7 @@ const photoDemo = {
 const itemStyle = {
     display: 'flex',
     alignItems: 'center',
-    margin: '10px',
+    margin: '10px 10px 10px 0px',
     justifyContent: 'space-between'
 }
 
@@ -39,17 +66,29 @@ class Cart extends React.Component {
                 <Row>
                     <Col xs="8">
                         <div style={demoCol}>
-                            <ul style={listStyle}>
+                            <ul style={listStyle} className="shoppingList">
                                 <li style={borderBottom}>
                                     <div style={itemStyle}>
                                         <div style={photoDemo}></div>
-                                        <h4>Demo Item</h4>
+                                        <span style={itemSpans}><h4>Demo Item</h4><p>$9.99</p></span>
                                     </div>
                                 </li>
                                 <li style={borderBottom}>
                                     <div style={itemStyle}>
                                         <div style={photoDemo}></div>
-                                        <h4>Demo Item 2</h4>
+                                        <span style={itemSpans}><h4>Demo Item 2</h4><p>$9.99</p></span>
+                                    </div>
+                                </li>
+                                <li style={borderBottom}>
+                                    <div style={itemStyle}>
+                                        <div style={photoDemo}></div>
+                                        <span style={itemSpans}><h4>Demo Item 3</h4><p>$9.99</p></span>
+                                    </div>
+                                </li>
+                                <li style={borderBottom}>
+                                    <div style={itemStyle}>
+                                        <div style={photoDemo}></div>
+                                        <span style={itemSpans}><h4>Demo Item 4</h4><p>$9.99</p></span>
                                     </div>
                                 </li>
                             </ul>
@@ -58,24 +97,28 @@ class Cart extends React.Component {
                     <Col xs="4">
                         <div style={demoCol}>
                             <h4 style={borderBottom}>Order Summary</h4>
-                            <p style={borderBottom}>Subtotal:     </p>
-                            <p style={borderBottom}>Shipping:     </p>
-                            <p style={borderBottom}>Estimated Tax:     </p>
-                            <p style={borderBottom}>Order Total:     </p>
+                            <div style={orderSummary}>
+                            <span style={mySpan}><p style={borderBottom}>Subtotal:</p><p>$9.99</p></span>
+                            <span style={mySpan}><p style={borderBottom}>Shipping:</p><p>Free</p></span>
+                            <span style={mySpan}><p style={borderBottom}>Estimated Tax:</p><p>$.60</p></span>
+                            <span style={mySpan}><p style={borderBottom}>Order Total:</p><p>$10.59</p></span>
+                            </div>
+                            <Button>Checkout</Button>
                         </div>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <div style={demoCol}>
+                        <div style={demoCol2}>
+
                         </div>
                     </Col>
                     <Col>
-                        <div style={demoCol}>
+                        <div style={demoCol2}>
                         </div>
                     </Col>
                     <Col>
-                        <div style={demoCol}>
+                        <div style={demoCol2}>
                         </div>
                     </Col>
                 </Row>

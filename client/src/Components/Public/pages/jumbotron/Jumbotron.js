@@ -62,8 +62,12 @@ const divOne = {
 
 const divTwo = {
     backgroundColor: 'rgb(34,34,34)',
+    backgroundImage: 'url(http://www.pngmart.com/files/3/Nintendo-Characters-Transparent-PNG.png)',
+    backgroundSize: '80%',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
     height: '30vh',
-    width: '100%'
+    width: '100%',
 }
 
 const divThree = {
@@ -122,6 +126,7 @@ class MyJumbotron extends Component {
         </Col>
         <Col xs={12} md={4} style={displayBlocks}>
             <div style={divTwo} className='divImageButton'>
+            <h2 style={divText}>Shop Nintendo</h2>
             </div>
         </Col>
         <Col xs={12} md={4} style={displayBlocks}>

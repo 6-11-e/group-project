@@ -76,3 +76,7 @@ a:hover {
     display: none;
   }
 }
+
+.shoppingList li:nth-child(even) {
+  background-color: #f2f2f2;
+}
