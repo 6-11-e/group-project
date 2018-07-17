@@ -7,7 +7,8 @@ class MainContainer extends Container {
         let token = JSON.parse(sessionStorage.getItem('token'))
         let user = JSON.parse(sessionStorage.getItem('user'));
         if(token) this.state.token = token;
-        if(user) this.state.user = user;
+        if(user) {this.state.user = user; this.state.isLoggedIn = true}
+        //check if user is admin, set this.state.isAdmin = true
 
     }
     state = {

@@ -57,7 +57,7 @@ let Admin = class extends React.Component {
     render(){
         return(
             <div>  
-                <Header state={this.state} toggleSideNav={this.toggleSideNav} className="adminHeader"/>
+                <Header state={this.state} toggleSideNav={this.toggleSideNav}/>
                 {/* <Grid fluid> */}
                 <Row noGutters>
                     <Sidebar open={this.state.showSideNav} />

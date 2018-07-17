@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Route, Switch} from 'react-router-dom';
+import {Route, Switch, Redirect} from 'react-router-dom';
 import {Provider, Subscribe} from 'unstated';
 import MainContainer from './store/main';
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -59,7 +59,7 @@ class App extends Component {
               <Switch>
                 {console.log('App State: ', mainContainer.state)}
                 <Route path="/logout" render={(props) => <Logout {...props} state={mainContainer.state} logout={mainContainer.logout}/>} />
-                <Route path='/admin' render={(props) => <Admin {...props} state={mainContainer.state} />} />
+                <Route path='/admin' render={(props) => ( mainContainer.state.isLoggedIn?<Admin {...props} state={mainContainer.state} />: <Redirect to="/"/>)} />
                 <Route path='/' render={(props) => <Public {...props} onTokenChange={mainContainer.updateToken} onUserChange={mainContainer.updateUser} state={mainContainer.state}/>}/>
                 
               </Switch>
