@@ -242,3 +242,23 @@ body {
 .formControls {
     text-align: right;
 }
+.pageContainer {
+    width: 100vw;
+}
+@media only screen and (min-width: 768px){
+    .pageContainer {
+        padding-left: 240px;
+        padding-top: 32px;
+        /* width: calc(100vw - 240px); */
+    }
+}
+@media only screen and (max-width: 767px){
+    .pageContainer {
+        padding-top: 20px;
+    }
+}
+.pullRight {
+    float: right;
+    display: block;
+    margin-top: -50px;
+}

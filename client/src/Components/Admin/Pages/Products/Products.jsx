@@ -72,7 +72,7 @@ export default class Products extends React.Component {
 						<div className="pageHeader">
 							<h1>Products</h1>
 							<span className="pullRight">
-								<Button href="/admin/store/product/new">New Product</Button>
+								<Button href="/admin/store/products/new">New Product</Button>
 							</span>
 						</div>
 						{console.log(this.state.data.products)}
@@ -95,7 +95,7 @@ export default class Products extends React.Component {
 									<CardBody>
 										<ListGroup>
 											{this.state.data.products.map( (product, key) => (
-												<ListGroupItem tag="a" key={key} href={"/admin/store/product/edit/" + product._id}>
+												<ListGroupItem tag="a" key={key} href={"/admin/store/products/edit/" + product._id}>
 													{product.name}
 												</ListGroupItem>
 											))}

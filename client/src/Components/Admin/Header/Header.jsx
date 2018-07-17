@@ -11,6 +11,7 @@ import{
     Collapse
 } from 'reactstrap'
 import {Link} from 'react-router-dom';
+import HeaderStyle from './style.css';
 
 export default class Header extends React.Component {
     constructor(props){
@@ -28,18 +29,21 @@ export default class Header extends React.Component {
 
     render() {
         return(
-            <Navbar dark expand="md" color="dark">
+            <Navbar dark expand="md" color="dark"  className="adminHeader">
                 <NavbarBrand href="/admin">Admin</NavbarBrand>
-                <NavbarToggler onClick={this.toggle} />
+                <NavbarToggler onClick={this.props.toggleSideNav} />
                 <Collapse isOpen={this.state.isOpen} navbar>
                     <Nav className="ml-auto" navbar>
-                        <UncontrolledDropdown nav inNavbar>
+                        <UncontrolledDropdown nav inNavbar className="userDropdown">
                             <DropdownToggle nav caret>
                                 <span>{this.state.user.firstName}</span>
                             </DropdownToggle>
                             <DropdownMenu right>
                                 <DropdownItem>
-                                    <Link to="/logout">Logout</Link>
+                                    <Link to="/"><i className="fal fa-fw fa-home"></i> Frontend</Link>
+                                </DropdownItem>
+                                <DropdownItem>
+                                    <Link to="/logout"><i className="fal fa-fw fa-arrow-to-right"></i>Logout</Link>
                                 </DropdownItem>
                             </DropdownMenu>
                         </UncontrolledDropdown>

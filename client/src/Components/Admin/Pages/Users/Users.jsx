@@ -94,7 +94,7 @@ export default class Users extends React.Component {
                                     <CardBody>
                                         <ListGroup>
                                             {this.state.data.users.map( (user,key) => (
-                                                <ListGroupItem tag="a" key={key} href={"/admin/user/" + user._id }>
+                                                <ListGroupItem tag="a" key={key} href={"/admin/users/" + user._id }>
                                                     {user.firstName + ' ' + user.lastName}
                                                 </ListGroupItem>
                                             ))}
