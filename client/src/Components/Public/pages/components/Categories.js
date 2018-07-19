@@ -29,7 +29,7 @@ class Categories extends React.Component {
             let categories = response.data.categories.map((category, id) => {
                 return (
                     // <ul style={ulContainer}>
-                        <li key={id}>{category.name}</li>
+                        <a href="#"><li key={id}>{category.name}</li></a>
                     // </ul>
                 )
             })

@@ -142,7 +142,7 @@ class MyJumbotron extends Component {
             </div>
         </Jumbotron>
         <h3>Categories</h3>
-        <Container fluid>
+        <Container>
         <div>
         <Row >
         <Col xs={6} md={3} style={displayBlocks} className='divImageButton'>

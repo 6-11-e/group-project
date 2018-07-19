@@ -86,7 +86,7 @@ class MyProduct extends React.Component {
                                         <h2>{this.state.data.product.name}</h2>
                                         <h4>${this.state.data.product.price}</h4>
                                         <p>{this.state.data.product.description}</p>
-                                        <span><label>Qty</label><input type="number" name="quantity" value="1" /></span>
+                                        <span><label>Qty</label><input type="number" name="quantity" defaultValue="1" /></span>
                                         <Button>Add to cart</Button>
                                     </div>
                                  </Col>
