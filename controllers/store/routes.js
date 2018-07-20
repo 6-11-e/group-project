@@ -131,11 +131,15 @@ router.get('/products/:perPage?/:offset?', (req, res) => {
     //Get products from db
     Products.find({deleted: false}).skip(offset).limit(qty).lean().exec( (err, products) => {
         if(err) console.log(err)
-        let msg = {
-            status: 'ok',
-            data: products
-        }
-        res.status(200).json(msg)
+        Products.count({deleted: false}, (err, count) => {
+            if(err)console.log(err)
+            let msg = {
+                status: 'ok',
+                data: {products, count}
+            }
+            return res.status(200).json(msg)
+        })
+        
     })
     //return result.
     

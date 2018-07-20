@@ -28,7 +28,12 @@ const myProducts = {
 
 
 class Gallery extends Component {
-
+    constructor(props){
+        super(props)
+        this.state = {
+            page: (this.props.match.params.id? this.props.match.params.id : 1)
+        }
+    }
     render() {
         return (
         <div>
@@ -40,7 +45,7 @@ class Gallery extends Component {
                 </div>
                 {/* </Col>
                 <Col sm="10" xs="12"> */}
-                    <Products />
+                    <Products page={this.state.page}/>
                 {/* </Col>
                 </Row> */}
                 </Container>

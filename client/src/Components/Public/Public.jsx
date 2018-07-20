@@ -41,7 +41,7 @@ class Public extends React.Component {
                 {/* Pages */}
                 <Row>
                     <Route exact path='/' component={MyJumbotron}/>
-                    <Route path="/gallery" component={Gallery}/>
+                    <Route path="/gallery/:id?" render={(props) => <Gallery {...props}/>}/>
                     <Route path="/profile" component={Profile} />
                     <Route path="/cart" render={(props) => (this.state.isLoggedIn ? <Cart {...props} state={this.state} /> : <Redirect to="/"/>) } />
                     <Route path="/store/product/:id" render={(props) => <MyProduct {...props} state={this.state}/>} />
