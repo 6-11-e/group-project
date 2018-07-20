@@ -13,7 +13,8 @@ import{
   Input,
   InputGroup,
   InputGroupAddon,
-  Badge
+  Badge,
+  Form
 } from 'reactstrap'
 // import { Navbar, Button} from 'react-bootstrap';
 // import { Nav } from 'react-bootstrap';
@@ -105,6 +106,15 @@ class Header extends Component {
     constructor(props) {
       super(props)
       this.state = this.props.state;
+      this.handleSearch = this.handleSearch.bind(this)
+      console.log(this.props)
+    }
+    handleSearch(ev){
+      ev.preventDefault();
+      let query = new FormData(ev.target);
+      query = query.get('search')
+      // console.log(this.props.history)
+      window.location = 'http://localhost:3000/search/'+encodeURIComponent(query);
     }
     render() {
 
@@ -117,12 +127,15 @@ class Header extends Component {
         <NavbarBrand href="/">
           <img src="/images/ecLogo_40.png" alt="Site Logo"/>
         </NavbarBrand>
+        <Form onSubmit={this.handleSearch}>
         <InputGroup style={myInput}>
-          <Input type="text" placeholder="Search..." bsSize="sm"/>
+          <Input type="text" placeholder="Search..." bsSize="sm" name="search"/>
           <InputGroupAddon addonType="append">
             <Button color="secondary">Go</Button>
           </InputGroupAddon>
         </InputGroup>
+        </Form>
+        
 
       {/* <span><input type="text" placeholder="Search" style={mySearch}/><Button bsStyle="primary" bsSize="small" style={alignButton}>Search</Button></span> */}
 
