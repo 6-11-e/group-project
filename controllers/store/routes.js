@@ -28,6 +28,7 @@ router.get('/', protectRoute, roleCheck('Admin'), (req, res) => {
 
     res.status(200).json(msg);
 });
+
 router.post('/validateCart', (req, res) => {
     // console.log(req.body)
     let data = req.body;
@@ -70,7 +71,22 @@ router.get('/getFeaturedProducts/:qty?', (req, res) => {
         // console.log('featCat', category)
     })
 })
-
+router.get('/products/category/:catID/:perPage?/:offset?', (req, res) => {
+    var qty = parseInt(req.params.perPage) || config.store.defaultQtyPerPage;
+    var offset = (req.params.offset <= 0 ? 0 : req.params.offset-1) * qty;
+    Products.find({deleted: false, categories: req.params.catID}).skip(offset).limit(qty).exec( (err, products) => {
+        if(err) console.log(err)
+        let msg = {
+            status: 'ok',
+            data: {
+                products: products,
+                count: products.length
+            }
+        }
+        return res.status(200).json(msg);
+    })
+    
+})
 router.get('/products/deleted', protectRoute, roleCheck('Admin'), (req, res) => {
     Products.find({deleted: true}, (err, products) => {
         if(err) console.log(err);
@@ -811,7 +827,18 @@ router.get('/orders/admin/:perPage?/:offset?', (req, res) => {
     // })
     // //return result.
 })
-
+router.get('/orders/view', protectRoute, (req, res) => {
+    Orders.find({user: req.user._id}).lean().exec( (err, orders) => {
+        if(err) console.log(err)
+        let msg = {
+            status: 'success',
+            data: {
+                orders: orders
+            }
+        }
+        return res.status(200).json(msg)
+    })
+})
 // var uploadFilter = (data) => {
 //     for(let file of data){
 //         if(!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)){
