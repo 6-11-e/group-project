@@ -21,22 +21,31 @@ const navContainer = {
 //     paddingRight: '30px'
 // }
 
+const myProducts = {
+    float: 'right'
+}
+
 
 
 class Gallery extends Component {
 
     render() {
         return (
-        <div style={{width: '100%'}}>
-                <div>
-                </div>
+        <div>
+                <Container fluid>
+                {/* <Row>
+                <Col sm="2"> */}
                 <div style={navContainer} className="hideMobile">
                     <Categories />
                 </div>
-                <Container fluid>
+                {/* </Col>
+                <Col sm="10" xs="12"> */}
                     <Products />
+                {/* </Col>
+                </Row> */}
                 </Container>
-                <div>
+
+                {/* <div>
                         <Pagination aria-label="Page navigation example">
                     <PaginationItem>
                         <PaginationLink previous href="#" />
@@ -52,7 +61,7 @@ class Gallery extends Component {
                     </PaginationLink>
                     </PaginationItem>
                 </Pagination>
-                </div>
+                </div> */}
         </div>
         )
     }

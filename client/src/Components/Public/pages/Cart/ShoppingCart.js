@@ -218,17 +218,18 @@ class Cart extends React.Component {
                         </div>
                     </Col>
                 </Row>
+                <h4>Related Products</h4>
                 <Row>
-                    <Col>
+                    <Col md="4">
                         <div style={demoCol2}>
 
                         </div>
                     </Col>
-                    <Col>
+                    <Col md="4">
                         <div style={demoCol2}>
                         </div>
                     </Col>
-                    <Col>
+                    <Col md="4">
                         <div style={demoCol2}>
                         </div>
                     </Col>

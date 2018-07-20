@@ -282,7 +282,7 @@ class MyJumbotron extends Component {
             </div>
         </Jumbotron>
         <h3>Categories</h3>
-        <Container fluid>
+        <Container>
         <div>
         <Row >
             {categories}

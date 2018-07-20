@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 
 const productBlocks = {
-    width: '20%',
+    width: '200px',
     height: '250px',
     border: '1px solid gray',
     margin: '20px',
@@ -12,6 +12,10 @@ const productBlocks = {
     paddingTop: '20px',
     display: 'inline-block',
     verticalAlign: 'top'
+}
+
+const productsDiv = {
+    // maxWidth: '1200px'
 }
 
 // let api = '/api/store/products/9'
@@ -22,13 +26,15 @@ class Products extends React.Component {
         super();
         this.state = {
             products: [],
+            page: 1
         };
         this.state.perPage = 9;
-        this.state.page = 1;
+        this.handleClick = this.handleClick.bind(this);
     }
 
+    
     componentDidMount() {
-
+        console.log(this.state)
         fetch(`/api/store/products/${this.state.perPage}/${this.state.page}`)
         .then(response => {
             return response.json();
@@ -38,7 +44,7 @@ class Products extends React.Component {
                 // console.log(products)
                 return (
                     <Link to={"/store/product/" + encodeURIComponent(product.name)} key={id}>
-                    <div key={product._id} style={productBlocks}>
+                    <div key={product._id} style={productBlocks} className="grid-container">
                         <h6>{product.name}</h6>
                         <p>${product.price}</p>
                         <img src={`/images/products/${product._id}/${product.primaryImage}`} className="img-responsive"/>
@@ -46,17 +52,27 @@ class Products extends React.Component {
                     </Link>
                 )
             })
+            console.log(this.state)
             this.setState({products});
             })
     }
+
+    handleClick() {
+        this.setState(prevState => ({
+            page: prevState.page++
+        }));
+    }
+
 
 
     render() {
         return(
             <div>
+            <div>
                 {this.state.products}
             </div>
-            
+            <span><Button onClick={this.handleClick}>Previous</Button><Button onClick={this.handleClick}>Next</Button></span>
+            </div>
         )
     }
 }
