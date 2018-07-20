@@ -64,7 +64,7 @@ class Cart extends React.Component {
             <Container fluid>
                 <h1>Cart</h1>
                 <Row>
-                    <Col xs="8">
+                    <Col md="8">
                         <div style={demoCol}>
                             <ul style={listStyle} className="shoppingList">
                                 <li style={borderBottom}>
@@ -94,7 +94,7 @@ class Cart extends React.Component {
                             </ul>
                         </div>
                     </Col>
-                    <Col xs="4">
+                    <Col md="4">
                         <div style={demoCol}>
                             <h4 style={borderBottom}>Order Summary</h4>
                             <div style={orderSummary}>
@@ -107,17 +107,18 @@ class Cart extends React.Component {
                         </div>
                     </Col>
                 </Row>
+                <h4>Related Products</h4>
                 <Row>
-                    <Col>
+                    <Col md="4">
                         <div style={demoCol2}>
 
                         </div>
                     </Col>
-                    <Col>
+                    <Col md="4">
                         <div style={demoCol2}>
                         </div>
                     </Col>
-                    <Col>
+                    <Col md="4">
                         <div style={demoCol2}>
                         </div>
                     </Col>

@@ -15,6 +15,7 @@ import MyJumbotron from './pages/jumbotron/Jumbotron';
 import Profile from './pages/profile/Profile';
 import MyProduct from './pages/product/Product';
 import Cart from './pages/Cart/ShoppingCart';
+import Success from './pages/Cart/Success';
 // import './bootstrap/css/bootstrap.min.css';
 class Public extends React.Component {
     
@@ -36,6 +37,7 @@ class Public extends React.Component {
                     <Route path="/profile" component={Profile} />
                     <Route path="/cart" component={Cart} />
                     <Route path="/store/product/:id" component={MyProduct} /> {/* */}
+                    <Route path="/success" component={Success} />
                 </Row>
                 {/* Footer */}
                 <Row>
