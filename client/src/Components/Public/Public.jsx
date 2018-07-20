@@ -18,6 +18,7 @@ import MyProduct from './pages/product/Product';
 import Cart from './pages/Cart/ShoppingCart';
 import Checkout from './pages/Checkout/checkout';
 import Success from './pages/Cart/Success';
+import ProductsByCategory from './pages/products/byCategory';
 // import './bootstrap/css/bootstrap.min.css';
 
 class Public extends React.Component {
@@ -50,6 +51,7 @@ class Public extends React.Component {
                         </Elements>
 
                     <Route path="/success" component={Success} />
+                    <Route path="/category/:id" component={ProductsByCategory}/>
                 </Row>
                 {/* Footer */}
                 <Row>

@@ -3,7 +3,7 @@ import React from 'react';
 import 'constants';
 // import Products from '../components/Products';
 import { Container, Row, Col, Button, Form } from 'reactstrap';
-
+import './style.css'
 
 const mainDiv = {
     width: '100%',
@@ -103,6 +103,7 @@ class MyProduct extends React.Component {
         sessionStorage.setItem('cart', JSON.stringify(cart));
     }
     render() {
+        let {product} = this.state.data;
         if(this.state.done){
             return(
 
@@ -111,6 +112,14 @@ class MyProduct extends React.Component {
                                 <Row>
                                 <Col md={6}>
                                 <div style={productFeature}>
+                                    <img src={`/images/products/${product._id}/${product.primaryImage}`} alt="Product"/>
+                                    <div className="productThumbs">
+                                        {product.images.map( (image,key) => (
+                                            <div className="imgThumb" key={key}>
+                                                <img src={`/images/products/${product._id}/${image.name}`} alt="Alternate" className="img-responsive"/>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                                 </Col>
                                 <Col md={6}>

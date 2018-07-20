@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 const ulContainer = {
     listStyleType: 'none',
@@ -29,7 +30,7 @@ class Categories extends React.Component {
             let categories = response.data.categories.map((category, id) => {
                 return (
                     // <ul style={ulContainer}>
-                        <a href="#"><li key={id}>{category.name}</li></a>
+                        <Link to={"/category/" + category._id}><li key={id}>{category.name}</li></Link>
                     // </ul>
                 )
             })
