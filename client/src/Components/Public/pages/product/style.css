@@ -1,0 +1,7 @@
+.productThumbs {
+    max-width: 100%;
+}
+.imgThumb {
+    border: 1px solid black;
+    max-width: calc(100% / 4);
+}

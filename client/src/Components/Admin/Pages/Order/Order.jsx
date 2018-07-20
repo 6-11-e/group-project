@@ -16,7 +16,7 @@ import {
     Label
 } from 'reactstrap';
 import Loader from '../../Loader/Loader';
-import style from './style.css'
+import './style.css'
 import { toast } from '../../../../../node_modules/react-toastify';
 
 export default class Order extends React.Component {
@@ -114,7 +114,7 @@ export default class Order extends React.Component {
             else return response.statusText;
         })
         .then( response => {
-            if(response.status == 'ok') this.getOrder()
+            if(response.status === 'ok') this.getOrder()
         })
     }
     render(){
@@ -122,7 +122,7 @@ export default class Order extends React.Component {
             let {order} = this.state.data;
             let {customer} = this.state.data;
             let showReturnAll = false;
-            if(order.status == 'cancelled' && order.amountReturned !== order.total){
+            if(order.status === 'cancelled' && order.amountReturned !== order.total){
                 //set flag
                 showReturnAll = true;
             }
@@ -193,7 +193,7 @@ export default class Order extends React.Component {
                                                     <li key={key} className="listItem">
                                                         <span className="prodImg">
                                                             {/* img for primary */}
-                                                            <img src="https://placehold.it/400&text=No%20Image" alt="Product Image" className="img-responsive"/>
+                                                            <img src="https://placehold.it/400&text=No%20Image" alt="Product" className="img-responsive"/>
                                                         </span>
                                                         <div className="prodInfo">
                                                             <div className="top">
@@ -243,7 +243,7 @@ export default class Order extends React.Component {
                                             <Row>
                                                 <Col xs={12} md={4}>
                                                     <div>
-                                                        <img src="http://placehold.it/400&text=Product%20Image" alt="Product Image" className="img-responsive"/>
+                                                        <img src="http://placehold.it/400&text=Product%20Image" alt="Product" className="img-responsive"/>
                                                     </div>
                                                 </Col>
                                                 <Col xs={12} md={8}>

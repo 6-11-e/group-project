@@ -8,14 +8,14 @@ var express     = require('express'),
     router      = express.Router();
                   require('../../conf/passport')(passport);
 
-router.get('/', (req, res) => {
-    let msg = {
-        status: 'ok',
-        data: {
-            message: 'Auth Controller is available!'
-        }
-    }
-})
+// router.get('/', (req, res) => {
+//     let msg = {
+//         status: 'ok',
+//         data: {
+//             message: 'Auth Controller is available!'
+//         }
+//     }
+// })
 
 router.post('/register', (req, res) => {
     if (!req.body.email || !req.body.password) {
@@ -69,7 +69,7 @@ router.post('/login', (req, res) => {
                     console.log(`Password confirmed. ${user.email} successfully logged in.`)
                     res.json({status: 'ok', data: {token: 'JWT '+token, user: user}});
                 } else {
-                    console.log('Wrong pass')
+                    console.log('Wrong password supplied for ' + user.email)
                     res.status(401).send({status: 'error', message: 'Auth failed. Wrong password'});
                 }
             })

@@ -22,6 +22,7 @@ export default class AutoSuggestTagsInput extends React.Component {
     }
 
     renderTag(props){
+        //eslint-disable-next-line
         let {tag, key, disabled, onRemove, classNameRemove, getTagDisplayValue, ...other} = props;
         return(
             <Badge key={key} color="secondary" style={{padding: '10px', margin: '5px', fontSize: '1em', width: '100%', textAlign: 'left'}}>

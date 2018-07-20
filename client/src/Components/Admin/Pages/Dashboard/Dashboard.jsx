@@ -5,7 +5,7 @@ import{
     Col
 } from 'reactstrap';
 import InfoBox from './components/InfoBox/InfoBox';
-import Loader from '../../Loader/Loader';
+// import Loader from '../../Loader/Loader';
 
 export default class Dashboard extends React.Component{
     constructor(props){
@@ -32,7 +32,7 @@ export default class Dashboard extends React.Component{
                 return response.statusText;
             })
             .then(response => {
-                if(response.status == 'ok'){
+                if(response.status === 'ok'){
                     var data = this.state.data;
                     data = response.data;
                     // console.log(response)

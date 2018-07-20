@@ -1,0 +1,17 @@
+.shippingBilling .fade {
+    max-height: 1px;
+}
+.shippingBilling .fade.show {
+    max-height: 100%;
+}
+#mainForm .card {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.errorBox {
+    padding: 15px;
+    border-radius: 2px;
+}
+.errorBox p {
+    padding-left: 40px;
+}

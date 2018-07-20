@@ -163,6 +163,12 @@ var OrderSchema = new Schema({
     sourceID: {
         type: String,
         required: true
+    },
+    paymentBrand: {
+        type: String
+    },
+    paymentLast4: {
+        type: String
     }
 });
 

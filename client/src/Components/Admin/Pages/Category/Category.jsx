@@ -6,9 +6,9 @@ import{
     Card,
     CardHeader,
     CardBody,
-    CardFooter,
+    // CardFooter,
     CardTitle,
-    CardText,
+    // CardText,
     Button,
     Form,
     FormGroup,
@@ -84,7 +84,7 @@ import{
           })
           .then( response => {
               //Do other things with response, like triggering Toastify
-              if(response.status == "error"){
+              if(response.status === "error"){
                   console.log(response.data.error)
               }
           })

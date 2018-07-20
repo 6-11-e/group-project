@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 // import { Grid, Row, Col, Button } from 'react-bootstrap';
-import { POINT_CONVERSION_COMPRESSED } from 'constants';
-import Products from '../components/Products';
-import { Container, Row, Col, Button } from 'reactstrap';
-
+import 'constants';
+// import Products from '../components/Products';
+import { Container, Row, Col, Button, Form } from 'reactstrap';
+import './style.css'
 
 const mainDiv = {
     width: '100%',
@@ -49,12 +49,15 @@ class MyProduct extends React.Component {
         super(props);
         console.log(this.props)
         this.state = this.props.state;
-        this.state = {
-            data: {
+        // this.state = {
+        //     data: {
 
-            },
-            done: false
-        }
+        //     },
+        //     done: false
+        // }
+        this.state.data = {};
+        this.state.done = false;
+        this.handleAddToCart = this.handleAddToCart.bind(this)
     }
 
     componentDidMount() {
@@ -69,8 +72,38 @@ class MyProduct extends React.Component {
         })
         .then( () => this.setState({done: true}))
     }
-
+    handleAddToCart(ev){
+        ev.preventDefault();
+        let {product} = this.state.data;
+        let formData = new FormData(ev.target)
+        // console.log('formdata', formData.get('quantity'))
+        let qty = parseInt(formData.get('quantity'));
+        // console.log('qty', qty)
+        product.qty = qty;
+        let cart = JSON.parse(sessionStorage.getItem('cart'));
+        if(cart && cart.items.length > 0){
+            for(let cartItem of cart.items){
+                if(cartItem._id === product._id){
+                    cartItem.qty += qty
+                }
+            }
+        } else {
+            if(cart === null || !cart.items){
+                cart = {}
+                cart.items = [];
+            }
+            cart.items.push(product)
+        }
+        let subtotal = 0;
+        for(let cartItem of cart.items){
+            let cartItemTotal = parseFloat((cartItem.price * cartItem.qty).toFixed(2));
+            subtotal += cartItemTotal
+        }
+        cart.total = subtotal;
+        sessionStorage.setItem('cart', JSON.stringify(cart));
+    }
     render() {
+        let {product} = this.state.data;
         if(this.state.done){
             return(
 
@@ -79,6 +112,14 @@ class MyProduct extends React.Component {
                                 <Row>
                                 <Col md={6}>
                                 <div style={productFeature}>
+                                    <img src={`/images/products/${product._id}/${product.primaryImage}`} alt="Product"/>
+                                    <div className="productThumbs">
+                                        {product.images.map( (image,key) => (
+                                            <div className="imgThumb" key={key}>
+                                                <img src={`/images/products/${product._id}/${image.name}`} alt="Alternate" className="img-responsive"/>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                                 </Col>
                                 <Col md={6}>
@@ -86,8 +127,10 @@ class MyProduct extends React.Component {
                                         <h2>{this.state.data.product.name}</h2>
                                         <h4>${this.state.data.product.price}</h4>
                                         <p>{this.state.data.product.description}</p>
+                                        <Form onSubmit={this.handleAddToCart}>
                                         <span><label>Qty</label><input type="number" name="quantity" defaultValue="1" /></span>
-                                        <Button>Add to cart</Button>
+                                        <Button type="submit">Add to cart</Button>
+                                        </Form>
                                     </div>
                                  </Col>
                                  </Row>
@@ -116,7 +159,7 @@ class MyProduct extends React.Component {
         } else {
             return(
                 <div>
-                    No data yet! Style this however you want!
+                    
                 </div>
             )
         }

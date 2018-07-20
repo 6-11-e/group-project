@@ -25,22 +25,22 @@ import {toast} from 'react-toastify';
 //     border: 'none'
 //   }
 
-const modalContainer = {
-    position: 'absolute',
-    right: '140px',
-    backgroundColor: 'white',
-    width: '40%'
-}
+// const modalContainer = {
+//     position: 'absolute',
+//     right: '140px',
+//     backgroundColor: 'white',
+//     width: '40%'
+// }
 
 const alignNav = {
     display: 'inline-block',
     float: 'none',
 }
 
-const modalStyle = {
-    height: '100px',
-    display: 'inline-block'
-}
+// const modalStyle = {
+//     height: '100px',
+//     display: 'inline-block'
+// }
   
 
 class Login extends Component {

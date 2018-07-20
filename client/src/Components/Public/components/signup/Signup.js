@@ -7,27 +7,27 @@ import {
   Form,
   FormGroup,
   Input,
-  Label,
+  // Label,
   Col
 } from 'reactstrap'
 import {toast} from 'react-toastify';
 // import { Button } from 'react-bootstrap';
 // import { Modal } from 'react-bootstrap';
-import { FormControl } from 'react-bootstrap';
+// import { FormControl } from 'react-bootstrap';
 // import { FormGroup } from 'react-bootstrap';
 import './Signup.css'
 
-const alignButton = {
-    display: 'inline-block',
-    float: 'none',
-    borderRadius: '0%',
-    backgroundColor: '#3a3a3a',
-    border: 'none'
-  }
+// const alignButton = {
+//     display: 'inline-block',
+//     float: 'none',
+//     borderRadius: '0%',
+//     backgroundColor: '#3a3a3a',
+//     border: 'none'
+//   }
   
-const signUpMargin = {
-  marginBottom: '20px'
-}
+// const signUpMargin = {
+//   marginBottom: '20px'
+// }
 
 class SignupModal extends React.Component {
     

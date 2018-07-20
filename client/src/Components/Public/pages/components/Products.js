@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col, Button } from 'reactstrap';
+import {Button } from 'reactstrap';
 
 
 const productBlocks = {
@@ -18,7 +18,7 @@ const productsDiv = {
     // maxWidth: '1200px'
 }
 
-let api = '/api/store/products/9'
+// let api = '/api/store/products/9'
 
 
 class Products extends React.Component {
@@ -47,6 +47,7 @@ class Products extends React.Component {
                     <div key={product._id} style={productBlocks} className="grid-container">
                         <h6>{product.name}</h6>
                         <p>${product.price}</p>
+                        <img src={`/images/products/${product._id}/${product.primaryImage}`} className="img-responsive"/>
                     </div>
                     </Link>
                 )

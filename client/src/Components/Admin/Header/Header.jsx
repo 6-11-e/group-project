@@ -11,7 +11,7 @@ import{
     Collapse
 } from 'reactstrap'
 import {Link} from 'react-router-dom';
-import HeaderStyle from './style.css';
+import './style.css';
 
 export default class Header extends React.Component {
     constructor(props){

@@ -1,0 +1,13 @@
+.userListItem .card{
+    border-radius: 2px;
+    margin-bottom: 20px;
+}
+.userListItem .card img {
+    max-height: 200px;
+}
+.userListItem .userName {
+    padding: 10px;
+}
+.userListItem .card-link {
+    width: 100%;
+}
