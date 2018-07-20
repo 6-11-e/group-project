@@ -1,0 +1,71 @@
+.adminHeader.navbar {
+    color: #fff;
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+}
+.adminHeader .navbar-brand {
+
+}
+.adminHeader .navbar-brand::before {
+    content: "";
+    background-image: url('/images/ecLogo_40.png');
+    width: 40px;
+    height: 40px;
+    display: block;
+    float: left;
+    margin-top: -5px;
+    margin-bottom: -5px;
+}
+.adminHeader.navbar li.userDropdown {
+    margin-top: -15px;
+    padding-top: 10px;
+    margin-bottom: -15px;
+    height: 56px;
+    min-width: 100px;
+    text-align: right;
+    background-color: #2b2b2b;
+}
+.adminHeader.navbar .dropdown-toggle {
+    color: #fff !important;
+    text-align: left;
+}
+.adminHeader.navbar .dropdown-toggle::after {
+    /* margin-left: 20px;
+    margin-top: 5px; */
+    float: right;
+    display: block;
+    margin-top: 10px;
+}
+.adminHeader.navbar .dropdown-menu-right.show {
+    margin-top: -1px;
+    margin-right: -16.499px;
+    border-radius: 0px;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    box-shadow: 0 6px 10px 0px #999;
+    background-color: #333;
+    padding: 0;
+}
+.adminHeader.navbar .dropdown-menu-right.show button {
+    padding-bottom: 8px;
+    color: #fff;
+    padding-left: 0px;
+    /* text-align: right; */
+    border-left: 3px solid transparent;
+}
+.adminHeader.navbar .dropdown-menu-right.show button a {
+    color: #fff;
+    margin-left: 5px;
+    /* text-align: right; */
+}
+.adminHeader.navbar .dropdown-menu-right.show button:hover {
+    background-color: #555;
+    border-left-color: #777;
+}
+.adminHeader.navbar .dropdown-menu-right.show button a .fal {
+    /* text-align: left; */
+    /* float: left; */
+    /* display: block; */
+    padding-top: 5px;
+}

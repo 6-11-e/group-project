@@ -1,0 +1,21 @@
+.cartItem {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+    margin-left: 0px;
+    justify-content: space-between;
+}
+.cartItem .itemImage {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 15px;
+}
+.cartItem .itemImage img {
+    margin: auto;
+}
+.shoppingList li {
+    border: 1px solid black
+}

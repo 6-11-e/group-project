@@ -6,14 +6,16 @@ import{
     Card,
     CardHeader,
     CardBody,
+    CardTitle,
     Form,
     Input,
     Label,
-    ListGroup,
-    ListGroupItem,
+    // ListGroup,
+    // ListGroupItem,
     Badge
 } from 'reactstrap';
-import Loader from '../../Loader/Loader'
+import Loader from '../../Loader/Loader';
+import './style.css';
 
 export default class Orders extends React.Component{
     constructor(props){
@@ -88,17 +90,18 @@ export default class Orders extends React.Component{
                                         </div>
                                     </CardHeader>
                                     <CardBody>
-                                        <ListGroup>
+                                        <Row>
                                             {/* {console.log('Data: ', data)} */}
                                             {orders.map( (order, key) => (
-                                                <ListGroupItem key={key} tag="a" href={`/admin/store/order/${order._id}`}>
-                                                    <div className="orderListHeader">
-                                                        <h4>Order # {order._id}</h4>
-                                                        <span className="pullRight">
-                                                            <Badge>Status</Badge>
-                                                        </span>
-                                                    </div>
-                                                    <div className="orderListBody">
+                                                <Col xs={12} key={key} className="orderListItem">
+                                                {/*  tag="a" href={`/admin/store/orders/${order._id}`} */}
+                                                    <Card>
+                                                    <CardTitle>
+                                                        Order #: {order._id}
+                                                        <span className="pull-right"><Badge>{order.status}</Badge></span>
+                                                    </CardTitle>
+                                                    <CardBody>
+                                                    
                                                         <Row>
                                                             <Col xs={6} md={{size: 5, offset: 1}}>
                                                                 <div className="orderListText">
@@ -112,14 +115,16 @@ export default class Orders extends React.Component{
                                                                     
                                                                     <p>Total: ${order.total}</p>
                                                                     <p>Refunded: ${order.amountReturned.toFixed(2)}</p>
-                                                                    <p>Events: {parseInt(order.history.length - 1)}</p>
+                                                                    <p>Events: {parseInt(order.history.length - 1, 10)}</p>
                                                                 </div>
                                                             </Col>
                                                         </Row>
-                                                    </div>
-                                                </ListGroupItem>
+                                                    
+                                                    </CardBody>
+                                                    </Card>
+                                                </Col>
                                             ))}
-                                        </ListGroup>
+                                        </Row>
                                     </CardBody>
                                 </Card>
                             </Col>

@@ -6,12 +6,12 @@ import{
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
+  // CardFooter,
   CardTitle,
-  CardText,
+  // CardText,
   Button
 } from 'reactstrap';
-import {Link} from 'react-router-dom';
+// import {Link} from 'react-router-dom';
 import Loader from '../../Loader/Loader';
 import userAvatar from '../../../../img/profile-clipart-generic-user-1_400.png';
 // import userImage from '../../../public/img/profile-clipart-generic-user1_400';
@@ -75,7 +75,7 @@ export default class User extends React.Component {
                     <Row>
                       {/* Avatar or Stock image */}
                       <Col xs="12" md="3">
-                          <img src={userAvatar} className="img-responsive profileImg"/>
+                          <img src={userAvatar} alt="User" className="img-responsive profileImg"/>
                       </Col>
                       {/* User information */}
                       <Col xs="12" md="6">

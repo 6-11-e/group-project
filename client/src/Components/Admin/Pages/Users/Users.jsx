@@ -5,17 +5,19 @@ import{
     Col,
     Card,
     CardHeader,
-    CardFooter,
+    // CardFooter,
     CardBody,
     CardTitle,
-    CardText,
-    ListGroup,
-    ListGroupItem,
+    CardLink,
+    // CardText,
+    // ListGroup,
+    // ListGroupItem,
     Form,
     Input,
     Label
 } from 'reactstrap';
 import Loader from '../../Loader/Loader';
+import './style.css';
 
 export default class Users extends React.Component {
     constructor(props){
@@ -92,15 +94,27 @@ export default class Users extends React.Component {
                                         </div>
                                     </CardHeader>
                                     <CardBody>
-                                        <ListGroup>
+                                        <Row>
                                             {this.state.data.users.map( (user,key) => (
-                                                <ListGroupItem tag="a" key={key} href={"/admin/user/" + user._id }>
-                                                    {user.firstName + ' ' + user.lastName}
-                                                </ListGroupItem>
+                                                <Col xs={12} md={3} key={key} className="userListItem">
+                                                    <Card>
+                                                        <CardBody className="userName">
+                                                            <CardTitle>{user.firstName ? user.firstName : (<span className="text-muted">null</span>)} {user.lastName ? user.lastName : (<span className="text-muted">null</span>)}</CardTitle>
+                                                            
+                                                        </CardBody>
+                                                        <img src="https://placehold.it/400&text=No%20Image" alt=""/>
+                                                        <CardBody>
+                                                            <CardLink href={`/admin/users/${user._id}`}><i className="fal fa-fw fa-user-edit"></i> Manage</CardLink>
+                                                        </CardBody>
+                                                    </Card>
+                                                </Col>
+                                                // <ListGroupItem tag="a" key={key} href={"/admin/users/" + user._id }>
+                                                //     {user.firstName + ' ' + user.lastName}
+                                                // </ListGroupItem>
                                             ))}
-                                        </ListGroup>
+                                        </Row>
                                     </CardBody>
-                                    <CardFooter></CardFooter>
+                                   
                                 </Card>
                             </Col>
                         </Row>

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import {Route, Switch} from 'react-router-dom';
+import {Route, Switch, Redirect} from 'react-router-dom';
 import {Provider, Subscribe} from 'unstated';
 import MainContainer from './store/main';
+import {StripeProvider} from 'react-stripe-elements';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
 //PageLoaders
-import Admin from './Components/Admin/pages/Admin';
+import Admin from './Components/Admin/Pages/Admin';
 import Public from './Components/Public/Public';
 
 import Logout from './Components/Logout/Logout';
@@ -19,15 +20,15 @@ class App extends Component {
   //   user: {},
   //   isLoggedIn: false
   // };
-  constructor(props) {
-    super(props);
-    //Bind 'this' to functions so they can be passed to child components and be able
-    // to update the global state.
-    // this.updateTokenState = this.updateTokenState.bind(this);
-    // this.updateUserState = this.updateUserState.bind(this);
+  // constructor(props) {
+  //   super(props);
+  //   //Bind 'this' to functions so they can be passed to child components and be able
+  //   // to update the global state.
+  //   // this.updateTokenState = this.updateTokenState.bind(this);
+  //   // this.updateUserState = this.updateUserState.bind(this);
     
     
-  }
+  // }
   //Seperate the token information from userData. (Temporary)
   // updateTokenState(token) {
   //   this.setState({token: token});
@@ -57,10 +58,13 @@ class App extends Component {
           <Subscribe to={[MainContainer]}>
             {mainContainer => (
               <Switch>
-                <Route path="/logout" render={(props) => <Logout {...props} state={mainContainer.state} logout={mainContainer.logout}/>} />
-                <Route path='/admin' render={(props) => <Admin {...props} state={mainContainer.state} />} />
-                <Route path='/' render={(props) => <Public {...props} onTokenChange={mainContainer.updateToken} onUserChange={mainContainer.updateUser} state={mainContainer.state}/>}/>
                 
+                {/* {console.log('App State: ', mainContainer.state)} */}
+                <Route path="/logout" render={(props) => <Logout {...props} state={mainContainer.state} logout={mainContainer.logout}/>} />
+                <Route path='/admin' render={(props) => ( mainContainer.state.isLoggedIn?<Admin {...props} state={mainContainer.state} />: <Redirect to="/"/>)} />
+                <StripeProvider apiKey='pk_test_iS14vDu3AhdzHGCxnwapoW9L'>
+                <Route path='/' render={(props) => <Public {...props} onTokenChange={mainContainer.updateToken} onUserChange={mainContainer.updateUser} state={mainContainer.state}/>}/>
+                </StripeProvider>
               </Switch>
             )}
           </Subscribe>

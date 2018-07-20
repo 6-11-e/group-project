@@ -3,6 +3,7 @@ body {
     background-color: #e4e5e6;
     text-align: left;
 }
+
 /* Page Typography */
 .pageHeader {
     padding-bottom: 9px;
@@ -240,5 +241,30 @@ body {
     max-width: 100%;
 }
 .formControls {
+    text-align: right;
+}
+.pageContainer {
+    width: 100vw;
+}
+@media only screen and (min-width: 768px){
+    .pageContainer {
+        padding-left: 240px;
+        padding-top: 32px;
+        /* width: calc(100vw - 240px); */
+    }
+}
+@media only screen and (max-width: 767px){
+    .pageContainer {
+        padding-top: 20px;
+    }
+}
+.pullRight {
+    float: right;
+    display: block;
+    margin-top: -50px;
+}
+.pull-right {
+    float: right;
+    display: block;
     text-align: right;
 }

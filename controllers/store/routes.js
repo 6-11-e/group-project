@@ -29,6 +29,64 @@ router.get('/', protectRoute, roleCheck('Admin'), (req, res) => {
     res.status(200).json(msg);
 });
 
+router.post('/validateCart', (req, res) => {
+    // console.log(req.body)
+    let data = req.body;
+    verifyCart(data.items).then( cart => {
+        // console.log('Cart Data: ', cart)
+        let msg = {
+            status: 'ok',
+            data: {
+                cart: cart
+            }
+        }
+        return res.status(200).json(msg);
+    })
+})
+router.get('/getFeaturedProducts/:qty?', (req, res) => {
+    let qty = 3; //default qty
+    if(req.params.qty && Number.isInteger(parseInt(req.params.qty))){
+        qty = parseInt(req.params.qty)
+    }
+
+    Categories.findOne({featured: true, showFP: true}).lean().exec( (err, category) => {
+        if(err) console.log(err)
+        let catID = category._id.toString()
+        Products.find({categories: {$all: catID}, deleted: false}).limit(qty).lean().exec( (err, products) => {
+            if(err) console.log(err)
+                    console.log(typeof catID)
+
+            // console.log(products)
+            let msg = {
+                status: 'ok',
+                data: {
+                    featuredProducts: products
+                }
+            }
+            // console.log(msg.data)
+            return res.status(200).json(msg);
+            // console.log('featProducts', products)
+        })
+        // console.log('featProds', qty)
+        // console.log('featCat', category)
+    })
+})
+router.get('/products/category/:catID/:perPage?/:offset?', (req, res) => {
+    var qty = parseInt(req.params.perPage) || config.store.defaultQtyPerPage;
+    var offset = (req.params.offset <= 0 ? 0 : req.params.offset-1) * qty;
+    Products.find({deleted: false, categories: req.params.catID}).skip(offset).limit(qty).exec( (err, products) => {
+        if(err) console.log(err)
+        let msg = {
+            status: 'ok',
+            data: {
+                products: products,
+                count: products.length
+            }
+        }
+        return res.status(200).json(msg);
+    })
+    
+})
 router.get('/products/deleted', protectRoute, roleCheck('Admin'), (req, res) => {
     Products.find({deleted: true}, (err, products) => {
         if(err) console.log(err);
@@ -69,9 +127,9 @@ router.get('/products/:perPage?/:offset?', (req, res) => {
     //Set number of products perPage and offSet for search.
     var qty = parseInt(req.params.perPage) || config.store.defaultQtyPerPage;
     var offset = (req.params.offset <= 0 ? 0 : req.params.offset-1) * qty;
-    console.log(offset);
+    // console.log(offset);
     //Get products from db
-    Products.find({}).skip(offset).limit(qty).lean().exec( (err, products) => {
+    Products.find({deleted: false}).skip(offset).limit(qty).lean().exec( (err, products) => {
         if(err) console.log(err)
         let msg = {
             status: 'ok',
@@ -219,9 +277,9 @@ router.get('/product/:id?/:includeCats?', (req, res) => {
             //Unhandled parameter to search by!
             return res.status(404).json({status: "error", message: "No product was found."});
         }
-        console.log('field: ', field, '\nvalue: ', value);
+        // console.log('field: ', field, '\nvalue: ', value);
         //Perform database search
-        Products.find({})
+        Products.find({deleted: false})
         .where(query)
         .exec( (err, products) => {
             if (err) {
@@ -235,7 +293,7 @@ router.get('/product/:id?/:includeCats?', (req, res) => {
             if(req.params.includeCats && req.params.includeCats === 'includeCats'){
                 Categories.find({}).lean().exec((err, cats) => {
                     if(err) console.log(err)
-                    console.log(cats.length)
+                    // console.log(cats.length)
                     let msg = {
                         status: 'ok',
                         data: {
@@ -279,7 +337,7 @@ router.post('/product/edit/:id', (req, res) =>{
                 }
                 let imgsDel = productDB.images.filter(arrObjCompare(product.images));
                 
-                console.log(imgsDel)
+                // console.log(imgsDel)
                 
                 let delCount = 0;
                 for(img of imgsDel){
@@ -317,135 +375,6 @@ router.post('/product/new', (req, res) => {
         return res.status(200).json(msg);
     })
 })
-
-// router.post('/product/new', (req, res) => {
-//     //Get formData
-//     var product = {
-//         name: req.body.name,
-//         type: 'good',
-//         description: req.body.description,
-//         livemode: congig.payments.options.live
-
-//     };
-
-//     stripe.products.create(product).then(resultProduct =>{
-//         var sku = {
-//             product: resultProduct.id,
-//             currency: config.payments.options.currency,
-//             inventory: {
-//                 type: 'finite',
-//                 quantity: parseInt(req.body.stock)
-//             },
-//             price: parseFloat(req.body.price) * 100,
-//             package_dimensions: {
-//                 height: parseInt(req.body.height),
-//                 length: parseInt(req.body.length),
-//                 weight: parseInt(req.body.weight),
-//                 width: parseInt(req.body.width)
-//             }
-//         };
-
-//         stripe.skus.create(sku).then(resultSKU => {
-//             var newProduct = {
-//                 productID: resultProduct.id,
-//                 skuID: resultSKU.id,
-//                 name: product.name,
-//                 description: product.description,
-//                 price: sku.price / 100,
-//                 dimensions: sku.package_dimensions,
-//                 inventory: sku.inventory.quantity,
-//                 categories: req.body.categories
-//             };
-
-//             newProduct = new Products(newProduct);
-
-//             newProduct.save( (err) => {
-//                 if (err) {
-//                     let msg = {
-//                         status: "error",
-//                         message: "Unable to add new product",
-//                         data : {
-//                             name: req.body.name,
-//                             error: err
-//                         }
-//                     };
-//                     return res.status(200).json(msg);
-//                 }
-//                 let msg = {
-//                     status: "ok",
-//                     message: `Successfully added product "${req.body.name}"`
-//                 };
-//                 return res.status(200).json(msg)
-//             });
-//         });
-//     });
-// });
-
-// router.post('/product/edit/:id', (req, res) => {
-//     //Get product from db
-//     Products.findById(req.params.id, (err, product) => {
-//         if (err) {
-//             let msg = {
-//                 status: 'error',
-//                 message: `Unable to find product ID "${req.body.id}"`
-//             }
-//             console.log("Error: ", msg.message);
-//             return res.status(200).json(msg);
-//         }
-
-//         stripe.products.retrieve(product.productID).then( stripeProduct => {
-//             stripe.skus.retrieve(product.skuID).then( stripeSku => {
-//                 stripeSku.inventory.quantity = parseInt(req.body.stock);
-//                 stripeSku.price = parseFloat(req.body.price) * 100;
-//                 stripeSku.package_dimensions = {
-//                     height: parseInt(req.body.height),
-//                     length: parseInt(req.body.length),
-//                     weight: parseInt(req.body.weight),
-//                     width: parseInt(req.body.width)
-//                 };
-
-//                 stripe.skus.update(stripeSku.id, stripeSku).then( resultSku => {
-//                     stripeProduct.name = req.body.name
-//                     stripeProduct.description = req.body.description;
-
-//                     stripe.products.update(stripeProduct.id, stripeProduct).then( resultProduct => {
-//                         product.name = req.body.name;
-//                         product.price = parseInt(req.body.price);
-//                         product.description = req.body.description
-//                         product.dimensions = {
-//                             height: parseInt(req.body.height),
-//                             length: parseInt(req.body.length),
-//                             weight: parseInt(req.body.weight),
-//                             width: parseInt(req.body.width)
-
-//                         }
-//                         product.inventory = parseInt(req.body.stock);
-//                         //product.categories = req.body.categories
-
-//                         Products.findByIdAndUpdate(product._id, product, (err) => {
-//                             if (err) {
-//                                 let msg = {
-//                                     status: 'error',
-//                                     message: 'Unable to save product data!',
-//                                     data: {
-//                                         error: err,
-//                                         formData: req.body
-//                                     }
-//                                 };
-//                                 return res.status(200).json(msg);
-//                             }
-//                             let msg = {
-//                                 status: 'ok',
-//                                 message: 'Successfully updated "${req.body.name}"'
-//                             };
-//                             return res.status(200).json(msg);
-//                         })
-//                     })
-//                 })
-//             })
-//         })
-//     })
-// })
 
 router.delete('/product/:id/:hard?', protectRoute, roleCheck('Admin'), (req, res) => {
     Products.findById(req.params.id, (err, product) => {
@@ -518,54 +447,48 @@ router.get('/cart/add/:id/:qty?', (req, res) => {
             };
             res.status(200).json(msg);
         }
-        //
-
-        //Check to make sure params.qty <= product.inStock
-        
-
-        //
         
     });
 })
 
 
 
-router.get('/testPay', protectRoute, (req, res) => {
-    // let charge = {
-    //     amount: 999,
-    //     currency: 'usd',
-    //     source: 'tok_visa',
-    //     receipt_email: 'xuroth@gmail.com'
-    // };
-    // // console.log('customer,', verifyUser(req.user));
-    // // console.log('ID: ', req.user)
-    // processPayment(charge).then((result) => {
-    //     console.log(result);
-    //     let msg = {
-    //         status: "ok",
-    //         data: {
-    //             paymentConf: result
-    //         }
-    //     }
-    //     res.status(200).json(msg);
-    // })
-    res.status(200).json({user: req.user})
+// router.get('/testPay', protectRoute, (req, res) => {
+//     // let charge = {
+//     //     amount: 999,
+//     //     currency: 'usd',
+//     //     source: 'tok_visa',
+//     //     receipt_email: 'xuroth@gmail.com'
+//     // };
+//     // // console.log('customer,', verifyUser(req.user));
+//     // // console.log('ID: ', req.user)
+//     // processPayment(charge).then((result) => {
+//     //     console.log(result);
+//     //     let msg = {
+//     //         status: "ok",
+//     //         data: {
+//     //             paymentConf: result
+//     //         }
+//     //     }
+//     //     res.status(200).json(msg);
+//     // })
+//     res.status(200).json({user: req.user})
 
     
-})
+// })
 
-router.get('/testRole', protectRoute, roleCheck('Customer'), (req, res) => {
-    console.log('Success!');
-})
+// router.get('/testRole', protectRoute, roleCheck('Customer'), (req, res) => {
+//     console.log('Success!');
+// })
 
 router.post('/checkout', protectRoute, (req, res) => {
     let data = req.body;
     // console.log(Object.keys(data));
-    data.cart = JSON.parse(data.cart);
-    data.user = JSON.parse(data.user);
+    // data.cart = JSON.parse(data.cart);
+    // data.user = JSON.parse(data.user);
     verifyCart(data.cart.items).then( cart => {
         if(data.cart.total != cart.total) {
-            console.log('CartTotal: ',data.cart.total, 'ActualTotal: ', cart.total)
+            // console.log('CartTotal: ',data.cart.total, 'ActualTotal: ', cart.total)
             let msg = {
                 status: 'error',
                 message: 'The total of all items in user cart differs from verified total. Means either user manipulated price data in cart, or more likely, took too long to submit and a price change occurred by an admin. Just reshow the cart and advise user changes occurred and to submit again.',
@@ -580,7 +503,7 @@ router.post('/checkout', protectRoute, (req, res) => {
         cart.shipping = 12.99;
         //calc shipping
         //calc grandTotal
-        console.log(req.user);
+        // console.log(req.user);
         Users.findById(req.user._id, (err, user) => {
             if(err) console.log(err)
             let order = {
@@ -605,18 +528,20 @@ router.post('/checkout', protectRoute, (req, res) => {
                 ],
                 amountReturned: 0,
                 items: cart.items,
-                transactionID: ''
+                transactionID: '',
+                paymentBrand: data.paymentSource.brand,
+                paymentLast4: data.paymentSource.last4
             };
-
+            // console.log('Token Type:', typeof data.paymentSource.id)
             let grandTotal = parseFloat(order.subtotal) + parseFloat(order.tax) + parseFloat(order.shippingCost);
-            console.log('Grand Total: $', grandTotal, ' Type: ', typeof grandTotal)
+            // console.log('Grand Total: $', grandTotal, ' Type: ', typeof grandTotal)
             order.total = parseFloat(grandTotal).toFixed(2);
             //console.log(order)
 
             stripe.charges.create({
                 amount: order.total * 100,
                 currency: config.payments.options.currency,
-                source: req.body.paymentSource,
+                source: req.body.paymentSource.id,
                 statement_descriptor: config.payments.options.statementInfo
             }).then( result => {
                 //Decline or error
@@ -634,7 +559,7 @@ router.post('/checkout', protectRoute, (req, res) => {
                 } else if (result.status == 'succeeded') {
                     //Create order in db!
                     order.transactionID = result.id;
-                    order.sourceID = data.paymentSource;
+                    order.sourceID = data.paymentSource.id;
                     //SAVE ORDER
                     order = new Orders(order);
                     order.save(order).then( () => {
@@ -684,7 +609,7 @@ router.post('/product/:id/uploadImages', (req, res) => {
                 }
                 return res.status(409).json(msg);
             }
-            console.log('Uploading File'+filename);
+            // console.log('Uploading File'+filename);
             let imgDir = path.join(__dirname, `../../images/products/${req.params.id}/`);
             let ensureExists = (path, cb) => {
                 let mask = 0777;
@@ -708,16 +633,16 @@ router.post('/product/:id/uploadImages', (req, res) => {
             var saveTo = path.join(__dirname, `../../images/products/${req.params.id}/${filename}`)
             file.pipe(fs.createWriteStream(saveTo));
             file.on('data', (data) => {
-                console.log(filename + " = " + data.length)
+                // console.log(filename + " = " + data.length)
             })
             file.on('end', ()=> {
-                console.log(filename + " done!")
+                // console.log(filename + " done!")
                 images.push({name: filename, primary: false});
                 imgCount++;
             })
         })
         busboy.on('finish', () => {
-            console.log('DONE!')
+            // console.log('DONE!')
             product.images = images;
             Products.findByIdAndUpdate(req.params.id, product).exec( (err) => {
                 if(err)console.log(err);
@@ -751,19 +676,21 @@ function verifyCart(cart) {
         var itemCount = 0;
         // cart = JSON.parse(cart);
         for(item of cart) {
-            console.log(`Item ${itemCount + 1}`, item)
+            // console.log(`Item ${itemCount + 1}`, item)
             itemCount++
             ((item) => {
-                Products.findById(item.id).lean().exec( (err, product) => {
+                Products.findById(item._id).lean().exec( (err, product) => {
                     if (err) console.log(err)
+                    // console.log('Product: ', product)
+                    // console.log('Cart Item: ', item)
                     itemCount--;
                     product.qty = item.qty;
-                    console.log(item)
+                    // console.log(item)
                     //Need to trim product?
                     verifiedCart.items.push(product);
                     let total = (product.price * product.qty).toFixed(2)
                     total = parseFloat(total);
-                    console.log('Total for item: ', total, 'type: ', typeof total) 
+                    // console.log('Total for item: ', total, 'type: ', typeof total) 
                     verifiedCart.total += total;
                     
                     
@@ -858,7 +785,7 @@ router.post('/order/admin/:id', (req, res) => {
     })
 })
 router.get('/orders/admin/:perPage?/:offset?', (req, res) => {
-    console.log('GET ORDERS-ADMIN with: ',req.params)
+    // console.log('GET ORDERS-ADMIN with: ',req.params)
     //Ensure that any and all params are numbers or not set.
     if(req.params){
         for( param in req.params ){
@@ -900,16 +827,27 @@ router.get('/orders/admin/:perPage?/:offset?', (req, res) => {
     // })
     // //return result.
 })
-
-var uploadFilter = (data) => {
-    for(let file of data){
-        if(!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)){
-            // file = undefined;
-            console.log('filtered', file)
+router.get('/orders/view', protectRoute, (req, res) => {
+    Orders.find({user: req.user._id}).lean().exec( (err, orders) => {
+        if(err) console.log(err)
+        let msg = {
+            status: 'success',
+            data: {
+                orders: orders
+            }
         }
-    }
-    return data;
-}
+        return res.status(200).json(msg)
+    })
+})
+// var uploadFilter = (data) => {
+//     for(let file of data){
+//         if(!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)){
+//             // file = undefined;
+//             console.log('filtered', file)
+//         }
+//     }
+//     return data;
+// }
 
 //Add all /store/* routes to controllers/index.js
 module.exports = router;
