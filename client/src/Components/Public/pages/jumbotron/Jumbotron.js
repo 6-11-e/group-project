@@ -216,9 +216,11 @@ class MyJumbotron extends Component {
         }
         let categories = this.state.data.categories.map( (category, key) => (
             <Col key={key} xs={6} md={3} className="divImageButton" >
+                <Link to={`/category/${category._id}`}>
                 <div style={catDiv}>
                     {category.name}
                 </div>
+                </Link>
             </Col>
         ))
         let products = featProds.map( (product, key) => (
