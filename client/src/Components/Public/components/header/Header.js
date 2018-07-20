@@ -91,7 +91,7 @@ const navItemStyle = {
 // }
 
 const myInput = {
-  width: '50%',
+  // width: '50%',
   margin: '0 auto',
   paddingLeft: '10%',
   marginRight: '0'
@@ -127,7 +127,7 @@ class Header extends Component {
         <NavbarBrand href="/">
           <img src="/images/ecLogo_40.png" alt="Site Logo"/>
         </NavbarBrand>
-        <Form onSubmit={this.handleSearch}>
+        <Form onSubmit={this.handleSearch} style={{width: '50%', margin: '0 auto', paddingLeft: '10%', marginRight: '0'}}>
         <InputGroup style={myInput}>
           <Input type="text" placeholder="Search..." bsSize="sm" name="search"/>
           <InputGroupAddon addonType="append">
