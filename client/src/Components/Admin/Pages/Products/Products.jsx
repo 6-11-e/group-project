@@ -5,7 +5,7 @@ import{
 	Col,
 	Card,
 	CardHeader,
-	CardFooter,
+	// CardFooter,
 	CardBody,
 	Form,
 	Input,

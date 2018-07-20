@@ -16,7 +16,28 @@ class MainContainer extends Container {
         user: {
 
         },
-        isLoggedIn: false
+        isLoggedIn: false,
+        cart: {
+            items:[
+                {
+                    _id:"5b2f294ee7179a5b7ab879c7",
+                    qty:10
+                },
+                {
+                    _id:"5b2f29e2e7179a5b7ab879df",
+                    qty:3
+                },
+                {
+                    _id:"5b2f29fae7179a5b7ab879e3",
+                    qty:71
+                },
+                {
+                    _id:"5b2f2a1de7179a5b7ab879e8",
+                    qty:13
+                }
+            ],
+            total:2909.03
+        }
     }
     logout(){
         this.updateToken(null)

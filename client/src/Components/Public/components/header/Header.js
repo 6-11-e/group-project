@@ -12,7 +12,8 @@ import{
   DropdownMenu,
   Input,
   InputGroup,
-  InputGroupAddon
+  InputGroupAddon,
+  Badge
 } from 'reactstrap'
 // import { Navbar, Button} from 'react-bootstrap';
 // import { Nav } from 'react-bootstrap';
@@ -30,13 +31,13 @@ const alignNav = {
   float: 'none',
 }
 
-const alignButton = {
-  display: 'inline-block',
-  float: 'none',
-  borderRadius: '0%',
-  backgroundColor: '#3a3a3a',
-  border: 'none'
-}
+// const alignButton = {
+//   display: 'inline-block',
+//   float: 'none',
+//   borderRadius: '0%',
+//   backgroundColor: '#3a3a3a',
+//   border: 'none'
+// }
 
 
 // const noContain = {
@@ -52,11 +53,11 @@ const primaryNav = {
     // paddingLeft: '30px'
 }
 
-const mySearch = {
-  width: '40%',
-  marginTop: '13px',
-  marginLeft: '100px'
-}
+// const mySearch = {
+//   width: '40%',
+//   marginTop: '13px',
+//   marginLeft: '100px'
+// }
 
 const secondaryNav = {
   // height: '20px',
@@ -79,14 +80,14 @@ const navItemStyle = {
 //   left: '100px'
 // }
 
-const myBrand = {
-  width: '100px',
-  height: '100px',
-  backgroundImage: 'url(https://www.pngarts.com/files/1/Game-PNG-Download-Image.png)',
-  backgroundSize: '35%',
-  backgroundRepeat: 'no-repeat',
-  marginTop: '-7px'
-}
+// const myBrand = {
+//   width: '100px',
+//   height: '100px',
+//   backgroundImage: 'url(https://www.pngarts.com/files/1/Game-PNG-Download-Image.png)',
+//   backgroundSize: '35%',
+//   backgroundRepeat: 'no-repeat',
+//   marginTop: '-7px'
+// }
 
 const myInput = {
   width: '50%',
@@ -101,12 +102,13 @@ const buttonBox = {
 
 class Header extends Component {
     //No need to declare constructor if not used (aside from super()).
-    // constructor(props) {
-    //   super(props)
-    // }
+    constructor(props) {
+      super(props)
+      this.state = this.props.state;
+    }
     render() {
 
-        console.log('HEader props',this.props)
+        // console.log('HEader props',this.props)
         return ( 
 
     //Primary Nav
@@ -116,7 +118,7 @@ class Header extends Component {
           <img src="/images/ecLogo_40.png" alt="Site Logo"/>
         </NavbarBrand>
         <InputGroup style={myInput}>
-          <Input type="text" placeholder="Search..." bsSize="xs"/>
+          <Input type="text" placeholder="Search..." bsSize="sm"/>
           <InputGroupAddon addonType="append">
             <Button color="secondary">Go</Button>
           </InputGroupAddon>
@@ -131,24 +133,25 @@ class Header extends Component {
           <div>
             <Login onTokenChange={this.props.onTokenChange} onUserChange={this.props.onUserChange}/>
             <SignupModal style={alignNav}/>
-            <Button href="/cart" outline color="secondary" size="sm" style={buttonBox}>Cart <i class="fal fa-shopping-cart"></i></Button>
+            <Button href="/cart" outline color="secondary" size="sm" style={buttonBox}>Cart <i class="fal fa-shopping-cart"></i> <Badge></Badge></Button>
           </div>
         ) : (
           <div>
-            <span>Howdy, </span>
-            <UncontrolledDropdown eventKey={3} id="basic-nav-dropdown" style={alignNav} nav inNavbar>
+            <Button href="/cart" outline color="secondary" size="sm" style={buttonBox}>Cart <i className="fal fa-shopping-cart"></i> <Badge>{this.state.cart.items ? this.state.cart.items.length : ''}</Badge></Button>
+            
+            <UncontrolledDropdown id="basic-nav-dropdown" style={alignNav} nav inNavbar>
               <DropdownToggle nav caret>
                 {this.props.state.user.firstName}
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem componentClass="span">
+                <DropdownItem>
                   <Link to="/gallery" style={navItemStyle}>Gallery</Link>
                 </DropdownItem>
-                <DropdownItem componentClass="span">
+                <DropdownItem>
                   <Link to="/profile" style={navItemStyle}>My Profile</Link>
                 </DropdownItem>
-                <DropdownItem componentClass="span">
-                  <Link to="/">Logout</Link>
+                <DropdownItem>
+                  <Link to="/logout">Logout</Link>
                 </DropdownItem>
               </DropdownMenu>
               
@@ -160,16 +163,15 @@ class Header extends Component {
       </Navbar>
       {/* style={secondaryNav} className="hideMobile" */}
     <Navbar  dark color="dark" expand="md">
-    {/* <header> */}
-    {/* style={alignNav} */}
+    
       <Nav navbar className="mx-auto" style={secondaryNav}>
           <NavItem>
-            <NavLink href="/">Category</NavLink>
+            <NavLink href="/">Home</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="/">Another</NavLink>
+            <NavLink href="/gallery">Gallery</NavLink>
           </NavItem>
-          <NavItem>
+          {/* <NavItem>
             <NavLink href="/">Additional</NavLink>
           </NavItem>
           <NavItem>
@@ -180,9 +182,9 @@ class Header extends Component {
           </NavItem>
           <NavItem>
             <NavLink href="/">Finally</NavLink>
-          </NavItem>
+          </NavItem> */}
       </Nav>
-    {/* </header> */}
+
   </Navbar>
 </div>
     )

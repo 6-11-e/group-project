@@ -24,6 +24,10 @@ var ProductSchema = new Schema({
     categories: {
         type: Array
     },
+    primaryImage: {
+        type: String,
+        default: ''
+    },
     images: {
         type: [ImagesSchema]
     },

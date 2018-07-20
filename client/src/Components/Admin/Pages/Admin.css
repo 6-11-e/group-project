@@ -3,6 +3,7 @@ body {
     background-color: #e4e5e6;
     text-align: left;
 }
+
 /* Page Typography */
 .pageHeader {
     padding-bottom: 9px;
@@ -261,4 +262,9 @@ body {
     float: right;
     display: block;
     margin-top: -50px;
+}
+.pull-right {
+    float: right;
+    display: block;
+    text-align: right;
 }

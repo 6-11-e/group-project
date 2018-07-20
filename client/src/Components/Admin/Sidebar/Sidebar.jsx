@@ -5,7 +5,7 @@ import{
     NavLink
 } from 'reactstrap';
 import {NavLink as RNavLink} from 'react-router-dom'
-import SidebarStyles from './style.css';
+import './style.css';
 
 export default class Sidebar extends React.Component {
     constructor(props){

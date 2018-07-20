@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Pager } from 'react-bootstrap'
+// import { Pager } from 'react-bootstrap'
 import Products from '../components/Products'
 import Categories from '../components/Categories'
-import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
-import { Container, Row, Col, Button } from 'reactstrap';
+import { Container, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+// import {  Row, Col, Button } from 'reactstrap';
 
 
 const navContainer = {
@@ -16,10 +16,10 @@ const navContainer = {
     borderRight: 'solid gray 1px'
 }
 
-const ulContainer = {
-    listStyleType: 'none',
-    paddingRight: '30px'
-}
+// const ulContainer = {
+//     listStyleType: 'none',
+//     paddingRight: '30px'
+// }
 
 
 

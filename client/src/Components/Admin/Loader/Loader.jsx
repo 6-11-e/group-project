@@ -1,5 +1,5 @@
 import React from 'react';
-import {toast, Slide, Zoom, Flip} from 'react-toastify';
+import {toast, Slide} from 'react-toastify';
 
 export default class Loader extends React.Component {
     loadingToast = null

@@ -5,7 +5,7 @@ import {Route} from 'react-router-dom';
 import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
 
-import {ToastContainer, toast} from 'react-toastify';
+import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css'
 import{
     Container as Grid,
@@ -47,6 +47,7 @@ let Admin = class extends React.Component {
     }
     componentWillReceiveProps(nextProps){
         if(this.props !== nextProps){
+            //eslint-disable-next-line
             this.state = nextProps.state;
             this.getCurrentPage()
         }
@@ -56,7 +57,7 @@ let Admin = class extends React.Component {
     }
     render(){
         return(
-            <div>  
+            <Grid>  
                 <Header state={this.state} toggleSideNav={this.toggleSideNav}/>
                 {/* <Grid fluid> */}
                 <Row noGutters>
@@ -82,7 +83,7 @@ let Admin = class extends React.Component {
                 </Row>
                 <ToastContainer />
             {/* </Grid> */}
-            </div>   
+            </Grid>   
         )
     }
 }

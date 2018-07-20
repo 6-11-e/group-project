@@ -27,7 +27,7 @@ export default class NewCategory extends React.Component {
         let newProduct = {
             name: formData.get('name'),
             description: formData.get('description'),
-            showFP: (formData.get('showFP') == 'on' ? true : false)
+            showFP: (formData.get('showFP') === 'on' ? true : false)
         }
 
         fetch('/api/store/category/new', {

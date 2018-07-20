@@ -1,10 +1,11 @@
 import React from 'react';
-import {Route} from 'react-router-dom';
+import {Route, Redirect} from 'react-router-dom';
 import{
     Container as Grid,
     Row
 } from 'reactstrap'
-import {ToastContainer, toast} from 'react-toastify';
+import {ToastContainer} from 'react-toastify';
+import {Elements} from 'react-stripe-elements';
 // import {Grid, Col, Row} from 'react-bootstrap';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
@@ -15,8 +16,14 @@ import MyJumbotron from './pages/jumbotron/Jumbotron';
 import Profile from './pages/profile/Profile';
 import MyProduct from './pages/product/Product';
 import Cart from './pages/Cart/ShoppingCart';
+import Checkout from './pages/Checkout/checkout';
 // import './bootstrap/css/bootstrap.min.css';
+
 class Public extends React.Component {
+    constructor(props){
+        super(props)
+        this.state = this.props.state;
+    }
     
     render() {
         // console.log('Public.jsx Props',this.props)
@@ -32,10 +39,17 @@ class Public extends React.Component {
                 {/* Pages */}
                 <Row>
                     <Route exact path='/' component={MyJumbotron}/>
-                    <Route path="/gallery" component={Gallery}/>{/* Maybe products so url reads 'example.com/products/'. Gallery does have a nice ring though.*/}
+                    <Route path="/gallery" component={Gallery}/>
                     <Route path="/profile" component={Profile} />
-                    <Route path="/cart" component={Cart} />
-                    <Route path="/store/product/:id" component={MyProduct} /> {/* */}
+                    <Route path="/cart" render={(props) => (this.state.isLoggedIn ? <Cart {...props} state={this.state} /> : <Redirect to="/"/>) } />
+                    <Route path="/store/product/:id" render={(props) => <MyProduct {...props} state={this.state}/>} />
+                    
+                        <Elements>
+                        <Route path="/checkout" render={(props) => (this.state.isLoggedIn ? <Checkout {...props} state={this.state}/>:<Redirect to="/"/>)} />
+                        </Elements>
+                        
+
+                    
                 </Row>
                 {/* Footer */}
                 <Row>

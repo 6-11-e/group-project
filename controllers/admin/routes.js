@@ -4,14 +4,15 @@ var express     = require('express'),
     Products    = require('../../models/store/product'),
     router      = express.Router();
 
-router.get('/', (req, res) => {
-    let msg = {
-        status: 'ok',
-        data: {
-            message: 'Admin Controller is available!'
-        }
-    }
-})
+// router.get('/', (req, res) => {
+//     let msg = {
+//         status: 'ok',
+//         data: {
+//             message: 'Admin Controller is available!'
+//         }
+//     }
+
+// })
 
 router.get('/dashboardMetrics', (req, res) => {
     //Get users, sales, products, orders pending
@@ -54,7 +55,7 @@ router.get('/dashboardMetrics', (req, res) => {
     }
     getUserCount()
     .then( count => {
-        console.log('Users',count)
+        // console.log('Users',count)
         infoBars.users = {count: count}
     })
     .then(getSalesCount)
@@ -74,7 +75,7 @@ router.get('/dashboardMetrics', (req, res) => {
             status: 'ok',
             data: {infoBars}
         }
-        console.log(msg.data.infoBars)
+        // console.log(msg.data.infoBars)
         res.status(200).json(msg)
     })
     // Users.count({}, (err, count) => {

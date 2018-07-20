@@ -1,5 +1,6 @@
 var express     = require('express'),
     path        = require('path'),
+    Banners     = require('../../models/base/banner'),
     router      = express.Router();
 
 var version     = '0.0.1';
@@ -15,6 +16,10 @@ router.get('/version', (req, res) => {
         }
     };
     res.status(200).json(msg);
+})
+
+router.get('/banners', (req, res) => {
+    
 })
 
 module.exports = router;

@@ -6,7 +6,7 @@ import {
     Card,
     CardHeader,
     CardBody,
-    CardFooter,
+    // CardFooter,
     Button,
     Form,
     FormGroup,
@@ -15,11 +15,14 @@ import {
     Modal,
     ModalHeader,
     ModalBody,
-    ModalFooter
+    // ModalFooter,
+    InputGroup,
+    InputGroupAddon
 } from 'reactstrap';
 import Loader from '../../Loader/Loader';
-import AutoSuggestTagsInput from '../../AutoSuggestTagsInput/AutoSuggestTagsInput';
+// import AutoSuggestTagsInput from '../../AutoSuggestTagsInput/AutoSuggestTagsInput';
 import { toast, Slide } from 'react-toastify';
+import './style.css';
 
 export default class Product extends React.Component {
     constructor(props) {
@@ -34,6 +37,7 @@ export default class Product extends React.Component {
         this.handleCategoriesChange = this.handleCategoriesChange.bind(this)
         this.state.modalShow = false;
         this.state.uploadModal = false;
+        this.state.uploadFiles = [];
         this.toggleModal = this.toggleModal.bind(this);
         this.imageFormSubmit = this.imageFormSubmit.bind(this)
         this.showUploadModal = this.showUploadModal.bind(this)
@@ -43,6 +47,7 @@ export default class Product extends React.Component {
         this.toggleDeleteModal = this.toggleDeleteModal.bind(this)
         this.state.deleteModal = false;
         this.showDeleteModal = this.showDeleteModal.bind(this)
+        this.updateFileList = this.updateFileList.bind(this)
 
     }
     
@@ -130,10 +135,11 @@ export default class Product extends React.Component {
             name: data.get('name'),
             deleted: (data.get('deleted') === "on" ? true : false),
             price: parseFloat(data.get('price')),
-            inStock: parseInt(data.get('inStock')),
+            inStock: parseInt(data.get('inStock'), 10),
             categories: selectedCats,
             description: data.get('description'),
-            images: this.state.data.product.images
+            images: this.state.data.product.images,
+            primaryImage: this.state.data.product.primaryImage
             //other attr like images (array of filenames)
         }
         return product;
@@ -156,6 +162,23 @@ export default class Product extends React.Component {
         this.setState({modalShow: !this.state.modalShow})
         this.setState({deleteModal: !this.state.deleteModal})
     }
+    updateFileList(e){
+        let fileData = e.target.files;
+        // let fileContainer = document.getElementById('fileList');
+        let files = []
+        for(let file of fileData){
+            files.push({name: file.name, size: file.size})
+        }
+        files = files.map( file => (
+            <li className="fileListItem">
+                <div className="fileName">{file.name}</div>
+                <div className="fileSize">{this.formatBytes(file.size)}</div>
+            </li>
+        ));
+        this.setState({uploadFiles: files})
+
+    }
+    formatBytes(a,b){if(0===a)return"0 Bytes";var c=1024,d=b||2,e=["Bytes","KB","MB","GB","TB","PB","EB","ZB","YB"],f=Math.floor(Math.log(a)/Math.log(c));return parseFloat((a/Math.pow(c,f)).toFixed(d))+" "+e[f]}
     deleteFormSubmit(e){
         e.preventDefault();
         let selection = new FormData(e.target);
@@ -167,8 +190,8 @@ export default class Product extends React.Component {
         for(let selectedImg of selection){
             for(let image in images){
                 console.log('loop image',images[image])
-                if(selectedImg == images[image].name){
-                    if(images[image].primary == true) delPrimary = false;
+                if(selectedImg === images[image].name){
+                    if(images[image].primary === true) delPrimary = false;
                     images.splice(image, 1)
                 }
             }
@@ -176,7 +199,7 @@ export default class Product extends React.Component {
         console.log('after',images)
         var {data} = this.state;
         data.product.images = images;
-        if(delPrimary == true) data.product.images[0].primary = true;
+        if(delPrimary === true) data.product.images[0].primary = true;
         this.setState({data})
         this.toggleDeleteModal();
 
@@ -205,21 +228,23 @@ export default class Product extends React.Component {
         let selection = new FormData(e.target);
         selection = selection.get('primaryImage')
 
-        let prodImages = []
-        let {images} = this.state.data.product
-        let x = null
-        for(let image in images){
-            x = images[image]
-            if(x.name === selection){
-                x.primary = true;
+        // let prodImages = []
+        // let {images} = this.state.data.product
+        // let x = null
+        // for(let image in images){
+
+            // x = images[image]
+            // if(x.name === selection){
+            //     x.primary = true;
                 
-            } else {
-                x.primary = false;
-            }
-            prodImages.push(x)
-        }
+            // } else {
+            //     x.primary = false;
+            // }
+            // prodImages.push(x)
+        // }
         let {data} = this.state;
-        data.product.images = prodImages;
+        // data.product.images = prodImages;
+        data.product.primaryImage = selection;
         this.setState({data})
         //After Processing, close modal
         this.toggleModal()
@@ -265,6 +290,7 @@ export default class Product extends React.Component {
                     if(img.primary){
                         return true;
                     }
+                    return false;
                 })
                 if(primary && primary.length > 0){
                     product.primaryImage = primary[0].name
@@ -295,78 +321,86 @@ export default class Product extends React.Component {
                                         <Form onSubmit={this.handleSubmit}>
                                         <Row>
                                             {/* Product Primary Image, button for manage images */}
-                                            <Col xs="12" md="3">
-                                                <div className="imagePanel">
-                                                    <span className="prodPrimaryImg">
-                                                        {product.images && product.primaryImage ? (
-                                                            <img src={`/images/products/${product._id}/${product.primaryImage}`} alt="Primary image for product" className="img-responsive"/>
-                                                        ):(
-                                                            <img src={`https://placehold.it/400&text=No%20Image`} alt="No imgage for product!" className="img-responsive"/>
-                                                        )}
-                                                        
-                                                    </span>
-                                                    <span className="imgsB">
-                                                        <Button color="success" onClick={this.toggleModal}>Edit Images</Button>
-                                                    </span>
-                                                </div>
-                                            </Col>
-                                            {/* Primary Form */}
-                                            <Col xs="12" md="9" >
-                                                <FormGroup row>
-                                                    <Label for="name" sm={2}>Name</Label>
-                                                    <Col sm={10}>
-                                                        <Input type="text" name="name" id="name" placeholder="Product Name..." className="form-control" defaultValue={product.name}/>
-                                                    </Col> 
-                                                </FormGroup>
-                                                <Row>
-                                                    <Col sm={{size: 10, offset: 2}} md={{size: 4, offset: 2}}>
+                                            
+                                                <Col xs="12" md="3">
+                                                    <div className="imagePanel">
+                                                        <span className="prodPrimaryImg">
+                                                            {product.images && product.primaryImage ? (
+                                                                <img src={`/images/products/${product._id}/${product.primaryImage}`} alt="Primary" className="img-responsive"/>
+                                                            ):(
+                                                                <img src={`https://placehold.it/400&text=No%20Image`} alt="Primary" className="img-responsive"/>
+                                                            )}
+                                                            
+                                                        </span>
+                                                        <span className="imgsBtn">
+                                                            <Button color="success" block onClick={this.toggleModal}><i className="fal fa-images fa-fw"></i> Image Manager</Button>
+                                                        </span>
+                                                    </div>
+                                                </Col>
+                                                {/* Primary Form */}
+                                            
+                                                <Col xs="12" md="6" >
+                                                    <Row>
+                                                        <Col xs="12" md="6" >
+                                                            <FormGroup row>
+                                                                <Label for="name">Name</Label>
+                                                                    <Input type="text" name="name" id="name" placeholder="Product Name..." className="form-control" defaultValue={product.name}/>
+                                                            </FormGroup>
+                                                        </Col>   
+                                                        <Col xs="12" md={{size: 4, offset: 1}} > 
+                                                            <FormGroup row>
+                                                                <Label for="price">Price</Label>
+                                                                <InputGroup>
+                                                                <InputGroupAddon addonType="prepend">$</InputGroupAddon>
+                                                                <Input type="number" name="price" id="price" className="form-control" min="0.00" step="0.01" defaultValue={product.price}/>
+                                                                </InputGroup>
+                                                                
+                                                            </FormGroup>
+                                                        </Col>
+                                                    </Row>
+                                                    <Row>
+                                                        <Col xs={12} md={6}>
                                                         <FormGroup inline check>
                                                             <Label check>
                                                                 <Input type="checkbox" name="deleted" checked={product.deleted} onChange={this.handleDeletedChange} sm={6} md={4} /> Remove Product?
                                                             </Label>
                                                         </FormGroup>
-                                                    </Col>
-                                                    <Col sm={{size: 10, offset: 2}} md={{size: 4, offset: 2}}>
-                                                        <FormGroup row>
-                                                            <Label for="price">$</Label><Input type="number" name="price" id="price" className="form-control" defaultValue={product.price}/>
-                                                        </FormGroup>
-                                                    </Col>
-                                                </Row>
-                                                <Row>
-                                                    <Col xs={4}>
-                                                        <FormGroup row>
-                                                            <Label for="inStock">In Stock</Label>
-                                                            <Input type="number" id="inStock" name="inStock" className="form-control" defaultValue={product.inStock} />
-                                                        </FormGroup>
-                                                    </Col>
-                                                    <Col xs={8}>
-                                                        <FormGroup row>
-                                                            <Label for="categories">Categories</Label>
-                                                            {/* <AutoSuggestTagsInput suggestions={this.state.data.categories} inputProps={{className: "form-control", placeholder: "Add Categories"}} /> */}
-                                                            <Input type="select" name="categories[]" id="categories" multiple defaultValue={product.categories} onChange={this.handleCategoriesChange}>
-                                                            {this.state.data.categories.map( (category, key) => {
-                                                                return <option value={category._id} key={key}>{category.name}</option>
-                                                            })}
+                                                        </Col>
+                                                        <Col xs={12}  md={{size: 4, offset: 1}} >
+                                                            <FormGroup row>
+                                                                <Label for="inStock" sm={12}>In Stock</Label>
+                                                                <Col sm={12}>
+                                                                    <Input type="number" id="inStock" name="inStock" className="form-control" defaultValue={product.inStock} />
+                                                                </Col>
+                                                            </FormGroup>
+                                                        </Col>   
+                                                    </Row>
+                                                </Col>
+                                                <Col xs={12} md={3}>
+                                                    <FormGroup row>
+                                                        <Label for="categories">Categories</Label>
+                                                        {/* <AutoSuggestTagsInput suggestions={this.state.data.categories} inputProps={{className: "form-control", placeholder: "Add Categories"}} /> */}
+                                                        <Input type="select" name="categories[]" id="categories" multiple defaultValue={product.categories} onChange={this.handleCategoriesChange}>
+                                                        {this.state.data.categories.map( (category, key) => {
+                                                            return <option value={category._id} key={key}>{category.name}</option>
+                                                        })}
 
-                                                            </Input> 
-                                                        </FormGroup>
-                                                    </Col>
-                                                </Row>
-                                                <Row>
-                                                    <Col xs={12}>
-                                                        <Input type="textarea" name="description" id="description" defaultValue={product.description} /> 
-                                                    </Col>
-                                                </Row>
-
-                                                <Row>
-                                                    <Col xs={{size: 12}} md={{size: 4, offset: 8}}>
-                                                        <Button color="secondary" onClick={this.handleGoBack}>Cancel</Button>
-                                                        <Button color="primary" type="submit">Submit</Button>
-                                                    </Col>
-                                                </Row>
-                                                {/* use a special onChange function(event) to listen for event.name as product field in state */}
-                                                {/* Use grid with form, set formGroup.pull-right#positioning for save/cancel */}
+                                                        </Input> 
+                                                    </FormGroup>
+                                                </Col>
+                                            
+                                            
+                                            <Col xs={12} md={{size: 9, offset: 3}}>
+                                                <Label for="description">Description</Label>
+                                                <Input type="textarea" name="description" id="description" defaultValue={product.description} /> 
                                             </Col>
+                                            
+                                        </Row>
+                                        <Row>
+                                            <div className="formButtons">
+                                                <Button color="secondary" onClick={this.handleGoBack}><i className="fal fa-fw fa-ban"></i> Cancel</Button>
+                                                <Button color="success" type="submit"><i className="fal fa-fw fa-check"></i> Save</Button>
+                                            </div>
                                         </Row>
                                         </Form>
                                     </CardBody>
@@ -374,64 +408,81 @@ export default class Product extends React.Component {
                                 {/* Cool to have performance details here in another card */}
                             </Col>
                         </Row>
-                        <Modal isOpen={this.state.modalShow} toggle={this.toggleModal} className="prodImgModal" >
+                        <Modal centered isOpen={this.state.modalShow} toggle={this.toggleModal} className="prodImgModal" >
                             <ModalHeader toggle={this.toggleModal}>
-                                Image Editor
+                                Image Manager <small>Primary Image</small>
+                                <span className="pull-right">
+                                    <Button onClick={this.showUploadModal} color="primary" size="sm"><i className="fal fa-upload"></i> Upload</Button>
+                                </span>
                             </ModalHeader>
                             <ModalBody>
                                 <Form onSubmit={this.imageFormSubmit}>
+                                <Row>
                                 {product.images.map( (image, key) => (
+                                    <Col xs={12} md={3} key={key}>
                                     <FormGroup key={key}>
                                         <Label for={`prodImages_${key}`} check>
-                                            <img src={`/images/products/${product._id}/${image.name}`} className="img-responsive"/>
+                                            <img src={`/images/products/${product._id}/${image.name}`} alt="Primary" className="img-responsive"/>
                                         </Label>
                                         <Input id={`prodImages_${key}`} name="primaryImage" type="radio" value={image.name}/>
+                                        <span className="select"></span>
                                     </FormGroup>
-                                    
+                                    </Col>
                                 ))}
-                                <div className="form-controls-left">
-                                    <Button onClick={this.showDeleteModal}>Delete</Button>
+                                </Row>
+                                <div className="formButtons">
+                                    <Button onClick={this.showDeleteModal} color="danger"><i className="fal fa-fw fa-trash"></i> Delete</Button>
+                                    <Button type="submit" color="success"><i className="fal fa-fw fa-check"></i> Select</Button>
                                 </div>
-                                <div className="form-controls">
-                                    <Button onClick={this.showUploadModal}>Upload</Button>
-                                    <Button type="submit">Select</Button>
-                                </div>
-                                </Form>
-                                {/* <Form onSubmit={this.handleImageSelectForm}>
-                                    {this.state.productImages.map( image => {
-
-                                    })}
-                                </Form> */}
-                            </ModalBody>
-                            <ModalFooter>
-                                {/* Button onClick=this.imageSelectChange - takes all images selected setstate prodImages. fetchpost should take that. */}
-                            </ModalFooter>
-                        </Modal>
-                        <Modal isOpen={this.state.uploadModal} toggle={this.toggleUploadModal} className='imageUploadModal'>
-                            <ModalHeader toggle={this.toggleUploadModal}>Upload Image</ModalHeader>
-                            <ModalBody>
-                                <Form onSubmit={this.uploadFormSubmit} encType="multipart/form-data">
-                                    <Input type="file" name="newImages" id="newImages" accept='image/*' multiple/>
-                                    <Button type="submit">Upload</Button>
                                 </Form>
                             </ModalBody>
                         </Modal>
-                        <Modal isOpen={this.state.deleteModal} toggle={this.toggleDeleteModal} className="deleteModal">
-                            <ModalHeader toggle={this.toggleDeleteModal}>Delete Images</ModalHeader>
+                        <Modal centered isOpen={this.state.deleteModal} toggle={this.toggleDeleteModal} className="deleteModal">
+                            <ModalHeader toggle={this.toggleDeleteModal}>
+                                Image Manager <small>Delete Images</small>
+                            </ModalHeader>
                             <ModalBody>
                                 <Form onSubmit={this.deleteFormSubmit}>
-                                    {console.log('del IMG', product.images)}
+                                    <Row>
                                     {product.images.map( (image,key) => (
+                                        <Col xs={12} md={3} key={key}>
                                         <FormGroup key={key}>
                                             {console.log(image.name)}
                                             <Label for={`prodImages_${key}`} check>
-                                                <img src={`/images/products/${product._id}/${image.name}`} className="img-responsive"/>
+                                                <img src={`/images/products/${product._id}/${image.name}`} className="img-responsive" alt="Primary"/>
                                             </Label>
                                             <Input name="deleteImage" id={`prodImages_${key}`} type="checkbox" value={image.name}/>
+                                            <span className="select"></span>
                                         </FormGroup>
+                                        </Col>
                                     ))}
-                                    <div className="form-controls">
-                                        <Button type="submit">Delete</Button>
+                                    </Row>
+                                    <div className="formButtons">
+                                        <Button color="secondary" onClick={this.showDeleteModal}><i className="fal fa-fw fa-ban"></i> Cancel</Button>
+                                        <Button type="submit" color="danger"><i className="fal fa-fw fa-trash"></i> Delete</Button>
+                                    </div>
+                                </Form>
+                            </ModalBody>
+                        </Modal>
+                        <Modal centered isOpen={this.state.uploadModal} toggle={this.toggleUploadModal} className='imageUploadModal'>
+                            <ModalHeader toggle={this.toggleUploadModal}>
+                                Image Manager <small>Upload Image</small>
+                            </ModalHeader>
+                            <ModalBody>
+                                <Form onSubmit={this.uploadFormSubmit} encType="multipart/form-data">
+                                    <div className="fileContainer">
+                                        {this.state.uploadFiles.length > 0 ? (''):(<h3 className="fileContainerText"><i className="fal fa-images"></i> No Files Selected</h3>)}
+                                        <ul id="fileList">
+                                            {this.state.uploadFiles}
+                                        </ul>
+                                        <Label for="newImages">
+                                        <div color="primary" type="button" className="btn btn-primary btn-upload"><i className="fal fa-fw fa-image"></i> Select Files</div>
+                                        </Label>
+                                        <Input type="file" name="newImages" id="newImages" accept='image/*' onChange={this.updateFileList} multiple hidden/>
+                                    </div>
+                                    <div className="formButtons">
+                                        <Button color="secondary" type="button" onClick={this.toggleUploadModal}><i className="fal fa-fw fa-ban"></i> Cancel</Button>
+                                        <Button type="submit" color="success"><i className="fal fa-upload fa-fw"></i> Upload</Button>
                                     </div>
                                 </Form>
                             </ModalBody>
