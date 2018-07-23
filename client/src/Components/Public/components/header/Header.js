@@ -76,6 +76,10 @@ const navItemStyle = {
     marginBottom: '15px'
 }
 
+const whiteText = {
+  color: 'whitesmoke'
+}
+
 // const searchBar = {
 //   left: '100px'
 // }
@@ -140,7 +144,7 @@ class Header extends Component {
             <Button href="/cart" outline color="secondary" size="sm" style={buttonBox}>Cart <i className="fal fa-shopping-cart"></i> <Badge>{this.state.cart.items ? this.state.cart.items.length : ''}</Badge></Button>
             
             <UncontrolledDropdown id="basic-nav-dropdown" style={alignNav} nav inNavbar>
-              <DropdownToggle nav caret>
+              <DropdownToggle nav caret style={whiteText}>
                 {this.props.state.user.firstName}
               </DropdownToggle>
               <DropdownMenu right>
@@ -162,30 +166,6 @@ class Header extends Component {
       {/* </header> */}
       </Navbar>
       {/* style={secondaryNav} className="hideMobile" */}
-    <Navbar  dark color="dark" expand="md">
-    
-      <Nav navbar className="mx-auto" style={secondaryNav}>
-          <NavItem>
-            <NavLink href="/">Home</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink href="/gallery">Gallery</NavLink>
-          </NavItem>
-          {/* <NavItem>
-            <NavLink href="/">Additional</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink href="/">Even More</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink href="/">Eventually</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink href="/">Finally</NavLink>
-          </NavItem> */}
-      </Nav>
-
-  </Navbar>
 </div>
     )
 }

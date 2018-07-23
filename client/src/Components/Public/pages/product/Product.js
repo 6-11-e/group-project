@@ -29,7 +29,6 @@ const primaryProduct = {
 
 const productFeature = {
     height: '60vh',
-    backgroundColor: 'black',
     // width: '40%',
     margin: '40px 0px 40px 0px',
     // float: 'left'
@@ -43,6 +42,10 @@ const relatedProducts = {
     marginBottom: '25px'
 }
 
+const buttonStyle = {
+    width: '100%',
+    marginTop: '25px'
+}
 
 class MyProduct extends React.Component {
     constructor(props){
@@ -114,11 +117,11 @@ class MyProduct extends React.Component {
                                 <div style={productFeature}>
                                     <img src={`/images/products/${product._id}/${product.primaryImage}`} alt="Product"/>
                                     <div className="productThumbs">
-                                        {product.images.map( (image,key) => (
+                                        {/* {product.images.map( (image,key) => (
                                             <div className="imgThumb" key={key}>
                                                 <img src={`/images/products/${product._id}/${image.name}`} alt="Alternate" className="img-responsive"/>
                                             </div>
-                                        ))}
+                                        ))} */}
                                     </div>
                                 </div>
                                 </Col>
@@ -129,7 +132,8 @@ class MyProduct extends React.Component {
                                         <p>{this.state.data.product.description}</p>
                                         <Form onSubmit={this.handleAddToCart}>
                                         <span><label>Qty</label><input type="number" name="quantity" defaultValue="1" /></span>
-                                        <Button type="submit">Add to cart</Button>
+                                        <br/>
+                                        <Button color='primary' type="submit" style={buttonStyle}>Add to cart</Button>
                                         </Form>
                                     </div>
                                  </Col>

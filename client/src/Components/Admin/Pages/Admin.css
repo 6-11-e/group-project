@@ -4,6 +4,10 @@ body {
     text-align: left;
 }
 
+a {
+    color: black;
+}
+
 /* Page Typography */
 .pageHeader {
     padding-bottom: 9px;
@@ -237,8 +241,16 @@ body {
     text-align: left;
 }
 
-.img-responsive {
+img {
     max-width: 100%;
+    max-height: 100%;
+}
+
+.img-responsive {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
 }
 .formControls {
     text-align: right;
