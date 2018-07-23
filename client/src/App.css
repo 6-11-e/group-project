@@ -44,6 +44,7 @@ body {
 
 .divImageButton {
   transition: transform .5s;
+  border-radius: 50%;
 }
 
 .divImageButton:hover {
@@ -77,10 +78,22 @@ a:hover {
   }
 }
 
-.shoppingList li:nth-child(even) {
+/* .shoppingList li:nth-child(even) {
   background-color: #f2f2f2;
+} */
+
+.shoppingList li:last-child {
+  border-bottom: none;
 }
 
+.portrait {
+  height: 80px;
+  width: 30px;
+}
+
+.btn-outline-secondary {
+  color: white;
+}
 
 
 /* Success Check-Mark */

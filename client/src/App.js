@@ -6,7 +6,7 @@ import {StripeProvider} from 'react-stripe-elements';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
 //PageLoaders
-import Admin from './Components/Admin/Pages/Admin';
+import Admin from './Components/Admin/pages/Admin';
 import Public from './Components/Public/Public';
 
 import Logout from './Components/Logout/Logout';
