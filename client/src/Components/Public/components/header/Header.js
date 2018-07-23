@@ -107,7 +107,12 @@ class Header extends Component {
       super(props)
       this.state = this.props.state;
       this.handleSearch = this.handleSearch.bind(this)
-      console.log(this.props)
+      this.calcCartQuantity = this.calcCartQuantity.bind(this)
+      this.state.cartCount = 0;
+      // console.log(this.props)
+    }
+    componentWillMount(){
+      this.calcCartQuantity();
     }
     handleSearch(ev){
       ev.preventDefault();
@@ -115,6 +120,18 @@ class Header extends Component {
       query = query.get('search')
       // console.log(this.props.history)
       window.location = 'http://localhost:3000/search/'+encodeURIComponent(query);
+    }
+    calcCartQuantity(){
+      let count = 0;
+      if(this.state.cart){
+        if(this.state.cart.items){
+          
+          for(let item of this.state.cart.items){
+            count += item.qty
+          }
+        }
+      }
+      this.setState({cartCount: count});
     }
     render() {
 
@@ -150,7 +167,7 @@ class Header extends Component {
           </div>
         ) : (
           <div>
-            <Button href="/cart" outline color="secondary" size="sm" style={buttonBox}>Cart <i className="fal fa-shopping-cart"></i> <Badge>{this.state.cart.items ? this.state.cart.items.length : ''}</Badge></Button>
+            <Button href="/cart" outline color="secondary" size="sm" style={buttonBox}>Cart <i className="fal fa-shopping-cart"></i> <Badge>{this.state.cartCount}</Badge></Button>
             
             <UncontrolledDropdown id="basic-nav-dropdown" style={alignNav} nav inNavbar>
               <DropdownToggle nav caret>

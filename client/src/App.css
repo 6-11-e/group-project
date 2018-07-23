@@ -125,7 +125,7 @@ button {
   position: absolute;
   width: 60px;
   height: 120px;
-  background: rgb(228 229 230);
+  background: transparent;
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
 }
@@ -169,7 +169,7 @@ button {
 .sa-icon.sa-success .sa-fix {
   width: 5px;
   height: 90px;
-  background-color: rgb(228 229 230);
+  background-color: transparent;
   position: absolute;
   left: 28px;
   top: 8px;

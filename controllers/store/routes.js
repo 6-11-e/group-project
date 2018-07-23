@@ -566,10 +566,11 @@ router.post('/checkout', protectRoute, (req, res) => {
                     order.sourceID = data.paymentSource.id;
                     //SAVE ORDER
                     order = new Orders(order);
-                    order.save(order).then( () => {
+                    order.save(order).then( (order) => {
                         let msg = {
                             status: 'ok',
-                            message: 'Order placed, charge successful!'
+                            message: 'Order placed, charge successful!',
+                            data: {orderID: order._id}
                         }
                         return res.status(200).json(msg);
                     })
@@ -830,6 +831,20 @@ router.get('/orders/admin/:perPage?/:offset?', (req, res) => {
     //     res.status(200).json(msg)
     // })
     // //return result.
+})
+router.get('/order/view/:orderID', (req, res) => {
+    Orders.findById(req.params.orderID).lean().exec( (err, order) => {
+        if(err) console.log(err)
+        // if(req.user._id == order.user){
+            let msg = {
+                status: 'ok',
+                data: {
+                    order:  order
+                }
+            }
+            res.status(200).json(msg);
+        // }
+    })
 })
 router.get('/orders/view', protectRoute, (req, res) => {
     Orders.find({user: req.user._id}).lean().exec( (err, orders) => {

@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import {
     Container as Grid,
     Col,
@@ -45,11 +46,15 @@ export default class SearchResults extends React.Component {
             // let {products} = this.state;
             let products = this.state.products.map( (product, key) => (
                 <Col xs={12} md={4} key={key}>
-                    <div className="product">
-                        <h4 className="productName">{product.name}</h4>
-                        <img src={`/images/products/${product._id}/${product.primaryImage}`} alt={product.name} className="img-responsive"/>
-                    </div>
-                </Col>
+                    <Link to={"/store/product/" + encodeURIComponent(product.name)} >
+                        <div key={product._id} className="grid-container">
+                            <div className="productImage" style={{backgroundImage: `url('/images/products/${product._id}/${product.primaryImage}')`}}>
+                                <h6 className="productTitle">{product.name}</h6>
+                                <span className="productPrice">${product.price}</span>
+                            </div>
+                        </div>
+                    </Link>
+                    </Col>
             ));
             return(
                 <Grid>

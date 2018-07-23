@@ -51,7 +51,7 @@ class Public extends React.Component {
                         <Route path="/checkout" render={(props) => (this.state.isLoggedIn ? <Checkout {...props} state={this.state}/>:<Redirect to="/"/>)} />
                         </Elements>
 
-                    <Route path="/success" component={Success} />
+                    <Route path="/success/:orderID" component={Success} />
                     <Route path="/category/:id" component={ProductsByCategory}/>
                     <Route path="/search/:query" render={(props) => <SearchResults {...props}/>}/>
                 </Row>

@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 import {
     Pagination,
     PaginationItem,
-    PaginationLink
+    PaginationLink,
+    Row,
+    Col
 } from 'reactstrap';
 
 
@@ -51,6 +53,7 @@ class Products extends React.Component {
             let products = response.data.products.map((product, id) => {
                 // console.log(products)
                 return (
+                    <Col xs={12} md={4} key={id}>
                     <Link to={"/store/product/" + encodeURIComponent(product.name)} key={id}>
                         <div key={product._id} className="grid-container">
                             <div className="productImage" style={{backgroundImage: `url('/images/products/${product._id}/${product.primaryImage}')`}}>
@@ -59,6 +62,7 @@ class Products extends React.Component {
                             </div>
                         </div>
                     </Link>
+                    </Col>
                 )
             })
             let pageCount = Math.ceil(parseInt(response.data.count) / this.state.perPage)
@@ -94,15 +98,18 @@ class Products extends React.Component {
         if(this.state.done){
             return(
                 <div>
-                <div>
+                <Row>
+                    
+
+                    
                     {this.state.products}
                     <div className="paginationSet">
                     <Pagination>
                         {this.state.pageLinks}
                     </Pagination>
+                    
                 </div>
-                </div>
-                
+                </Row>
                 </div>
             )
         } else {

@@ -47,7 +47,7 @@ export default class ProductsByCategory extends React.Component {
             console.log(this.state.products)
             var products = this.state.products.map( (product, key) => (
                 
-                
+                <Col xs={12} md={4} key={key}>
                     <Link to={`/store/product/${encodeURIComponent(product.name)}`}>
                         <div key={product._id} className="grid-container">
                             <div className="productImage" style={{backgroundImage: `url('/images/products/${product._id}/${product.primaryImage}')`}}>
@@ -56,11 +56,11 @@ export default class ProductsByCategory extends React.Component {
                             </div>
                         </div>
                     </Link>
-                
+                </Col>
             ))
             console.log(products)
             return(
-                <Grid>
+                <Grid fluid>
                     <Row>
                         <Col md={2} className="hideMobile mainSidebar">
                             <Categories activeCategory={this.props.match.params.id}/>
@@ -68,7 +68,10 @@ export default class ProductsByCategory extends React.Component {
                         <Col xs={12} md={10}>
                             <h2 style={{marginTop: '0.9rem'}}>Gallery</h2>
                             <hr/>
+                            <Row>
                             {products}
+                            </Row>
+                            
                         </Col>
                         
                     </Row>
