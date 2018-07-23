@@ -250,7 +250,9 @@ img {
     width: 100%;
     max-width: 100%;
     height: auto;
+
     object-fit: contain;
+
 }
 .formControls {
     text-align: right;
@@ -279,4 +281,11 @@ img {
     float: right;
     display: block;
     text-align: right;
+}
+.grid-container {
+    animation: fadein 2s;
+}
+@keyframes fadein {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }

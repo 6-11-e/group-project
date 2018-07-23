@@ -13,7 +13,8 @@ import{
   Input,
   InputGroup,
   InputGroupAddon,
-  Badge
+  Badge,
+  Form
 } from 'reactstrap'
 // import { Navbar, Button} from 'react-bootstrap';
 // import { Nav } from 'react-bootstrap';
@@ -94,7 +95,7 @@ const whiteText = {
 // }
 
 const myInput = {
-  width: '50%',
+  // width: '50%',
   margin: '0 auto',
   paddingLeft: '10%',
   marginRight: '0'
@@ -109,6 +110,32 @@ class Header extends Component {
     constructor(props) {
       super(props)
       this.state = this.props.state;
+      this.handleSearch = this.handleSearch.bind(this)
+      this.calcCartQuantity = this.calcCartQuantity.bind(this)
+      this.state.cartCount = 0;
+      // console.log(this.props)
+    }
+    componentWillMount(){
+      this.calcCartQuantity();
+    }
+    handleSearch(ev){
+      ev.preventDefault();
+      let query = new FormData(ev.target);
+      query = query.get('search')
+      // console.log(this.props.history)
+      window.location = 'http://localhost:3000/search/'+encodeURIComponent(query);
+    }
+    calcCartQuantity(){
+      let count = 0;
+      if(this.state.cart){
+        if(this.state.cart.items){
+          
+          for(let item of this.state.cart.items){
+            count += item.qty
+          }
+        }
+      }
+      this.setState({cartCount: count});
     }
     render() {
 
@@ -121,12 +148,15 @@ class Header extends Component {
         <NavbarBrand href="/">
           <img src="/images/ecLogo_40.png" alt="Site Logo"/>
         </NavbarBrand>
+        <Form onSubmit={this.handleSearch} style={{width: '50%', margin: '0 auto', paddingLeft: '10%', marginRight: '0'}}>
         <InputGroup style={myInput}>
-          <Input type="text" placeholder="Search..." bsSize="sm"/>
+          <Input type="text" placeholder="Search..." bsSize="sm" name="search"/>
           <InputGroupAddon addonType="append">
             <Button color="secondary">Go</Button>
           </InputGroupAddon>
         </InputGroup>
+        </Form>
+        
 
       {/* <span><input type="text" placeholder="Search" style={mySearch}/><Button bsStyle="primary" bsSize="small" style={alignButton}>Search</Button></span> */}
 
@@ -141,7 +171,7 @@ class Header extends Component {
           </div>
         ) : (
           <div>
-            <Button href="/cart" outline color="secondary" size="sm" style={buttonBox}>Cart <i className="fal fa-shopping-cart"></i> <Badge>{this.state.cart.items ? this.state.cart.items.length : ''}</Badge></Button>
+            <Button href="/cart" outline color="secondary" size="sm" style={buttonBox}>Cart <i className="fal fa-shopping-cart"></i> <Badge>{this.state.cartCount}</Badge></Button>
             
             <UncontrolledDropdown id="basic-nav-dropdown" style={alignNav} nav inNavbar>
               <DropdownToggle nav caret style={whiteText}>
@@ -165,7 +195,9 @@ class Header extends Component {
       </Nav>
       {/* </header> */}
       </Navbar>
-      {/* style={secondaryNav} className="hideMobile" */}
+
+
+
 </div>
     )
 }

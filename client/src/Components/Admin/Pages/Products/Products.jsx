@@ -46,7 +46,7 @@ export default class Products extends React.Component {
 			})
 			.then( response => {
 				var data = this.state.data;
-				data.products = response.data;
+				data.products = response.data.products;
 				this.setState({data})
 				console.log(data)
 			})

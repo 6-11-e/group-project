@@ -16,6 +16,7 @@ import {
 } from 'reactstrap';
 import './style.css';
 import {injectStripe, CardNumberElement, CardExpiryElement, CardCVCElement} from 'react-stripe-elements';
+import { toast } from 'react-toastify';
 // import StripeCheckout from 'react-stripe-checkout';
 
 
@@ -183,8 +184,21 @@ class Checkout extends React.Component {
                 else return response.statusText
             })
             .then( response => {
-                console.log(response)
+                // console.log(response)
+                if(response.status === 'ok'){
+                    console.log(response)
+                    toast('Success! Order was placed!');
+                    let cart = {
+                        items: [],
+                        total: 0
+                    }
+                    sessionStorage.setItem('cart', JSON.stringify(cart));
+                    return response.data.orderID;
+                }
             })
+            .then( orderID => {
+                window.location = 'http://localhost:3000/success/' + orderID;
+            } )
             
             // console.log(request)
         })

@@ -28,7 +28,6 @@ const primaryProduct = {
 // }
 
 const productFeature = {
-    height: '60vh',
     // width: '40%',
     margin: '40px 0px 40px 0px',
     // float: 'left'
@@ -58,9 +57,11 @@ class MyProduct extends React.Component {
         //     },
         //     done: false
         // }
+        this.state.primaryImage;
         this.state.data = {};
         this.state.done = false;
         this.handleAddToCart = this.handleAddToCart.bind(this)
+        this.changePrimaryImage = this.changePrimaryImage.bind(this);
     }
 
     componentDidMount() {
@@ -72,6 +73,7 @@ class MyProduct extends React.Component {
             data = response.data
             console.log(data)
             this.setState({data})
+            this.setState({primaryImage: data.product.primaryImage})
         })
         .then( () => this.setState({done: true}))
     }
@@ -105,60 +107,72 @@ class MyProduct extends React.Component {
         cart.total = subtotal;
         sessionStorage.setItem('cart', JSON.stringify(cart));
     }
+
+    changePrimaryImage(ev){
+        // console.log(ev.target)
+        this.setState({primaryImage: ev.target.id})
+    }
     render() {
         let {product} = this.state.data;
         if(this.state.done){
             return(
-
-                            <div style={mainDiv}>
-                            <Container fluid>
-                                <Row>
-                                <Col md={6}>
-                                <div style={productFeature}>
-                                    <img src={`/images/products/${product._id}/${product.primaryImage}`} alt="Product"/>
-                                    <div className="productThumbs">
-                                        {/* {product.images.map( (image,key) => (
-                                            <div className="imgThumb" key={key}>
-                                                <img src={`/images/products/${product._id}/${image.name}`} alt="Alternate" className="img-responsive"/>
-                                            </div>
-                                        ))} */}
-                                    </div>
+                <div style={mainDiv}>
+                <Container fluid>
+                    <Row>
+                    <Col md={6}>
+                    <div style={productFeature} className="prodImgs">
+                        
+                        <div className="productImg" style={{backgroundImage: 'url(' + `http://localhost:5000/images/products/${product._id}/${this.state.primaryImage}` + ')'}}>
+                            {/* <img src={`/images/products/${product._id}/${this.state.primaryImage}`} alt="Product" className="img-responsive"/> */}
+                        </div>
+                        
+                        <div className="productThumbs">
+                            {product.images.map( (image,key) => (
+                                <div className="imgThumb" key={key}>
+                                    <a className="noDisplay" onClick={this.changePrimaryImage} >
+                                        <div className="thumb" id={image.name} style={{backgroundImage: `url('/images/products/${product._id}/${image.name}')`}}></div>
+                                        {/* <img src={`url('/images/products/${product._id}/${image.name}')`} alt="Alternate" id={image.name} className="img-responsive"/> */}
+                                    </a>
+                                    
                                 </div>
-                                </Col>
-                                <Col md={6}>
-                                    <div style={primaryProduct}>
-                                        <h2>{this.state.data.product.name}</h2>
-                                        <h4>${this.state.data.product.price}</h4>
-                                        <p>{this.state.data.product.description}</p>
-                                        <Form onSubmit={this.handleAddToCart}>
-                                        <span><label>Qty</label><input type="number" name="quantity" defaultValue="1" /></span>
-                                        <br/>
-                                        <Button color='primary' type="submit" style={buttonStyle}>Add to cart</Button>
-                                        </Form>
-                                    </div>
-                                 </Col>
-                                 </Row>
-                                 <h3>Related Products</h3>
-                                 <Row>
-                                 <Col sm={4}>
-                                     <div style={relatedProducts}>
-            
-                                     </div>
-                                 </Col>
-                                 <Col sm={4}>
-                                     <div style={relatedProducts}>
-                                        
-                                     </div>
-                                 </Col>
-                                 <Col sm={4}>
-                                     <div style={relatedProducts}>
-                                        
-                                     </div>
-                                 </Col>
-                                 </Row>
-                             </Container>
-                         </div>
-            
+                            ))}
+                        </div>
+                    </div>
+                    </Col>
+                    <Col md={6}>
+                        <div style={primaryProduct}>
+                            <h2>{this.state.data.product.name}</h2>
+                            <h4>${this.state.data.product.price}</h4>
+                            <div dangerouslySetInnerHTML={{__html: this.state.data.product.description}}/>
+                                {/* {this.state.data.product.description}
+                            </div> */}
+                            <Form onSubmit={this.handleAddToCart}>
+                            <span><label>Qty</label><input type="number" name="quantity" defaultValue="1" /></span>
+                            <Button type="submit">Add to cart</Button>
+                            </Form>
+                        </div>
+                        </Col>
+                        </Row>
+                        <h3>Related Products</h3>
+                        <Row>
+                        <Col sm={4}>
+                            <div style={relatedProducts}>
+
+                            </div>
+                        </Col>
+                        <Col sm={4}>
+                            <div style={relatedProducts}>
+                            
+                            </div>
+                        </Col>
+                        <Col sm={4}>
+                            <div style={relatedProducts}>
+                            
+                            </div>
+                        </Col>
+                        </Row>
+                    </Container>
+                </div>
             )
         } else {
             return(

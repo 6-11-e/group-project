@@ -57,7 +57,7 @@ let Admin = class extends React.Component {
     }
     render(){
         return(
-            <Grid>  
+            <div>  
                 <Header state={this.state} toggleSideNav={this.toggleSideNav}/>
                 {/* <Grid fluid> */}
                 <Row noGutters>
@@ -83,7 +83,7 @@ let Admin = class extends React.Component {
                 </Row>
                 <ToastContainer />
             {/* </Grid> */}
-            </Grid>   
+            </div>   
         )
     }
 }

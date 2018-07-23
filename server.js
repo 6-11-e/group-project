@@ -5,6 +5,7 @@ var express         = require('express'),
     bodyParser      = require('body-parser'),
     passport        = require('passport'),
     cors            = require('cors'),
+    morgan          = require('morgan'),
     app             = express();
     // fileUpload      = require('express-fileupload');
     // busboy          = require('connect-busboy');
@@ -24,10 +25,13 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use(passport.initialize());
 app.use(cors())
+app.use(morgan('common'));
 // app.use(fileUpload())
 // PRODUCTION ONLY
-app.use(express.static(path.join(__dirname, 'client/build')));
+// console.log('images path', path.join(__dirname, 'images'))
 app.use('/images', express.static('images'));
+app.use(express.static(path.join(__dirname, 'client/build')));
+
 
 
 

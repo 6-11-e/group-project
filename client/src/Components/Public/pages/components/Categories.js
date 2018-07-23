@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import './categories.css';
 
 const ulContainer = {
     listStyleType: 'none',
@@ -12,10 +13,11 @@ const ulContainer = {
 let api = '/api/store/categories/public'
 
 class Categories extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             categories: [],
+            activeCategory: (this.props.activeCategory?this.props.activeCategory:null)
         };
     }
 
@@ -28,9 +30,14 @@ class Categories extends React.Component {
         }).then(response => {
             console.log('cats', response.data)
             let categories = response.data.categories.map((category, id) => {
+                let isActive = (category._id === this.state.activeCategory? ' active':'')
                 return (
                     // <ul style={ulContainer}>
-                        <Link to={"/category/" + category._id}><li key={id}>{category.name}</li></Link>
+                        <li className={"sidebarCategory"+isActive} key={id}>
+                            <Link to={"/category/" + category._id}>
+                                {category.name}
+                            </Link>
+                        </li>
                     // </ul>
                 )
             })
@@ -40,8 +47,10 @@ class Categories extends React.Component {
 
     render() {
         return (
-            <div>
-                <ul style={ulContainer}>
+            <div className="sidebarContainer">
+                <h4>Categories</h4>
+                <hr/>
+                <ul className="categorySidebar">
                     {this.state.categories}
                 </ul>
             </div>

@@ -20,6 +20,7 @@ router.get('/version', (req, res) => {
 })
 
 router.get('/search/:query', (req, res) => {
+    console.log(req.params.query)
     let regex = new RegExp(escapeRegex(req.params.query), 'gi');
     Products.find({$or: [ {name: regex}, {description: regex}]}).lean().exec( (err, results) => {
         if(err) console.log(err)

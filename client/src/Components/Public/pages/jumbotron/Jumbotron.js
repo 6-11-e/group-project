@@ -32,8 +32,8 @@ const jumboStyle2 = {
     backgroundSize: 'cover',
     backgroundAttachment: 'fixed',
     backgroundRepeat: 'no-repeat',
-    // marginTop: '10px',
-    marginBottom: '10px',
+    marginTop: '0px',
+    marginBottom: '0px',
     height: '25vh',
     borderRadius: '0%'
 }
@@ -235,15 +235,14 @@ class MyJumbotron extends Component {
                 
                     <Link to={'/store/product/' + encodeURIComponent(product.name)}>
                         <div className="divImageButton">
-                            <h2 style={whiteText}>{product.name}</h2>
-                            {product.primaryImage && product.primaryImage !== ''? (
-                                <div>
-                                    <img className="img-responsive" alt={product.name} src={`/images/products/${product._id}/${product.primaryImage}`}/>
-                                </div>
-                            ):(
-                                // <img className="img-responsive" alt={product.name} src={`https://placehold.it/400&text=${encodeURIComponent(product.name)}%20Image`}/>
-                            ''
-                            )}
+                        <div key={product._id} className="grid-container">
+                            <div className="productImage" style={{backgroundImage: `url('/images/products/${product._id}/${product.primaryImage}')`}}>
+                                <h6 className="productTitle">{product.name}</h6>
+                                <span className="productPrice">${product.price}</span>
+                            </div>
+                        </div>
+
+
                         </div>
                     </Link>
                 
@@ -295,7 +294,10 @@ class MyJumbotron extends Component {
         <Container>
         <div>
         <Row >
-            {categories}
+            <div className="flex">
+                {categories}
+            </div>
+            
         {/* <Col xs={6} md={3} style={displayBlocks} className='divImageButton'>
             <div style={catDiv}>
                 Category

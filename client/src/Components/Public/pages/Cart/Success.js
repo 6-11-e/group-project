@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Button } from 'reactstrap';
+import {
+    Container,
+    Row,
+    Col,
+    Card,
+    CardBody
+} from 'reactstrap';
 
 const successMark = {
     width: '100%',
@@ -100,88 +106,93 @@ const relatedProducts = {
 }
 
 class Success extends React.Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            orderID: this.props.match.params.orderID,
+            order: {},
+            done: false
+        }
+        this.getOrder = this.getOrder.bind(this)
+    }
+    componentWillMount(){
+        this.getOrder();
+    }
+    getOrder(){
+        this.setState({done: false});
+        fetch('/api/store/order/view/' + this.state.orderID, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then( response => {
+            if(response.ok) return response.json()
+            else throw new Error('Unable to connect!')
+        })
+        .then( response => {
+            let {order} = this.state;
+            order = response.data.order;
+            console.log(order)
+            this.setState({order, done: true})
+        })
+    }
     render() {
-        return (
-        <Container>
-            <Row>
-            <Col sm="12">
-            <div style={successMark}>
-                <div className="check_mark">
-                    <div className="sa-icon sa-success animate">
-                    <span className="sa-line sa-tip animateSuccessTip"></span>
-                    <span className="sa-line sa-long animateSuccessLong"></span>
-                    <div className="sa-placeholder"></div>
-                    <div className="sa-fix"></div>
-                    </div>
-                </div>
-            </div>
-            </Col>
-            </Row>
-            <Row>
-            <Col sm="12">
-                <h1>Success!</h1>
-            </Col>
-            </Row>
-            <div style={demoCol}>
-            <Row>
-            <Col sm="12">
-                        <h3>Order Summary</h3>
-                        <div stlye={productList}>
-                            <ul style={listStyle} className="shoppingList">
-                                <li style={borderBottom}>
-                                    <div style={itemStyle}>
-                                        <div style={photoDemo}></div>
-                                        <span style={itemSpans}><h4>Demo Item</h4><p>$9.99</p></span>
+        if(this.state.done){
+            let {order} = this.state;
+            return (
+                <Container>
+                    <Row>
+                    <Col sm={12} md={{size: 8, offset: 2}}>
+                    <Card>
+                        <CardBody>
+                            <div style={successMark}>
+                                <div className="check_mark">
+                                    <div className="sa-icon sa-success animate">
+                                    <span className="sa-line sa-tip animateSuccessTip"></span>
+                                    <span className="sa-line sa-long animateSuccessLong"></span>
+                                    <div className="sa-placeholder"></div>
+                                    <div className="sa-fix"></div>
                                     </div>
-                                </li>
-                                <li style={borderBottom}>
-                                    <div style={itemStyle}>
-                                        <div style={photoDemo}></div>
-                                        <span style={itemSpans}><h4>Demo Item 2</h4><p>$9.99</p></span>
+                                </div>
+                            </div>
+                            <Row>
+                                <div className="centerTitle" style={{textAlign: 'center', width: '100%'}}>
+                                <h1>Success!</h1>
+                                </div>
+                            </Row>
+                            <Row>
+                                {/* Name & Shipping */}
+                                <Col xs={12} md={6}>
+                                    <h3>Ship To</h3>
+                                    <div className="addresses">
+                                        <div className="userAddress">
+                                            <span className="name">{order.shipping.name}</span>
+                                            <p>{order.shipping.address.street}</p>
+                                            <p>{order.shipping.address.line2}</p>
+                                            <p>{order.shipping.address.city} {order.shipping.address.state} {order.shipping.address.zip}</p>
+                                        </div>
                                     </div>
-                                </li>
-                                <li style={borderBottom}>
-                                    <div style={itemStyle}>
-                                        <div style={photoDemo}></div>
-                                        <span style={itemSpans}><h4>Demo Item 3</h4><p>$9.99</p></span>
-                                    </div>
-                                </li>
-                                <li style={borderBottom}>
-                                    <div style={itemStyle}>
-                                        <div style={photoDemo}></div>
-                                        <span style={itemSpans}><h4>Demo Item 4</h4><p>$9.99</p></span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
+                                </Col>
+                                {/* Order # & Totals */}
+                                <Col xs={12} md={6}>
+                                    <h3>Order Details</h3>
+
+                                    <p>${order.total}</p>
+                                    <p>Billed from: **{order.paymentLast4} {order.paymentBrand}</p>
+                                </Col>
+                            </Row>
+                        </CardBody>
+                    </Card>
+                   
                     </Col>
-            </Row>
-            {/* <div style={summary}> */}
-            <Row>
-            <Col md="6">
-                            <div style={orderSummary}>
-                            <h4>Cost Breakdown</h4>
-                            <span style={mySpan}><p>Subtotal:</p><p>$9.99</p></span>
-                            <span style={mySpan}><p>Shipping:</p><p>Free</p></span>
-                            <span style={mySpan}><p>Estimated Tax:</p><p>$.60</p></span>
-                            <span style={mySpan}><p>Order Total:</p><p>$10.59</p></span>
-                            </div>
-            </Col>      
-            <Col md="6">
-                            <div style={shiptTo}>
-                            <h4>Shipping Info</h4>
-                            <span style={mySpan}><p>Ray West</p></span>
-                            <span style={mySpan}><p>5555 Address Rd</p></span>
-                            <span style={mySpan}><p>City, State 55555</p></span>
-                            <span style={mySpan}><p>555-555-5555</p></span>
-                            <span style={mySpan}><p>email@email.com</p></span>
-                            </div>
-            </Col>      
-            </Row>
-            </div>
-            {/* </div> */}
-        </Container>
-        )
+                    </Row>
+                    
+                </Container>
+                )
+        } else {
+            return '';
+        }
+
     }
 }
 

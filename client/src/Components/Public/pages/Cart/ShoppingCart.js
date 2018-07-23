@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Button } from 'reactstrap';
+import {Link} from 'react-router-dom';
 // import Product from '../../../Admin/Pages/Product/Product';
 import './style.css';
 
@@ -214,7 +215,8 @@ class Cart extends React.Component {
                             <span style={mySpan}><p style={borderBottom}>Estimated Tax:</p><p>${this.state.totals.tax ? this.state.totals.tax:''}</p></span>
                             <span style={mySpan}><p style={borderBottom}>Order Total:</p><p>${this.state.totals.grandTotal ? this.state.totals.grandTotal:''}</p></span>
                             </div>
-                            <Button color='primary'>Checkout</Button>
+                            <Link to="/checkout"><Button color="primary" block>Checkout</Button></Link>
+
                         </div>
                     </Col>
                 </Row>
