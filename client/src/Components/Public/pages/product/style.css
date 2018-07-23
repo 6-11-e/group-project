@@ -1,7 +1,105 @@
 .productThumbs {
     max-width: 100%;
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border: 1px solid black;
+    margin-top: 15px;
 }
 .imgThumb {
     border: 1px solid black;
-    max-width: calc(100% / 4);
+    width: 140px;
+    height: 140px;
+    padding: 5px;
+    border-radius: 2px;
+    /* margin: 0 15px; */
+}
+.productImg {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    max-height: 75%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.thumb {
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 120px;
+    height: 120px;
+    margin: auto;
+}
+.prodImgs {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 80vh;
+}
+.noDisplay {
+    border: none;
+    background-color: transparent;
+}
+.productImage {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center top;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 2px;
+    /* position: relative;
+    bottom: 20px;
+    right: 20px; */
+}
+.productImage .productTitle {
+    color: white;
+    background-color: rgba(0,0,0,0.3);
+    padding: 10px;
+    box-shadow: 0 10px 10px -10px rgba(0,0,0,0.3);
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+.productImage:hover .productTitle {
+    background-color: rgba(0,0,0,0.5);
+    box-shadow: 0 10px 10px -10px rgba(0,0,0,0.5)
+}
+.productImage .productPrice {
+    color: white;
+    background-color: rgba(0,0,0,0.3);
+    padding: 10px;
+    box-shadow: 0 -10px 10px -10px rgba(0,0,0,0.3);
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    font-weight: bold;
+}
+.productImage:hover .productPrice {
+    background-color: rgba(0,0,0,0.5);
+    box-shadow: 0 -10px 10px -10px rgba(0,0,0,0.5);
+    
+}
+.grid-container {
+    background-color: #333;
+    border-radius: 2px;
+    min-width: 300px;
+    height: 400px;
+    border: 1px solid gray;
+    margin: 20px;
+    padding: 0px;
+    display: inline-block;
+    vertical-align: top;
+}
+.grid-container:hover {
+    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.5);
+}
+.paginationSet {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }

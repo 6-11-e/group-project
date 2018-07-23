@@ -1,4 +1,8 @@
 import React from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+// import 'react-quill/dist/quill.bubble.css';
+// import 'react-quill/dist/quill.core.css';
 import {
     Container as Grid,
     Row,
@@ -48,7 +52,7 @@ export default class Product extends React.Component {
         this.state.deleteModal = false;
         this.showDeleteModal = this.showDeleteModal.bind(this)
         this.updateFileList = this.updateFileList.bind(this)
-
+        this.onDescriptionChange = this.onDescriptionChange.bind(this)
     }
     
     toggleDeleteModal(){
@@ -128,6 +132,11 @@ export default class Product extends React.Component {
             this.getProduct()
         })
     }
+    onDescriptionChange(value){
+        let {data} = this.state;
+        data.product.description = value;
+        this.setState({data})
+    }
     validateForm(formData) {
         let data = formData;
         let selectedCats = this.state.selectedCats
@@ -137,7 +146,7 @@ export default class Product extends React.Component {
             price: parseFloat(data.get('price')),
             inStock: parseInt(data.get('inStock'), 10),
             categories: selectedCats,
-            description: data.get('description'),
+            description: this.state.data.product.description, //data.get('description'),
             images: this.state.data.product.images,
             primaryImage: this.state.data.product.primaryImage
             //other attr like images (array of filenames)
@@ -392,7 +401,8 @@ export default class Product extends React.Component {
                                             
                                             <Col xs={12} md={{size: 9, offset: 3}}>
                                                 <Label for="description">Description</Label>
-                                                <Input type="textarea" name="description" id="description" defaultValue={product.description} /> 
+                                                <ReactQuill theme="snow" value={this.state.data.product.description} onChange={this.onDescriptionChange}/>
+                                                {/* <Input type="textarea" name="description" id="description" defaultValue={product.description} />  */}
                                             </Col>
                                             
                                         </Row>

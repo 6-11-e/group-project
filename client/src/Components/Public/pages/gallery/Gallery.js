@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // import { Pager } from 'react-bootstrap'
 import Products from '../components/Products'
 import Categories from '../components/Categories'
-import { Container, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import { Container, Col, Row} from 'reactstrap';
 // import {  Row, Col, Button } from 'reactstrap';
 
 
@@ -36,38 +36,20 @@ class Gallery extends Component {
     }
     render() {
         return (
-        <div>
-                <Container fluid>
-                {/* <Row>
-                <Col sm="2"> */}
-                <div style={navContainer} className="hideMobile">
-                    <Categories />
-                </div>
-                {/* </Col>
-                <Col sm="10" xs="12"> */}
-                    <Products page={this.state.page}/>
-                {/* </Col>
-                </Row> */}
-                </Container>
 
-                {/* <div>
-                        <Pagination aria-label="Page navigation example">
-                    <PaginationItem>
-                        <PaginationLink previous href="#" />
-                    </PaginationItem>
-                    <PaginationItem>
-                    <PaginationLink href="#">
-                        1
-                    </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                    <PaginationLink href="#">
-                        2
-                    </PaginationLink>
-                    </PaginationItem>
-                </Pagination>
-                </div> */}
-        </div>
+            <Container fluid>
+                <Row style={{width: '100%'}}>
+                    <Col md={2} className="hideMobile mainSidebar">
+                        <Categories />
+                    </Col>
+                    <Col xs={12} md={10}>
+                        <h2 style={{marginTop: '0.9rem'}}>Gallery</h2>
+                        <hr/>
+                        <Products page={this.state.page}/>
+                    </Col>
+                </Row>
+            </Container>
+
         )
     }
 }

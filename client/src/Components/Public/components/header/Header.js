@@ -175,7 +175,7 @@ class Header extends Component {
       {/* </header> */}
       </Navbar>
       {/* style={secondaryNav} className="hideMobile" */}
-    <Navbar  dark color="dark" expand="md">
+    {/* <Navbar  dark color="dark" expand="md">
     
       <Nav navbar className="mx-auto" style={secondaryNav}>
           <NavItem>
@@ -184,21 +184,9 @@ class Header extends Component {
           <NavItem>
             <NavLink href="/gallery">Gallery</NavLink>
           </NavItem>
-          {/* <NavItem>
-            <NavLink href="/">Additional</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink href="/">Even More</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink href="/">Eventually</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink href="/">Finally</NavLink>
-          </NavItem> */}
       </Nav>
 
-  </Navbar>
+  </Navbar> */}
 </div>
     )
 }

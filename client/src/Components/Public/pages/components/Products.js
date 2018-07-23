@@ -12,8 +12,8 @@ const productBlocks = {
     height: '250px',
     border: '1px solid gray',
     margin: '20px',
-    padding: '20px',
-    paddingTop: '20px',
+    padding: '0px',
+    // paddingTop: '20px',
     display: 'inline-block',
     verticalAlign: 'top'
 }
@@ -52,18 +52,19 @@ class Products extends React.Component {
                 // console.log(products)
                 return (
                     <Link to={"/store/product/" + encodeURIComponent(product.name)} key={id}>
-                    <div key={product._id} style={productBlocks} className="grid-container">
-                        <h6>{product.name}</h6>
-                        <p>${product.price}</p>
-                        <img src={`/images/products/${product._id}/${product.primaryImage}`} className="img-responsive"/>
-                    </div>
+                        <div key={product._id} className="grid-container">
+                            <div className="productImage" style={{backgroundImage: `url('/images/products/${product._id}/${product.primaryImage}')`}}>
+                                <h6 className="productTitle">{product.name}</h6>
+                                <span className="productPrice">${product.price}</span>
+                            </div>
+                        </div>
                     </Link>
                 )
             })
             let pageCount = Math.ceil(parseInt(response.data.count) / this.state.perPage)
             let pageLinks = []
             for(let x = 1; x < pageCount + 1; x++){
-                pageLinks.push((<PaginationItem>
+                pageLinks.push((<PaginationItem key={x}>
                     <PaginationLink href={`/gallery/${x}`}>
                         {x}
                     </PaginationLink>
@@ -95,16 +96,21 @@ class Products extends React.Component {
                 <div>
                 <div>
                     {this.state.products}
-                </div>
-                <div className="paginationSet">
+                    <div className="paginationSet">
                     <Pagination>
                         {this.state.pageLinks}
                     </Pagination>
                 </div>
                 </div>
+                
+                </div>
             )
         } else {
-            return '';
+            return(
+                <div className="loadDisplay">
+                    <h3>Loading...</h3>
+                </div>
+            )
         }
         
     }

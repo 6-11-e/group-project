@@ -1,0 +1,35 @@
+.sidebarContainer {
+    max-width: 300px;
+    text-align: left;
+}
+.categorySidebar {
+    list-style: none;
+    padding-left: 0px;
+}
+.sidebarCategory {
+    height: 2rem;
+    width: 100%;
+    padding-left: 1rem;
+
+}
+.sidebarCategory a {
+    color: #000;
+}
+.mainSidebar {
+    margin-top: 1.5rem;
+    border-right: 1px solid #333;
+}
+.loadDisplay {
+    width: 100%;
+}
+.sidebarCategory.active:before {
+    content: '';
+    display: inline-block;
+    padding: 5px;
+    width: 10px;
+    height: 10px;
+    margin-right: 5px;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    transform: rotateZ(318deg);
+}
