@@ -200,8 +200,8 @@ class Cart extends React.Component {
                                 </li> */}
                             </ul>
                             <div className="formButtons">
-                                <Button>Empty Cart</Button>
-                                <Button>Update Quantities</Button>
+                                <Button color='primary'>Empty Cart</Button>
+                                <Button color='primary'>Update Quantities</Button>
                             </div>
                         </div>
                     </Col>
@@ -214,7 +214,7 @@ class Cart extends React.Component {
                             <span style={mySpan}><p style={borderBottom}>Estimated Tax:</p><p>${this.state.totals.tax ? this.state.totals.tax:''}</p></span>
                             <span style={mySpan}><p style={borderBottom}>Order Total:</p><p>${this.state.totals.grandTotal ? this.state.totals.grandTotal:''}</p></span>
                             </div>
-                            <Button>Checkout</Button>
+                            <Button color='primary'>Checkout</Button>
                         </div>
                     </Col>
                 </Row>

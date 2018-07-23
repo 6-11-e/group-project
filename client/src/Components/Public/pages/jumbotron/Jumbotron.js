@@ -21,7 +21,7 @@ const jumboStyle = {
     backgroundPosition: 'right',
     height: '50vh',
     marginTop: '0px',
-    marginBottom: '10px',
+    marginBottom: '0px',
     borderRadius: '0%'
 
 }
@@ -32,15 +32,16 @@ const jumboStyle2 = {
     backgroundSize: 'cover',
     backgroundAttachment: 'fixed',
     backgroundRepeat: 'no-repeat',
-    marginTop: '10px',
+    // marginTop: '10px',
     marginBottom: '10px',
     height: '25vh',
     borderRadius: '0%'
 }
 
 const whiteText = {
-    color: 'white'
+    color: 'whitesmoke'
 }
+
 
 // const flexer = {
 //     display: 'flex'
@@ -97,6 +98,11 @@ const displayBlocks = {
     marginTop: '0px',
     paddingRight: '5px',
     paddingLeft: '5px'
+}
+
+const imgDiv = {
+    width: '150px',
+    height: '150px'
 }
 
 class MyJumbotron extends Component {
@@ -229,9 +235,11 @@ class MyJumbotron extends Component {
                 
                     <Link to={'/store/product/' + encodeURIComponent(product.name)}>
                         <div className="divImageButton">
-                            <h2>{product.name}</h2>
+                            <h2 style={whiteText}>{product.name}</h2>
                             {product.primaryImage && product.primaryImage !== ''? (
-                                <img className="img-responsive" alt={product.name} src={`/images/products/${product._id}/${product.primaryImage}`}/>
+                                <div>
+                                    <img className="img-responsive" alt={product.name} src={`/images/products/${product._id}/${product.primaryImage}`}/>
+                                </div>
                             ):(
                                 // <img className="img-responsive" alt={product.name} src={`https://placehold.it/400&text=${encodeURIComponent(product.name)}%20Image`}/>
                             ''

@@ -47,7 +47,9 @@ class Products extends React.Component {
                     <div key={product._id} style={productBlocks} className="grid-container">
                         <h6>{product.name}</h6>
                         <p>${product.price}</p>
+                        <div>
                         <img src={`/images/products/${product._id}/${product.primaryImage}`} className="img-responsive"/>
+                        </div>
                     </div>
                     </Link>
                 )
