@@ -60,6 +60,7 @@ class MyProduct extends React.Component {
         this.state.done = false;
         this.handleAddToCart = this.handleAddToCart.bind(this)
         this.changePrimaryImage = this.changePrimaryImage.bind(this);
+        // this.setValue = this.setValue.bind(this);
     }
 
     componentDidMount() {
@@ -69,7 +70,7 @@ class MyProduct extends React.Component {
             console.log(response)
             let data = this.state.data;
             data = response.data
-            console.log(data)
+            // console.log(data)
             this.setState({data})
             this.setState({primaryImage: data.product.primaryImage})
         })
@@ -77,38 +78,90 @@ class MyProduct extends React.Component {
     }
     handleAddToCart(ev){
         ev.preventDefault();
-        let {product} = this.state.data;
-        let formData = new FormData(ev.target)
-        // console.log('formdata', formData.get('quantity'))
-        let qty = parseInt(formData.get('quantity'));
-        // console.log('qty', qty)
-        product.qty = qty;
+        // console.log(this.state)
         let cart = JSON.parse(sessionStorage.getItem('cart'));
-        if(cart && cart.items.length > 0){
-            for(let cartItem of cart.items){
-                if(cartItem._id === product._id){
-                    cartItem.qty += qty
-                }
+        if(!cart){
+            let product = this.state.data.product;
+            product.qty = this.state.quantity;
+            cart = {
+                items: [
+                    product
+                ]
             }
+            // let product = this.state.data.product;
+            sessionStorage.setItem('cart', JSON.stringify(cart));
         } else {
-            if(cart === null || !cart.items){
-                cart = {}
-                cart.items = [];
+            let nonMatchingItems = cart.items.filter( (cartItem) => cartItem.name !== this.state.data.product.name)
+            console.log('non',nonMatchingItems);
+            let matchingItems = cart.items.filter( (cartItem) => cartItem.name === this.state.data.product.name)
+            console.log('match',matchingItems);
+            if(matchingItems.length > 0){
+                matchingItems[0].qty += parseInt(this.state.quantity, 10);
+            } else {
+                let product = this.state.data.product;
+                product.qty = parseInt(this.state.quantity, 10);
+                matchingItems.push(product)
             }
-            cart.items.push(product)
+            for(let mItem of matchingItems){
+                nonMatchingItems.push(mItem);
+            }
+            // nonMatchingItems.push(matchingItems)
+            
+            // cart.items = JSON.stringify(matchingItems)
+            sessionStorage.setItem('cart',JSON.stringify({items: nonMatchingItems}));
         }
-        let subtotal = 0;
-        for(let cartItem of cart.items){
-            let cartItemTotal = parseFloat((cartItem.price * cartItem.qty).toFixed(2));
-            subtotal += cartItemTotal
-        }
-        cart.total = subtotal;
-        sessionStorage.setItem('cart', JSON.stringify(cart));
+        // console.log(cart)
+        // let matchingItems = cart.items.filter( (cartItem) => cartItem.name === this.state.data.product.name)
+        // console.log(matchingItems);
+        // if(matchingItems.length > 0){
+        //     matchingItems[0].qty = parseInt(this.state.quantity, 10);
+        // } else {
+        //     let product = this.state.data.product;
+        //     product.qty = parseInt(this.state.quantity, 10);
+        //     matchingItems.push(product)
+        // }
+        // // cart.items = JSON.stringify(matchingItems)
+        // sessionStorage.setItem('cart',JSON.stringify(matchingItems));
+
+        // console.log(ev)
+        // let {product} = this.state.data;
+        // let formData = new FormData(ev.target)
+        // // console.log('formdata', formData.get('quantity'))
+        // let qty = parseInt(formData.get('quantity'));
+        // // console.log('qty', qty)
+        // product.qty = qty;
+        // let cart = JSON.parse(sessionStorage.getItem('cart'));
+        // if(cart && cart.items.length > 0){
+        //     let matchingItems = cart.items.filter( (cartItem) => {
+                
+        //     })
+        //     // for(let cartItem of cart.items){
+        //     //     if(cartItem._id === product._id){
+        //     //         cartItem.qty += qty
+        //     //     }
+        //     // }
+        // } else {
+        //     if(cart === null || !cart.items){
+        //         cart = {}
+        //         cart.items = [];
+        //     }
+        //     cart.items.push(product)
+        // }
+        // let subtotal = 0;
+        // for(let cartItem of cart.items){
+        //     let cartItemTotal = parseFloat((cartItem.price * cartItem.qty).toFixed(2));
+        //     subtotal += cartItemTotal
+        // }
+        // cart.total = subtotal;
+        // sessionStorage.setItem('cart', JSON.stringify(cart));
     }
 
     changePrimaryImage(ev){
         // console.log(ev.target)
         this.setState({primaryImage: ev.target.id})
+    }
+    setValue(event){
+        this.setState({[event.target.name]: parseInt(event.target.value)})
     }
     render() {
         let {product} = this.state.data;
@@ -145,8 +198,8 @@ class MyProduct extends React.Component {
                             <div dangerouslySetInnerHTML={{__html: this.state.data.product.description}}/>
                                 {/* {this.state.data.product.description}
                             </div> */}
-                            <Form onSubmit={this.handleAddToCart}>
-                            <span><label>Qty</label><input type="number" name="quantity" defaultValue="1" /></span>
+                            <Form onSubmit={ (event) =>  this.handleAddToCart(event)}>
+                            <span><label>Qty</label><input type="number" name="quantity" onChange={ (event) => this.setValue(event)} /></span>
                             <Button type="submit">Add to cart</Button>
                             </Form>
                         </div>

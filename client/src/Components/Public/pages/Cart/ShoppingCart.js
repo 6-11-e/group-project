@@ -201,8 +201,8 @@ class Cart extends React.Component {
                                 </li> */}
                             </ul>
                             <div className="formButtons">
-                                <Button>Empty Cart</Button>
-                                <Button>Update Quantities</Button>
+                                {/* <Button>Empty Cart</Button> */}
+                                {/* <Button>Update Quantities</Button> */}
                             </div>
                         </div>
                     </Col>
