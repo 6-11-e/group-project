@@ -19,18 +19,91 @@ const summary = {
     border: 'solid 1px black',
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'center',
+    width: '100%',
+    height: 'auto'
+}
+
+const mySpan = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    // width: '20%'
+}
+
+const demoCol = {
+    textAlign: 'left',
+    border: 'solid 1px gray',
+    height: 'auto',
+    // margin: '25px',
+    padding: '15px',
+    display: 'flex',
+    flexDirection: 'column',
+    margin: '20px'
+}
+
+const orderSummary = {
+    marginBottom: '100px',
+    width: '100%',
+}
+
+const shiptTo = {
+    marginBottom: '100px',
+    width: '100%',
+    lineHeight: '16px',
+    display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center'
 
 }
 
-const mySpan = {
-    width: '20%',
+const listStyle = {
+    listStyle: 'none',
+    padding: '0px'
+}
+
+const borderBottom = {
+    // borderBottom: 'solid 1px black'
+}
+
+const photoDemo = {
+    width: '100px',
+    height: '100px',
+    backgroundColor: 'black',
+}
+
+const itemStyle = {
     display: 'flex',
+    alignItems: 'center',
+    margin: '10px 10px 10px 0px',
     justifyContent: 'space-between'
 }
 
+const itemSpans = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end'
+}
 
+const productList = {
+    width: '100%'
+}
 
+const demoCol2 = {
+    textAlign: 'left',
+    border: 'solid 1px gray',
+    height: 'auto',
+    // margin: '25px',
+    padding: '15px',
+    marginTop: '20px',
+    backgroundImage: 'url(https://gettingontravel.com/wp-content/uploads/2017/08/Vizcaya-Museum-and-Gardens-759x500.jpg)'
+}
+
+const relatedProducts = {
+    // display: 'flex',
+    // flexDirection: 'column',
+    // alignItems: 'center'
+}
 
 class Success extends React.Component {
     constructor(props){
@@ -119,6 +192,7 @@ class Success extends React.Component {
         } else {
             return '';
         }
+
     }
 }
 

@@ -201,8 +201,13 @@ class Cart extends React.Component {
                                 </li> */}
                             </ul>
                             <div className="formButtons">
+<<<<<<< HEAD
                                 {/* <Button>Empty Cart</Button> */}
                                 {/* <Button>Update Quantities</Button> */}
+=======
+                                <Button color='primary'>Empty Cart</Button>
+                                <Button color='primary'>Update Quantities</Button>
+>>>>>>> 0961c242110cc8d8eeca3901e2b21f5e6871789f
                             </div>
                         </div>
                     </Col>
@@ -216,6 +221,7 @@ class Cart extends React.Component {
                             <span style={mySpan}><p style={borderBottom}>Order Total:</p><p>${this.state.totals.grandTotal ? this.state.totals.grandTotal:''}</p></span>
                             </div>
                             <Link to="/checkout"><Button color="primary" block>Checkout</Button></Link>
+
                         </div>
                     </Col>
                 </Row>

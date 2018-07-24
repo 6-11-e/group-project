@@ -28,8 +28,6 @@ const primaryProduct = {
 // }
 
 const productFeature = {
-    // height: '60vh',
-    // backgroundColor: 'red',
     // width: '40%',
     margin: '40px 0px 40px 0px',
     // float: 'left'
@@ -43,6 +41,10 @@ const relatedProducts = {
     marginBottom: '25px'
 }
 
+const buttonStyle = {
+    width: '100%',
+    marginTop: '25px'
+}
 
 class MyProduct extends React.Component {
     constructor(props){
@@ -167,7 +169,6 @@ class MyProduct extends React.Component {
         let {product} = this.state.data;
         if(this.state.done){
             return(
-
                 <div style={mainDiv}>
                 <Container fluid>
                     <Row>
@@ -225,7 +226,6 @@ class MyProduct extends React.Component {
                         </Row>
                     </Container>
                 </div>
-            
             )
         } else {
             return(

@@ -61,6 +61,7 @@ class Products extends React.Component {
                                 <span className="productPrice">${product.price}</span>
                             </div>
                         </div>
+
                     </Link>
                     </Col>
                 )

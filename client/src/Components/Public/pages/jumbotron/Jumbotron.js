@@ -39,8 +39,9 @@ const jumboStyle2 = {
 }
 
 const whiteText = {
-    color: 'white'
+    color: 'whitesmoke'
 }
+
 
 // const flexer = {
 //     display: 'flex'
@@ -97,6 +98,11 @@ const displayBlocks = {
     marginTop: '0px',
     paddingRight: '5px',
     paddingLeft: '5px'
+}
+
+const imgDiv = {
+    width: '150px',
+    height: '150px'
 }
 
 class MyJumbotron extends Component {
@@ -235,6 +241,8 @@ class MyJumbotron extends Component {
                                 <span className="productPrice">${product.price}</span>
                             </div>
                         </div>
+
+
                         </div>
                     </Link>
                 
